@@ -35,4 +35,8 @@ public class User {
     public int hashCode() {
         return Objects.hash(token, password, username, email, bio, image);
     }
+
+    public boolean equalsToken(String token) {
+        return this.token.equals(token);
+    }
 }
