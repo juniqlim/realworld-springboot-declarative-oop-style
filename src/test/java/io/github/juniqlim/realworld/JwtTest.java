@@ -11,7 +11,7 @@ public class JwtTest {
         KeyPairGenerator kpg = KeyPairGenerator.getInstance("RSA");
         kpg.initialize(1024);
 
-        String token = new Jwt(kpg.generateKeyPair()).token();
+        String token = new Token.Jwt(kpg.generateKeyPair()).token();
         System.out.println("token = " + token);
     }
 }
