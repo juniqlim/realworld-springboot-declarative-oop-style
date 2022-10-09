@@ -7,6 +7,6 @@ import static org.assertj.core.api.Assertions.assertThatCode;
 public class UserTest {
     @Test
     void test() {
-        assertThatCode(() -> new User(Token.FAKE.token(), "jake@jake.jake", "jwt.token.here", "jake")).doesNotThrowAnyException();
+        assertThatCode(() -> new User(Token.FAKE.token(), "123", "Jacob", "jake@jake.jake")).doesNotThrowAnyException();
     }
 }
