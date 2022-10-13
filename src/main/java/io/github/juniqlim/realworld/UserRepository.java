@@ -2,7 +2,9 @@ package io.github.juniqlim.realworld;
 
 import java.util.ArrayList;
 import java.util.List;
+import org.springframework.stereotype.Repository;
 
+@Repository
 public class UserRepository {
     private final List<User> users = new ArrayList<>();
     public void save(User user) {

@@ -23,6 +23,26 @@ public class User {
         this.image = image;
     }
 
+    public String email() {
+        return email;
+    }
+
+    public String token() {
+        return token;
+    }
+
+    public String username() {
+        return username;
+    }
+
+    public String bio() {
+        return bio;
+    }
+
+    public String image() {
+        return image;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;

@@ -1,5 +1,8 @@
 package io.github.juniqlim.realworld;
 
+import org.springframework.stereotype.Service;
+
+@Service
 public class CreateUser {
     private final UserRepository userRepository;
     private final Token token;
