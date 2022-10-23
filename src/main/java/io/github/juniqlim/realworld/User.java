@@ -59,4 +59,12 @@ public class User {
     public boolean equalsToken(String token) {
         return this.token.equals(token);
     }
+
+    public boolean equalsEmail(String email) {
+        return this.email.equals(email);
+    }
+
+    public boolean equalsPassword(String password) {
+        return this.password.equals(password);
+    }
 }

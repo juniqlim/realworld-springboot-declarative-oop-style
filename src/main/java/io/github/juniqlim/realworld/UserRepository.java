@@ -17,4 +17,11 @@ public class UserRepository {
                 .findFirst()
                 .orElseThrow(() -> new IllegalArgumentException("User not found"));
     }
+
+    public User findByEmail(String email) {
+        return users.stream()
+                .filter(user -> user.equalsEmail(email))
+                .findFirst()
+                .orElseThrow(() -> new IllegalArgumentException("User not found"));
+    }
 }
