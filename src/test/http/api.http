@@ -1,0 +1,15 @@
+POST http://localhost:8080/api/users
+Content-Type: application/json
+
+{
+  "user":{
+    "username": "Jacob",
+    "email": "jake@jake.jake",
+    "password": "jakejake"
+  }
+}
+
+###
+GET http://localhost:8080/api/user
+Content-Type: application/json
+Authorization: Token eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzUxMiJ9.eyJleHAiOjMxNTM2MDAwLCJqdGkiOiJDOGQ1ZC1WNjJvX2l3TnpIQ1JtLWl3IiwiaWF0IjoxNjY2NTA5MjA2fQ.QHJz72GrVRRxsczyeo3tEoBpKGyErrc-_gnz5IOZmOmzDpke91NdeAQKcQfyByJ9Iq5ap2V3VTwhEtEUg-jF1u88vi7S7ZcsH5lDQ1k_NHoThXd0d9cAnetcC8dwFRQpyxX3bHKQcPOlSww3USKKvFZxcR7AsXkvCOABnvcXJ_02ZslGckuKZa87IErxm3FnKhE9X-RE9TOP-At7XOcUkPq3Ah_MOT4C6ZDiNN1S836W239Gf-Vuzi-O003WfipbUlnwWTbqGGo1AG6FAiTMc_ZWPjbk6NbZDYEr823rFg9HUuJRDnmJwSpDTIS2at60Bo5-Hu3NXT2bs3LoYO1Lyw

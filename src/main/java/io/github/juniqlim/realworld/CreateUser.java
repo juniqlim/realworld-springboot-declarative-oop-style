@@ -3,20 +3,20 @@ package io.github.juniqlim.realworld;
 import io.github.juniqlim.object.jwt.Jwt;
 import org.springframework.stereotype.Service;
 
-import java.security.Key;
+import java.security.PrivateKey;
 
 @Service
 public class CreateUser {
     private final UserRepository userRepository;
-    private final Key key;
+    private final PrivateKey privateKey;
 
-    public CreateUser(UserRepository userRepository, Key key) {
+    public CreateUser(UserRepository userRepository, PrivateKey privateKey) {
         this.userRepository = userRepository;
-        this.key = key;
+        this.privateKey = privateKey;
     }
 
     public User user(Request request) {
-        User user = request.user(new Jwt.Jws(key));
+        User user = request.user(new Jwt.Jws(privateKey));
         userRepository.save(user);
         return user;
     }
