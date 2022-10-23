@@ -67,4 +67,8 @@ public class User {
     public boolean equalsPassword(String password) {
         return this.password.equals(password);
     }
+
+    public User update(String bio, String image) {
+        return new User(token, password, username, email, bio, image);
+    }
 }

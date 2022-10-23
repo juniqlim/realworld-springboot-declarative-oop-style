@@ -12,7 +12,7 @@ Content-Type: application/json
 ###
 GET http://localhost:8080/api/user
 Content-Type: application/json
-Authorization: Token eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzUxMiJ9.eyJleHAiOjMxNTM2MDAwLCJqdGkiOiJDOGQ1ZC1WNjJvX2l3TnpIQ1JtLWl3IiwiaWF0IjoxNjY2NTA5MjA2fQ.QHJz72GrVRRxsczyeo3tEoBpKGyErrc-_gnz5IOZmOmzDpke91NdeAQKcQfyByJ9Iq5ap2V3VTwhEtEUg-jF1u88vi7S7ZcsH5lDQ1k_NHoThXd0d9cAnetcC8dwFRQpyxX3bHKQcPOlSww3USKKvFZxcR7AsXkvCOABnvcXJ_02ZslGckuKZa87IErxm3FnKhE9X-RE9TOP-At7XOcUkPq3Ah_MOT4C6ZDiNN1S836W239Gf-Vuzi-O003WfipbUlnwWTbqGGo1AG6FAiTMc_ZWPjbk6NbZDYEr823rFg9HUuJRDnmJwSpDTIS2at60Bo5-Hu3NXT2bs3LoYO1Lyw
+Authorization: Token eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzUxMiJ9.eyJleHAiOjMxNTM2MDAwLCJqdGkiOiJ3cjRQWUNvZGRBYmk2bk5NM1BjQnp3IiwiaWF0IjoxNjY2NTI5MTUwfQ.L9ybjoP3yVJtK1X1-MU_8ujVDHSuEO7SsI5VqGLsm3vs6vC6hXh56UnLm_uZLaksPlLTx7puI94Bj6kjp2625qJfVEOmfsp26wNrRNOlHjeAbEToCcC0-AEo_z_mid4uSQORVBI5tPFLfQ3m-62e_IUQ5xignFq7mx9UzRiDCGFkOxEWDUvz1aILAH-NZRy4tZqnXcUI7IOoUAtZWEKd9pRK1qE__udGucrSV8ocM-UJ2oRtmRG3XxMi1ZNdI-8oXyumfd58aLlMdmM_fMcqROYpKbVXjUUlKQfAS0wVPBNrio8gEPE9FQi7I7AFS4AHGdhvREEH12mFr9AYOZICmw
 
 ###
 POST http://localhost:8080/api/users/login
@@ -22,5 +22,19 @@ Content-Type: application/json
   "user":{
     "email": "jake@jake.jake",
     "password": "jakejake"
+  }
+}
+
+
+###
+PUT http://localhost:8080/api/user
+Content-Type: application/json
+Authorization: Token eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzUxMiJ9.eyJleHAiOjMxNTM2MDAwLCJqdGkiOiJDOGQ1ZC1WNjJvX2l3TnpIQ1JtLWl3IiwiaWF0IjoxNjY2NTA5MjA2fQ.QHJz72GrVRRxsczyeo3tEoBpKGyErrc-_gnz5IOZmOmzDpke91NdeAQKcQfyByJ9Iq5ap2V3VTwhEtEUg-jF1u88vi7S7ZcsH5lDQ1k_NHoThXd0d9cAnetcC8dwFRQpyxX3bHKQcPOlSww3USKKvFZxcR7AsXkvCOABnvcXJ_02ZslGckuKZa87IErxm3FnKhE9X-RE9TOP-At7XOcUkPq3Ah_MOT4C6ZDiNN1S836W239Gf-Vuzi-O003WfipbUlnwWTbqGGo1AG6FAiTMc_ZWPjbk6NbZDYEr823rFg9HUuJRDnmJwSpDTIS2at60Bo5-Hu3NXT2bs3LoYO1Lyw
+
+{
+  "user":{
+    "email": "jake@jake.jake",
+    "bio": "I like to skateboard",
+    "image": "https://i.stack.imgur.com/xHWG8.jpg"
   }
 }

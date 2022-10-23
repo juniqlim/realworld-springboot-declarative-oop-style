@@ -24,4 +24,9 @@ public class UserRepository {
                 .findFirst()
                 .orElseThrow(() -> new IllegalArgumentException("User not found"));
     }
+
+    public void update(User update) {
+        users.removeIf(user -> user.equalsEmail(update.email()));
+        users.add(update);
+    }
 }
