@@ -14,6 +14,7 @@ import static org.junit.jupiter.api.Assertions.*;
 
 class UpdateUserTest {
     UserRepository repository;
+    String jwsToken;
 
     @BeforeEach
     void setUp() throws NoSuchAlgorithmException, InvalidKeySpecException {
@@ -22,13 +23,13 @@ class UpdateUserTest {
                 .generatePrivate(new PKCS8EncodedKeySpec(Base64.getDecoder().decode(testPrivateKey)));
 
         repository = new UserRepository();
-        new CreateUser(repository, privateKey).user(new CreateUser.Request("Jacob", "jake@jake.jake", "jakejake"));
+        jwsToken = new CreateUser(repository, privateKey).user(new CreateUser.Request("Jacob", "jake@jake.jake", "jakejake")).token();
     }
 
     @Test
     void test() {
-        new UpdateUser(repository).update(new UpdateUser.Request("jake@jake.jake", "I like to skateboard", "https://i.stack.imgur.com/xHWG8.jpg"));
-        User findedUser = repository.findByEmail("jake@jake.jake");
+        new UpdateUser(repository).update(new UpdateUser.Request(jwsToken, "jake@jake.jake", "I like to skateboard", "https://i.stack.imgur.com/xHWG8.jpg"));
+        User findedUser = repository.findByToken(jwsToken);
         assertEquals("I like to skateboard", findedUser.bio());
     }
 }

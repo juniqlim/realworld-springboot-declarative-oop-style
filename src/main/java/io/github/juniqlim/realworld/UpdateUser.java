@@ -11,21 +11,27 @@ public class UpdateUser {
     }
 
     public User update(Request updateRequest) {
-        User findedUser = userRepository.findByEmail(updateRequest.email());
-        User updateUser = findedUser.update(updateRequest.bio(), updateRequest.image());
+        User findedUser = userRepository.findByToken(updateRequest.jwsToken());
+        User updateUser = findedUser.update(updateRequest.email(), updateRequest.bio(), updateRequest.image());
         userRepository.update(updateUser);
         return updateUser;
     }
 
     static class Request {
+        private final String jwsToken;
         private final String email;
         private final String bio;
         private final String image;
 
-        public Request(String email, String bio, String image) {
+        public Request(String jwsToken, String email, String bio, String image) {
+            this.jwsToken = jwsToken;
             this.email = email;
             this.bio = bio;
             this.image = image;
+        }
+
+        public String jwsToken() {
+            return jwsToken;
         }
 
         public String email() {

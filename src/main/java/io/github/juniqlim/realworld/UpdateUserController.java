@@ -2,6 +2,7 @@ package io.github.juniqlim.realworld;
 
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
@@ -13,8 +14,9 @@ public class UpdateUserController {
     }
 
     @PutMapping("/api/user")
-    public Response update(@RequestBody Request request) {
-        return new Response(updateUser.update(request.updateRequest()));
+    public Response update(@RequestHeader("Authorization") String jwsToken, @RequestBody Request request) {
+        jwsToken = jwsToken.substring(6);
+        return new Response(updateUser.update(request.updateRequest(jwsToken)));
     }
 
     private static class Request {
@@ -24,8 +26,8 @@ public class UpdateUserController {
             return user;
         }
 
-        UpdateUser.Request updateRequest() {
-            return new UpdateUser.Request(user.getEmail(), user.getBio(), user.getImage());
+        UpdateUser.Request updateRequest(String jwsToken) {
+            return new UpdateUser.Request(jwsToken, user.getEmail(), user.getBio(), user.getImage());
         }
 
         static class User {
