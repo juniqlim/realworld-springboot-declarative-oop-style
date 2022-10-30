@@ -25,6 +25,13 @@ public class UserRepository {
                 .orElseThrow(() -> new IllegalArgumentException("User not found"));
     }
 
+    public User findByUsername(String username) {
+        return users.stream()
+                .filter(user -> user.equalsUsername(username))
+                .findFirst()
+                .orElseThrow(() -> new IllegalArgumentException("User not found"));
+    }
+
     public void update(User update) {
         users.removeIf(user -> user.equalsEmail(update.email()));
         users.add(update);

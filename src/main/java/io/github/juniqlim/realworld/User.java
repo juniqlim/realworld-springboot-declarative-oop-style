@@ -1,5 +1,7 @@
 package io.github.juniqlim.realworld;
 
+import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Objects;
 
 public class User {
@@ -9,6 +11,7 @@ public class User {
     private final String email;
     private final String bio;
     private final String image;
+    private final Collection<String> follows;
 
     public User(String token, String password, String username, String email) {
         this(token, password, username, email, null, null);
@@ -21,6 +24,7 @@ public class User {
         this.email = email;
         this.bio = bio;
         this.image = image;
+        this.follows = new ArrayList<>();
     }
 
     public String email() {
@@ -68,7 +72,15 @@ public class User {
         return this.password.equals(password);
     }
 
+    public boolean equalsUsername(String username) {
+        return this.username.equals(username);
+    }
+
     public User update(String email, String bio, String image) {
         return new User(token, password, username, email, bio, image);
+    }
+
+    public void follow(String jwsToken) {
+        follows.add(jwsToken);
     }
 }
