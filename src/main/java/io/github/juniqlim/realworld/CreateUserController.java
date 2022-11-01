@@ -29,15 +29,9 @@ public class CreateUserController {
         }
 
         private static class User {
-            private final String username;
-            private final String email;
-            private final String password;
-
-            private User(String username, String email, String password) {
-                this.username = username;
-                this.email = email;
-                this.password = password;
-            }
+            private String username;
+            private String email;
+            private String password;
 
             public String getUsername() {
                 return username;

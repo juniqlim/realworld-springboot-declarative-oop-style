@@ -87,4 +87,8 @@ public class User {
     public boolean isFollow(User user) {
         return follows.contains(user.token);
     }
+
+    public void unfollow(String jwsToken) {
+        follows.remove(jwsToken);
+    }
 }
