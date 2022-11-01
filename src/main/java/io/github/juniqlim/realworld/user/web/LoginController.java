@@ -1,15 +1,15 @@
 package io.github.juniqlim.realworld.user.web;
 
-import io.github.juniqlim.realworld.user.Login;
+import io.github.juniqlim.realworld.user.LoginUser;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 public class LoginController {
-    private final Login login;
+    private final LoginUser login;
 
-    public LoginController(Login login) {
+    public LoginController(LoginUser login) {
         this.login = login;
     }
 
@@ -43,8 +43,8 @@ public class LoginController {
             }
         }
 
-        Login.Request loginRequest() {
-            return new Login.Request(user.getEmail(), user.getPassword());
+        LoginUser.Request loginRequest() {
+            return new LoginUser.Request(user.getEmail(), user.getPassword());
         }
     }
 

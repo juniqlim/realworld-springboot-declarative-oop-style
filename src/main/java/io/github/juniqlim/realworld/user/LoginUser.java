@@ -5,10 +5,10 @@ import io.github.juniqlim.realworld.user.repository.UserRepository;
 import org.springframework.stereotype.Service;
 
 @Service
-public class Login {
+public class LoginUser {
     private final UserRepository userRepository;
 
-    public Login(UserRepository userRepository) {
+    public LoginUser(UserRepository userRepository) {
         this.userRepository = userRepository;
     }
 

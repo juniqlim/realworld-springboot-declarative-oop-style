@@ -13,13 +13,6 @@ public class Profile {
         this.following = following;
     }
 
-    public Profile(String username, String bio, String image, boolean following) {
-        this.username = username;
-        this.bio = bio;
-        this.image = image;
-        this.following = following;
-    }
-
     public String getUsername() {
         return username;
     }
