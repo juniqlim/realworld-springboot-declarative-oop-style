@@ -1,20 +1,21 @@
-package io.github.juniqlim.realworld;
+package io.github.juniqlim.realworld.user.web;
 
+import io.github.juniqlim.realworld.user.Login;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-public class CreateUserController {
-    private final CreateUser createUser;
+public class LoginController {
+    private final Login login;
 
-    public CreateUserController(CreateUser createUser) {
-        this.createUser = createUser;
+    public LoginController(Login login) {
+        this.login = login;
     }
 
-    @PostMapping("/api/users")
-    public Response user(@RequestBody Request request) {
-        return new Response(createUser.user(request.createUserRequest()));
+    @PostMapping("/api/users/login")
+    public Response login(@RequestBody Request request) {
+        return new Response(login.login(request.loginRequest()));
     }
 
     private static class Request {
@@ -24,17 +25,13 @@ public class CreateUserController {
             return user;
         }
 
-        private CreateUser.Request createUserRequest() {
-            return new CreateUser.Request(user.getUsername(), user.getEmail(), user.getPassword());
-        }
+        static class User {
+            private final String email;
+            private final String password;
 
-        private static class User {
-            private String username;
-            private String email;
-            private String password;
-
-            public String getUsername() {
-                return username;
+            public User(String email, String password) {
+                this.email = email;
+                this.password = password;
             }
 
             public String getEmail() {
@@ -45,20 +42,24 @@ public class CreateUserController {
                 return password;
             }
         }
+
+        Login.Request loginRequest() {
+            return new Login.Request(user.getEmail(), user.getPassword());
+        }
     }
 
     private static class Response {
-        private final User user;
+        private final Response.User user;
 
-        private Response(io.github.juniqlim.realworld.User user) {
-            this(new User(user));
+        private Response(io.github.juniqlim.realworld.user.domain.User user) {
+            this(new Response.User(user));
         }
 
-        private Response(User user) {
+        private Response(Response.User user) {
             this.user = user;
         }
 
-        public User getUser() {
+        public Response.User getUser() {
             return user;
         }
 
@@ -69,7 +70,7 @@ public class CreateUserController {
             private final String bio;
             private final String image;
 
-            private User(io.github.juniqlim.realworld.User user) {
+            private User(io.github.juniqlim.realworld.user.domain.User user) {
                 this.email = user.email();
                 this.token = user.token();
                 this.username = user.username();

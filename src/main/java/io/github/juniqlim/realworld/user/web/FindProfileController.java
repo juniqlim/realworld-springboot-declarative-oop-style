@@ -1,6 +1,9 @@
-package io.github.juniqlim.realworld;
+package io.github.juniqlim.realworld.user.web;
 
 import io.github.juniqlim.object.jwt.VerifiedJwt;
+import io.github.juniqlim.realworld.user.FindProfile;
+import io.github.juniqlim.realworld.user.domain.Profile;
+import io.github.juniqlim.realworld.user.domain.User;
 import java.security.PublicKey;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;

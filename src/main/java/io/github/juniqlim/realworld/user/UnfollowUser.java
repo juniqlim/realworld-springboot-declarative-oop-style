@@ -1,9 +1,12 @@
-package io.github.juniqlim.realworld;
+package io.github.juniqlim.realworld.user;
 
+import io.github.juniqlim.realworld.user.domain.Profile;
+import io.github.juniqlim.realworld.user.domain.User;
+import io.github.juniqlim.realworld.user.repository.UserRepository;
 import org.springframework.stereotype.Service;
 
 @Service
-class UnfollowUser {
+public class UnfollowUser {
     private final UserRepository userRepository;
 
     public UnfollowUser(UserRepository userRepository) {

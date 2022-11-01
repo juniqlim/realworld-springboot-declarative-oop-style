@@ -1,7 +1,10 @@
-package io.github.juniqlim.realworld;
+package io.github.juniqlim.realworld.user;
 
-import static org.assertj.core.api.Assertions.assertThatCode;
+import static org.assertj.core.api.Assertions.assertThat;
 
+import io.github.juniqlim.realworld.user.domain.Profile;
+import io.github.juniqlim.realworld.user.domain.User;
+import io.github.juniqlim.realworld.user.repository.UserRepository;
 import java.security.KeyFactory;
 import java.security.NoSuchAlgorithmException;
 import java.security.PrivateKey;
@@ -11,10 +14,9 @@ import java.util.Base64;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-class UnfollowUserTest {
+class FindProfileTest {
     UserRepository repository;
     User jake;
-    User juniq;
 
     @BeforeEach
     void setUp() throws NoSuchAlgorithmException, InvalidKeySpecException {
@@ -24,12 +26,11 @@ class UnfollowUserTest {
 
         repository = new UserRepository();
         jake = new CreateUser(repository, privateKey).user(new CreateUser.Request("Jacob", "jake@jake.jake", "jakejake"));
-        juniq = new CreateUser(repository, privateKey).user(new CreateUser.Request("juniq", "juniq@juniq.juniq", "juniqjuniq"));
     }
 
     @Test
     void test() {
-        UnfollowUser unfollowUser = new UnfollowUser(repository);
-        assertThatCode(() -> unfollowUser.unfollow(jake.token(), juniq.username())).doesNotThrowAnyException();
+        Profile profile = new FindProfile(repository).profile(jake.token());
+        assertThat(profile.getUsername()).isEqualTo("Jacob");
     }
 }

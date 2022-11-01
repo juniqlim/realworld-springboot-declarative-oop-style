@@ -1,5 +1,7 @@
-package io.github.juniqlim.realworld;
+package io.github.juniqlim.realworld.user;
 
+import io.github.juniqlim.realworld.user.domain.User;
+import io.github.juniqlim.realworld.user.repository.UserRepository;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -10,10 +12,12 @@ import java.security.spec.InvalidKeySpecException;
 import java.security.spec.PKCS8EncodedKeySpec;
 import java.util.Base64;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.assertj.core.api.Assertions.assertThatCode;
 
-class LoginTest {
+public class FollowUserTest {
     UserRepository repository;
+    User jake;
+    User juniq;
 
     @BeforeEach
     void setUp() throws NoSuchAlgorithmException, InvalidKeySpecException {
@@ -22,12 +26,13 @@ class LoginTest {
                 .generatePrivate(new PKCS8EncodedKeySpec(Base64.getDecoder().decode(testPrivateKey)));
 
         repository = new UserRepository();
-        new CreateUser(repository, privateKey).user(new CreateUser.Request("Jacob", "jake@jake.jake", "jakejake"));
+        jake = new CreateUser(repository, privateKey).user(new CreateUser.Request("Jacob", "jake@jake.jake", "jakejake"));
+        juniq = new CreateUser(repository, privateKey).user(new CreateUser.Request("juniq", "juniq@juniq.juniq", "juniqjuniq"));
     }
 
     @Test
     void test() {
-        User user = new Login(repository).login(new Login.Request("jake@jake.jake", "jakejake"));
-        assertEquals("Jacob", user.username());
+        FollowUser followUser = new FollowUser(repository);
+        assertThatCode(() -> followUser.follow(jake.token(), juniq.username())).doesNotThrowAnyException();
     }
 }

@@ -1,5 +1,9 @@
-package io.github.juniqlim.realworld;
+package io.github.juniqlim.realworld.user;
 
+import io.github.juniqlim.realworld.user.CreateUser;
+import io.github.juniqlim.realworld.user.Login;
+import io.github.juniqlim.realworld.user.domain.User;
+import io.github.juniqlim.realworld.user.repository.UserRepository;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -10,11 +14,10 @@ import java.security.spec.InvalidKeySpecException;
 import java.security.spec.PKCS8EncodedKeySpec;
 import java.util.Base64;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.*;
 
-class FindUserTest {
+class LoginTest {
     UserRepository repository;
-    String jwsToken;
 
     @BeforeEach
     void setUp() throws NoSuchAlgorithmException, InvalidKeySpecException {
@@ -23,12 +26,12 @@ class FindUserTest {
                 .generatePrivate(new PKCS8EncodedKeySpec(Base64.getDecoder().decode(testPrivateKey)));
 
         repository = new UserRepository();
-        jwsToken = new CreateUser(repository, privateKey).user(new CreateUser.Request("Jacob", "jake@jake.jake", "jakejake")).token();
+        new CreateUser(repository, privateKey).user(new CreateUser.Request("Jacob", "jake@jake.jake", "jakejake"));
     }
 
     @Test
     void test() {
-        User user = new FindUser(repository).find(jwsToken);
+        User user = new Login(repository).login(new Login.Request("jake@jake.jake", "jakejake"));
         assertEquals("Jacob", user.username());
     }
 }

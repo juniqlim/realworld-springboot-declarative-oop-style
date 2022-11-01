@@ -1,6 +1,7 @@
-package io.github.juniqlim.realworld;
+package io.github.juniqlim.realworld.user.domain;
 
 import io.github.juniqlim.object.jwt.Jwt;
+import io.github.juniqlim.realworld.user.domain.User;
 import org.junit.jupiter.api.Test;
 
 import static org.assertj.core.api.Assertions.assertThatCode;

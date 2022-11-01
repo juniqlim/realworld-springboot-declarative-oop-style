@@ -1,5 +1,6 @@
-package io.github.juniqlim.realworld;
+package io.github.juniqlim.realworld.user.repository;
 
+import io.github.juniqlim.realworld.user.domain.User;
 import java.util.ArrayList;
 import java.util.List;
 import org.springframework.stereotype.Repository;

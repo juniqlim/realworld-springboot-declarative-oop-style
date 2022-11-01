@@ -1,6 +1,8 @@
-package io.github.juniqlim.realworld;
+package io.github.juniqlim.realworld.user;
 
 import io.github.juniqlim.object.jwt.Jwt;
+import io.github.juniqlim.realworld.user.domain.User;
+import io.github.juniqlim.realworld.user.repository.UserRepository;
 import org.springframework.stereotype.Service;
 
 import java.security.PrivateKey;
@@ -21,7 +23,7 @@ public class CreateUser {
         return user;
     }
 
-    static class Request {
+    public static class Request {
         private final String username;
         private final String email;
         private final String password;

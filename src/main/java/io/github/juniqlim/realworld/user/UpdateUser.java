@@ -1,5 +1,7 @@
-package io.github.juniqlim.realworld;
+package io.github.juniqlim.realworld.user;
 
+import io.github.juniqlim.realworld.user.domain.User;
+import io.github.juniqlim.realworld.user.repository.UserRepository;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -17,7 +19,7 @@ public class UpdateUser {
         return updateUser;
     }
 
-    static class Request {
+    public static class Request {
         private final String jwsToken;
         private final String email;
         private final String bio;

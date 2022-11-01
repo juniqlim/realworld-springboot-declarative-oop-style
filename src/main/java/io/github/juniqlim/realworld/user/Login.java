@@ -1,9 +1,11 @@
-package io.github.juniqlim.realworld;
+package io.github.juniqlim.realworld.user;
 
+import io.github.juniqlim.realworld.user.domain.User;
+import io.github.juniqlim.realworld.user.repository.UserRepository;
 import org.springframework.stereotype.Service;
 
 @Service
-class Login {
+public class Login {
     private final UserRepository userRepository;
 
     public Login(UserRepository userRepository) {
@@ -18,7 +20,7 @@ class Login {
         return user;
     }
 
-    static class Request {
+    public static class Request {
         private final String email;
         private final String password;
 

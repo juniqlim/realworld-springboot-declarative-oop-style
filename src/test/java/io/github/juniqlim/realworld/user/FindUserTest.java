@@ -1,5 +1,7 @@
-package io.github.juniqlim.realworld;
+package io.github.juniqlim.realworld.user;
 
+import io.github.juniqlim.realworld.user.domain.User;
+import io.github.juniqlim.realworld.user.repository.UserRepository;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -10,9 +12,9 @@ import java.security.spec.InvalidKeySpecException;
 import java.security.spec.PKCS8EncodedKeySpec;
 import java.util.Base64;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
-class UpdateUserTest {
+class FindUserTest {
     UserRepository repository;
     String jwsToken;
 
@@ -28,8 +30,7 @@ class UpdateUserTest {
 
     @Test
     void test() {
-        new UpdateUser(repository).update(new UpdateUser.Request(jwsToken, "jake@jake.jake", "I like to skateboard", "https://i.stack.imgur.com/xHWG8.jpg"));
-        User findedUser = repository.findByToken(jwsToken);
-        assertEquals("I like to skateboard", findedUser.bio());
+        User user = new FindUser(repository).find(jwsToken);
+        assertEquals("Jacob", user.username());
     }
 }

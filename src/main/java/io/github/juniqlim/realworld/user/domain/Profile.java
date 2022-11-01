@@ -1,4 +1,4 @@
-package io.github.juniqlim.realworld;
+package io.github.juniqlim.realworld.user.domain;
 
 public class Profile {
     private final String username;

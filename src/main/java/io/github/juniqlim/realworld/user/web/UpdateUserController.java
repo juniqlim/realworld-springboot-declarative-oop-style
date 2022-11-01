@@ -1,5 +1,6 @@
-package io.github.juniqlim.realworld;
+package io.github.juniqlim.realworld.user.web;
 
+import io.github.juniqlim.realworld.user.UpdateUser;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestHeader;
@@ -58,7 +59,7 @@ public class UpdateUserController {
     private static class Response {
         private final Response.User user;
 
-        private Response(io.github.juniqlim.realworld.User user) {
+        private Response(io.github.juniqlim.realworld.user.domain.User user) {
             this(new Response.User(user));
         }
 
@@ -77,7 +78,7 @@ public class UpdateUserController {
             private final String bio;
             private final String image;
 
-            private User(io.github.juniqlim.realworld.User user) {
+            private User(io.github.juniqlim.realworld.user.domain.User user) {
                 this.email = user.email();
                 this.token = user.token();
                 this.username = user.username();

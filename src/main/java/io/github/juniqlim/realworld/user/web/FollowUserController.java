@@ -1,6 +1,8 @@
-package io.github.juniqlim.realworld;
+package io.github.juniqlim.realworld.user.web;
 
 import io.github.juniqlim.object.jwt.VerifiedJwt;
+import io.github.juniqlim.realworld.user.FollowUser;
+import io.github.juniqlim.realworld.user.domain.Profile;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestHeader;

@@ -1,6 +1,7 @@
-package io.github.juniqlim.realworld;
+package io.github.juniqlim.realworld.user.web;
 
 import io.github.juniqlim.object.jwt.VerifiedJwt;
+import io.github.juniqlim.realworld.user.FindUser;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RestController;
@@ -33,7 +34,7 @@ public class FindUserController {
     private static class Response {
         private final User user;
 
-        private Response(io.github.juniqlim.realworld.User user) {
+        private Response(io.github.juniqlim.realworld.user.domain.User user) {
             this(new User(user));
         }
 
@@ -52,7 +53,7 @@ public class FindUserController {
             private final String bio;
             private final String image;
 
-            private User(io.github.juniqlim.realworld.User user) {
+            private User(io.github.juniqlim.realworld.user.domain.User user) {
                 this.email = user.email();
                 this.token = user.token();
                 this.username = user.username();

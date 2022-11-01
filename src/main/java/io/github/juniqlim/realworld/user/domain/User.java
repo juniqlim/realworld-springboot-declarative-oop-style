@@ -1,4 +1,4 @@
-package io.github.juniqlim.realworld;
+package io.github.juniqlim.realworld.user.domain;
 
 import java.util.ArrayList;
 import java.util.Collection;
