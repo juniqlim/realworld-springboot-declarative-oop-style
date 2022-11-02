@@ -21,16 +21,8 @@ public class FollowUserController {
     }
 
     @PostMapping("/api/profiles/{followeeUsername}/follow")
-    public Response follow(@RequestHeader("Authorization") String jwsToken, @PathVariable String followeeUsername) {
-        jwsToken = jwsToken.substring(6);
-        verifyJws(jwsToken);
-        return new Response(followUser.follow(jwsToken, followeeUsername));
-    }
-
-    private void verifyJws(String token) {
-        if (!new VerifiedJwt.VerifiedJws(publicKey, token).verifiable()) {
-            throw new IllegalArgumentException("Invalid jws");
-        }
+    public Response follow(@RequestHeader("Authorization") String token, @PathVariable String followeeUsername) {
+        return new Response(followUser.follow(new Token(publicKey, token).jwsToken(), followeeUsername));
     }
 
     private static class Response {

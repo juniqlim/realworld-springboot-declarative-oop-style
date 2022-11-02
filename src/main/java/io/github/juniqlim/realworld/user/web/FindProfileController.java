@@ -21,16 +21,8 @@ public class FindProfileController {
     }
 
     @GetMapping("/api/profiles/{username}")
-    public Response profile(@RequestHeader("Authorization") String jwsToken, @PathVariable("username") String username) {
-        jwsToken = jwsToken.substring(6);
-        verifyJws(jwsToken);
-        return new Response(findProfile.profile(jwsToken, username));
-    }
-
-    private void verifyJws(String token) {
-        if (!new VerifiedJwt.VerifiedJws(publicKey, token).verifiable()) {
-            throw new IllegalArgumentException("Invalid jws");
-        }
+    public Response profile(@RequestHeader("Authorization") String token, @PathVariable("username") String username) {
+        return new Response(findProfile.profile(new Token(publicKey, token).jwsToken(), username));
     }
 
     private static class Response {

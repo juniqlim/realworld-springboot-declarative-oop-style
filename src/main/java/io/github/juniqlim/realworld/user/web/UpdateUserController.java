@@ -1,6 +1,7 @@
 package io.github.juniqlim.realworld.user.web;
 
 import io.github.juniqlim.realworld.user.UpdateUser;
+import java.security.PublicKey;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestHeader;
@@ -9,15 +10,16 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 public class UpdateUserController {
     private final UpdateUser updateUser;
+    private final PublicKey publicKey;
 
-    public UpdateUserController(UpdateUser updateUser) {
+    public UpdateUserController(UpdateUser updateUser, PublicKey publicKey) {
         this.updateUser = updateUser;
+        this.publicKey = publicKey;
     }
 
     @PutMapping("/api/user")
-    public Response update(@RequestHeader("Authorization") String jwsToken, @RequestBody Request request) {
-        jwsToken = jwsToken.substring(6);
-        return new Response(updateUser.update(request.updateRequest(jwsToken)));
+    public Response update(@RequestHeader("Authorization") String token, @RequestBody Request request) {
+        return new Response(updateUser.update(request.updateRequest(new Token(publicKey, token).jwsToken())));
     }
 
     private static class Request {

@@ -19,16 +19,8 @@ public class FindUserController {
     }
 
     @GetMapping("/api/user")
-    public Response user(@RequestHeader("Authorization") String jwsToken) {
-        jwsToken = jwsToken.substring(6);
-        verifyJws(jwsToken);
-        return new Response(findUser.find(jwsToken));
-    }
-
-    private void verifyJws(String token) {
-        if (!new VerifiedJwt.VerifiedJws(publicKey, token).verifiable()) {
-            throw new IllegalArgumentException("Invalid jws");
-        }
+    public Response user(@RequestHeader("Authorization") String token) {
+        return new Response(findUser.find(new Token(publicKey, token).jwsToken()));
     }
 
     private static class Response {
