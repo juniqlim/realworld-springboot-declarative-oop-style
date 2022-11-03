@@ -72,6 +72,10 @@ public class Article {
         return author;
     }
 
+    public boolean equalsSlug(String slug) {
+        return this.slug.equalsString(slug);
+    }
+
     static class Author {
         private String username;
         private String bio;

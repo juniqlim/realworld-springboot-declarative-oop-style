@@ -10,4 +10,8 @@ class Slug {
     String value() {
         return raw.toLowerCase().replace(" ", "-");
     }
+
+    boolean equalsString(String other) {
+        return value().equals(other);
+    }
 }

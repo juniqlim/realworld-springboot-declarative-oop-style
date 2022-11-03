@@ -10,4 +10,11 @@ public class ArticleRepository {
     public void save(Article article) {
         articles.add(article);
     }
+
+    public Article findBySlug(String slug) {
+        return articles.stream()
+            .filter(article -> article.equalsSlug(slug))
+            .findFirst()
+            .orElseThrow(() -> new RuntimeException("Article not found"));
+    }
 }
