@@ -14,7 +14,8 @@ public class UpdateUser {
 
     public User update(Request updateRequest) {
         User findedUser = userRepository.findByToken(updateRequest.jwsToken());
-        User updateUser = findedUser.update(updateRequest.email(), updateRequest.bio(), updateRequest.image());
+        User updateUser = findedUser.update(updateRequest.email(), updateRequest.username(), updateRequest.password(),
+            updateRequest.bio(), updateRequest.image());
         userRepository.update(updateUser);
         return updateUser;
     }
@@ -22,14 +23,61 @@ public class UpdateUser {
     public static class Request {
         private final String jwsToken;
         private final String email;
+        private final String username;
+        private final String password;
         private final String bio;
         private final String image;
 
-        public Request(String jwsToken, String email, String bio, String image) {
+        private Request(String jwsToken, String email, String username, String password, String bio, String image) {
             this.jwsToken = jwsToken;
             this.email = email;
+            this.username = username;
+            this.password = password;
             this.bio = bio;
             this.image = image;
+        }
+
+        public static class Builder {
+            private String jwsToken;
+            private String email;
+            private String username;
+            private String password;
+            private String bio;
+            private String image;
+
+            public Builder jwsToken(String jwsToken) {
+                this.jwsToken = jwsToken;
+                return this;
+            }
+
+            public Builder email(String email) {
+                this.email = email;
+                return this;
+            }
+
+            public Builder username(String username) {
+                this.username = username;
+                return this;
+            }
+
+            public Builder password(String password) {
+                this.password = password;
+                return this;
+            }
+
+            public Builder bio(String bio) {
+                this.bio = bio;
+                return this;
+            }
+
+            public Builder image(String image) {
+                this.image = image;
+                return this;
+            }
+
+            public Request build() {
+                return new Request(jwsToken, email, username, password, bio, image);
+            }
         }
 
         public String jwsToken() {
@@ -38,6 +86,14 @@ public class UpdateUser {
 
         public String email() {
             return email;
+        }
+
+        public String username() {
+            return username;
+        }
+
+        public String password() {
+            return password;
         }
 
         public String bio() {

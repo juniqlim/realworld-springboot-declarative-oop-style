@@ -34,7 +34,7 @@ public class UserRepository {
     }
 
     public void update(User update) {
-        users.removeIf(user -> user.equalsEmail(update.email()));
+        users.removeIf(user -> user.equalsToken(update.token()));
         users.add(update);
     }
 }

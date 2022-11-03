@@ -30,22 +30,41 @@ public class UpdateUserController {
         }
 
         UpdateUser.Request updateRequest(String jwsToken) {
-            return new UpdateUser.Request(jwsToken, user.getEmail(), user.getBio(), user.getImage());
+            return new UpdateUser.Request.Builder()
+                    .jwsToken(jwsToken)
+                    .email(user.getEmail())
+                    .username(user.getUsername())
+                    .password(user.getPassword())
+                    .bio(user.getBio())
+                    .image(user.getImage())
+                    .build();
         }
 
         static class User {
             private final String email;
+            private final String username;
+            private final String password;
             private final String bio;
             private final String image;
 
-            public User(String email, String bio, String image) {
+            public User(String email, String username, String password, String bio, String image) {
                 this.email = email;
+                this.username = username;
+                this.password = password;
                 this.bio = bio;
                 this.image = image;
             }
 
             public String getEmail() {
                 return email;
+            }
+
+            public String getUsername() {
+                return username;
+            }
+
+            public String getPassword() {
+                return password;
             }
 
             public String getBio() {

@@ -1,18 +1,17 @@
 package io.github.juniqlim.realworld.user;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
+
 import io.github.juniqlim.realworld.user.domain.User;
 import io.github.juniqlim.realworld.user.repository.UserRepository;
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Test;
-
 import java.security.KeyFactory;
 import java.security.NoSuchAlgorithmException;
 import java.security.PrivateKey;
 import java.security.spec.InvalidKeySpecException;
 import java.security.spec.PKCS8EncodedKeySpec;
 import java.util.Base64;
-
-import static org.junit.jupiter.api.Assertions.*;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 class UpdateUserTest {
     UserRepository repository;
@@ -30,8 +29,12 @@ class UpdateUserTest {
 
     @Test
     void test() {
-        new UpdateUser(repository).update(new UpdateUser.Request(jwsToken, "jake@jake.jake", "I like to skateboard", "https://i.stack.imgur.com/xHWG8.jpg"));
+        new UpdateUser(repository).update(
+            new UpdateUser.Request.Builder().jwsToken(jwsToken).email("jake@jake.ee").bio("I like to skateboard")
+                .image("https://i.stack.imgur.com/xHWG8.jpg").build());
         User findedUser = repository.findByToken(jwsToken);
+        assertEquals("jake@jake.ee", findedUser.email());
         assertEquals("I like to skateboard", findedUser.bio());
+        assertEquals("https://i.stack.imgur.com/xHWG8.jpg", findedUser.image());
     }
 }
