@@ -3,7 +3,7 @@ package io.github.juniqlim.realworld.article.domain;
 import java.util.List;
 
 public class Article {
-    private final String slug;
+    private final Slug slug;
     private final String title;
     private final String description;
     private final String body;
@@ -15,12 +15,12 @@ public class Article {
     private final Author author;
 
     public Article(String title, String description, String body, List<String> tagList) {
-        this(null, title, description, body, tagList, null, null, false, 0, null);
+        this(title, description, body, tagList, null, null, false, 0, null);
     }
 
-    public Article(String slug, String title, String description, String body, List<String> tagList, String createdAt,
+    public Article(String title, String description, String body, List<String> tagList, String createdAt,
         String updatedAt, boolean favorited, int favoritesCount, Author author) {
-        this.slug = slug;
+        this.slug = new Slug(title);
         this.title = title;
         this.description = description;
         this.body = body;
@@ -33,7 +33,7 @@ public class Article {
     }
 
     public String getSlug() {
-        return slug;
+        return slug.value();
     }
 
     public String getTitle() {
