@@ -76,6 +76,18 @@ public class Article {
         return this.slug.equalsString(slug);
     }
 
+    public Article updateTitle(String title) {
+        return new Article(title, description, body, tagList, createdAt, updatedAt, favorited, favoritesCount, author);
+    }
+
+    public Article updateDescription(String description) {
+        return new Article(title, description, body, tagList, createdAt, updatedAt, favorited, favoritesCount, author);
+    }
+
+    public Article updateBody(String body) {
+        return new Article(title, description, body, tagList, createdAt, updatedAt, favorited, favoritesCount, author);
+    }
+
     static class Author {
         private String username;
         private String bio;

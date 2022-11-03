@@ -17,4 +17,9 @@ public class ArticleRepository {
             .findFirst()
             .orElseThrow(() -> new RuntimeException("Article not found"));
     }
+
+    public void update(String slug, Article article) {
+        articles.removeIf(a -> a.equalsSlug(slug));
+        articles.add(article);
+    }
 }
