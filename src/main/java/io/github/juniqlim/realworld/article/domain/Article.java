@@ -1,5 +1,6 @@
 package io.github.juniqlim.realworld.article.domain;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 public class Article {
@@ -8,25 +9,25 @@ public class Article {
     private final String description;
     private final String body;
     private final List<String> tagList;
-    private final String createdAt;
-    private final String updatedAt;
+    private final LocalDateTime createdAt;
+    private final LocalDateTime updatedAt;
     private final boolean favorited;
     private final int favoritesCount;
     private final Author author;
 
     public Article(String title, String description, String body, List<String> tagList) {
-        this(title, description, body, tagList, null, null, false, 0, null);
+        this(title, description, body, tagList, false, 0, null);
     }
 
-    public Article(String title, String description, String body, List<String> tagList, String createdAt,
-        String updatedAt, boolean favorited, int favoritesCount, Author author) {
+    public Article(String title, String description, String body, List<String> tagList,
+        boolean favorited, int favoritesCount, Author author) {
         this.slug = new Slug(title);
         this.title = title;
         this.description = description;
         this.body = body;
         this.tagList = tagList;
-        this.createdAt = createdAt;
-        this.updatedAt = updatedAt;
+        this.createdAt = LocalDateTime.now();
+        this.updatedAt = LocalDateTime.now();
         this.favorited = favorited;
         this.favoritesCount = favoritesCount;
         this.author = author;
@@ -52,11 +53,11 @@ public class Article {
         return tagList;
     }
 
-    public String getCreatedAt() {
+    public LocalDateTime getCreatedAt() {
         return createdAt;
     }
 
-    public String getUpdatedAt() {
+    public LocalDateTime getUpdatedAt() {
         return updatedAt;
     }
 
@@ -68,6 +69,10 @@ public class Article {
         return favoritesCount;
     }
 
+    public LocalDateTime getCreatAt() {
+        return createdAt;
+    }
+
     public Author getAuthor() {
         return author;
     }
@@ -77,15 +82,31 @@ public class Article {
     }
 
     public Article updateTitle(String title) {
-        return new Article(title, description, body, tagList, createdAt, updatedAt, favorited, favoritesCount, author);
+        return new Article(title, description, body, tagList, favorited, favoritesCount, author);
     }
 
     public Article updateDescription(String description) {
-        return new Article(title, description, body, tagList, createdAt, updatedAt, favorited, favoritesCount, author);
+        return new Article(title, description, body, tagList, favorited, favoritesCount, author);
     }
 
     public Article updateBody(String body) {
-        return new Article(title, description, body, tagList, createdAt, updatedAt, favorited, favoritesCount, author);
+        return new Article(title, description, body, tagList, favorited, favoritesCount, author);
+    }
+
+    public boolean equalsTag(String tag) {
+        return tagList.contains(tag);
+    }
+
+    public boolean equalsAuthor(String author) {
+        return this.author.getUsername().equals(author);
+    }
+
+    public boolean equalsFavorited(String favorited) {
+        return this.author.getUsername().equals(favorited);
+    }
+
+    public int compareCreatedAt(Article article) {
+        return createdAt.compareTo(article.getCreatedAt());
     }
 
     static class Author {
