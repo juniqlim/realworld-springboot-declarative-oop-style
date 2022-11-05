@@ -24,8 +24,8 @@ public class ArticleRepository {
         articles.add(article);
     }
 
-    public List<Article> findByTagAuthorFavoritedOrderByRegdate(String tag, String author, String favorited, int offset, int limit) {
-        Conditional conditional = new Conditional(tag, author, favorited);
+    public List<Article> findByTagAuthorIdOrderByRegdate(String tag, String authorId, int offset, int limit) {
+        Conditional conditional = new Conditional(tag, authorId);
         return articles.stream()
             .sorted((article1, article2) -> article2.compareCreatedAt(article1))
             .filter(conditional::value)
@@ -36,23 +36,18 @@ public class ArticleRepository {
 
     private static class Conditional {
         private final String tag;
-        private final String author;
-        private final String favorited;
+        private final String authorId;
 
-        public Conditional(String tag, String author, String favorited) {
+        public Conditional(String tag, String authorId) {
             this.tag = tag;
-            this.author = author;
-            this.favorited = favorited;
+            this.authorId = authorId;
         }
 
         public boolean value(Article article) {
             if (tag != null && article.equalsTag(tag)) {
                 return true;
             }
-            if (author != null && article.equalsAuthor(author)) {
-                return true;
-            }
-            if (favorited != null && article.equalsFavorited(favorited)) {
+            if (authorId != null && article.equalsAuthorId(authorId)) {
                 return true;
             }
             return false;

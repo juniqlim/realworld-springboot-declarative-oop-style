@@ -15,7 +15,7 @@ class UpdateArticleTest {
     @BeforeEach
     void setUp() {
         articleRepository.save(new Article("How to train your dragon", "Ever wonder how?", "You have to believe",
-            Arrays.asList("reactjs", "angularjs", "dragons")));
+                "idid", Arrays.asList("reactjs", "angularjs", "dragons")));
     }
 
     @Test

@@ -13,14 +13,14 @@ public class Article {
     private final LocalDateTime updatedAt;
     private final boolean favorited;
     private final int favoritesCount;
-    private final Author author;
+    private final String authorId;
 
-    public Article(String title, String description, String body, List<String> tagList) {
-        this(title, description, body, tagList, false, 0, null);
+    public Article(String title, String description, String body, String authorId, List<String> tagList) {
+        this(title, description, body, authorId, tagList, false, 0);
     }
 
-    public Article(String title, String description, String body, List<String> tagList,
-        boolean favorited, int favoritesCount, Author author) {
+    public Article(String title, String description, String body, String authorId, List<String> tagList,
+        boolean favorited, int favoritesCount) {
         this.slug = new Slug(title);
         this.title = title;
         this.description = description;
@@ -30,7 +30,7 @@ public class Article {
         this.updatedAt = LocalDateTime.now();
         this.favorited = favorited;
         this.favoritesCount = favoritesCount;
-        this.author = author;
+        this.authorId = authorId;
     }
 
     public String getSlug() {
@@ -73,8 +73,8 @@ public class Article {
         return createdAt;
     }
 
-    public Author getAuthor() {
-        return author;
+    public String getAuthorId() {
+        return authorId;
     }
 
     public boolean equalsSlug(String slug) {
@@ -82,27 +82,23 @@ public class Article {
     }
 
     public Article updateTitle(String title) {
-        return new Article(title, description, body, tagList, favorited, favoritesCount, author);
+        return new Article(title, description, body, authorId, tagList, favorited, favoritesCount);
     }
 
     public Article updateDescription(String description) {
-        return new Article(title, description, body, tagList, favorited, favoritesCount, author);
+        return new Article(title, description, body, authorId, tagList, favorited, favoritesCount);
     }
 
     public Article updateBody(String body) {
-        return new Article(title, description, body, tagList, favorited, favoritesCount, author);
+        return new Article(title, description, body, authorId, tagList, favorited, favoritesCount);
     }
 
     public boolean equalsTag(String tag) {
         return tagList.contains(tag);
     }
 
-    public boolean equalsAuthor(String author) {
-        return this.author.getUsername().equals(author);
-    }
-
-    public boolean equalsFavorited(String favorited) {
-        return this.author.getUsername().equals(favorited);
+    public boolean equalsAuthorId(String authorId) {
+        return this.authorId.equals(authorId);
     }
 
     public int compareCreatedAt(Article article) {
