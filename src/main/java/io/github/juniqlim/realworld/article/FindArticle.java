@@ -2,15 +2,18 @@ package io.github.juniqlim.realworld.article;
 
 import io.github.juniqlim.realworld.article.domain.Article;
 import io.github.juniqlim.realworld.article.repository.ArticleRepository;
+import io.github.juniqlim.realworld.user.FindUser;
 import java.util.List;
 import org.springframework.stereotype.Service;
 
 @Service
 class FindArticle {
     private final ArticleRepository articleRepository;
+    private final FindUser findUser;
 
-    public FindArticle(ArticleRepository articleRepository) {
+    FindArticle(ArticleRepository articleRepository, FindUser findUser) {
         this.articleRepository = articleRepository;
+        this.findUser = findUser;
     }
 
     public Article find(String slug) {
@@ -18,8 +21,8 @@ class FindArticle {
     }
 
     public List<Article> find(Request request) {
-        return articleRepository.findByTagAuthorIdOrderByRegdate(request.getTag(), request.getAuthorName(),
-                request.getOffset(), request.getLimit());
+        return articleRepository.findByTagAuthorIdFavoriteUserIdOrderByRegdate(request.tag(), request.authorId(findUser), request.favoriteUserId(findUser),
+            request.offset(), request.limit());
     }
 
     static class Request {
@@ -37,24 +40,30 @@ class FindArticle {
             this.limit = limit;
         }
 
-        public String getTag() {
+        public String tag() {
             return tag;
         }
 
-        public String getAuthorName() {
-            return authorName;
-        }
-
-        public String getFavoriteUserName() {
-            return FavoriteUserName;
-        }
-
-        public int getOffset() {
+        public int offset() {
             return offset;
         }
 
-        public int getLimit() {
+        public int limit() {
             return limit;
+        }
+
+        public String authorId(FindUser findUser) {
+            if (authorName == null) {
+                return null;
+            }
+            return findUser.findByUsername(authorName).token();
+        }
+
+        public String favoriteUserId(FindUser findUser) {
+            if (FavoriteUserName == null) {
+                return null;
+            }
+            return findUser.findByUsername(FavoriteUserName).token();
         }
     }
 }

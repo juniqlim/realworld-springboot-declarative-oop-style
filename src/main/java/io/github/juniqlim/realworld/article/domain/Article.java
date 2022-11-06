@@ -1,6 +1,7 @@
 package io.github.juniqlim.realworld.article.domain;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 
 public class Article {
@@ -11,16 +12,16 @@ public class Article {
     private final List<String> tagList;
     private final LocalDateTime createdAt;
     private final LocalDateTime updatedAt;
-    private final boolean favorited;
+    private final List<String> favoriteUserIds;
     private final int favoritesCount;
     private final String authorId;
 
     public Article(String title, String description, String body, String authorId, List<String> tagList) {
-        this(title, description, body, authorId, tagList, false, 0);
+        this(title, description, body, authorId, tagList, new ArrayList<>(), 0);
     }
 
     public Article(String title, String description, String body, String authorId, List<String> tagList,
-        boolean favorited, int favoritesCount) {
+        List<String> favoriteUserIds, int favoritesCount) {
         this.slug = new Slug(title);
         this.title = title;
         this.description = description;
@@ -28,7 +29,7 @@ public class Article {
         this.tagList = tagList;
         this.createdAt = LocalDateTime.now();
         this.updatedAt = LocalDateTime.now();
-        this.favorited = favorited;
+        this.favoriteUserIds = favoriteUserIds;
         this.favoritesCount = favoritesCount;
         this.authorId = authorId;
     }
@@ -61,8 +62,8 @@ public class Article {
         return updatedAt;
     }
 
-    public boolean isFavorited() {
-        return favorited;
+    public List<String> getFavoriteUserIds() {
+        return favoriteUserIds;
     }
 
     public int getFavoritesCount() {
@@ -82,15 +83,15 @@ public class Article {
     }
 
     public Article updateTitle(String title) {
-        return new Article(title, description, body, authorId, tagList, favorited, favoritesCount);
+        return new Article(title, description, body, authorId, tagList, favoriteUserIds, favoritesCount);
     }
 
     public Article updateDescription(String description) {
-        return new Article(title, description, body, authorId, tagList, favorited, favoritesCount);
+        return new Article(title, description, body, authorId, tagList, favoriteUserIds, favoritesCount);
     }
 
     public Article updateBody(String body) {
-        return new Article(title, description, body, authorId, tagList, favorited, favoritesCount);
+        return new Article(title, description, body, authorId, tagList, favoriteUserIds, favoritesCount);
     }
 
     public boolean equalsTag(String tag) {
@@ -103,6 +104,13 @@ public class Article {
 
     public int compareCreatedAt(Article article) {
         return createdAt.compareTo(article.getCreatedAt());
+    }
+
+    public void favorite(String userId) {
+        favoriteUserIds.add(userId);
+    }
+    public boolean isFavorite(String userId) {
+        return favoriteUserIds.contains(userId);
     }
 
     static class Author {

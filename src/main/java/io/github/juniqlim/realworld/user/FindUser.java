@@ -15,4 +15,8 @@ public class FindUser {
     public User find(String jwsToken) {
         return userRepository.findByToken(jwsToken);
     }
+
+    public User findByUsername(String username) {
+        return userRepository.findByUsername(username);
+    }
 }
