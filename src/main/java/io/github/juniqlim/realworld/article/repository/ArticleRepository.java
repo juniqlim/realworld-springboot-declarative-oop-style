@@ -4,7 +4,9 @@ import io.github.juniqlim.realworld.article.domain.Article;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
+import org.springframework.stereotype.Repository;
 
+@Repository
 public class ArticleRepository {
     private final List<Article> articles = new ArrayList<>();
 
