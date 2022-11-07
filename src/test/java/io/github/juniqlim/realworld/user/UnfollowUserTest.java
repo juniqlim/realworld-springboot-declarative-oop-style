@@ -24,7 +24,7 @@ class UnfollowUserTest {
         PrivateKey privateKey = KeyFactory.getInstance("RSA")
             .generatePrivate(new PKCS8EncodedKeySpec(Base64.getDecoder().decode(testPrivateKey)));
 
-        repository = new UserRepository();
+        repository = new UserRepository.Collection();
         jake = new CreateUser(repository, privateKey).user(new CreateUser.Request("Jacob", "jake@jake.jake", "jakejake"));
         juniq = new CreateUser(repository, privateKey).user(new CreateUser.Request("juniq", "juniq@juniq.juniq", "juniqjuniq"));
     }

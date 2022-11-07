@@ -11,7 +11,7 @@ public class UserRepositoryTest {
     void save() {
         User user = new User(Jwt.FAKE.token(), "123", "Jacob", "jake@jake.jake");
 
-        UserRepository userRepository = new UserRepository();
+        UserRepository userRepository = new UserRepository.Collection();
         userRepository.save(user);
 
         User findedUser = userRepository.findByToken(Jwt.FAKE.token());

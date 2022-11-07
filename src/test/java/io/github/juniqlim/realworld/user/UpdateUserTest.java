@@ -23,7 +23,7 @@ class UpdateUserTest {
         PrivateKey privateKey = KeyFactory.getInstance("RSA")
                 .generatePrivate(new PKCS8EncodedKeySpec(Base64.getDecoder().decode(testPrivateKey)));
 
-        repository = new UserRepository();
+        repository = new UserRepository.Collection();
         jwsToken = new CreateUser(repository, privateKey).user(new CreateUser.Request("Jacob", "jake@jake.jake", "jakejake")).token();
     }
 

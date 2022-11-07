@@ -22,7 +22,7 @@ class FindArticleTest {
         articleRepository.save(new Article("How to train your dragon", "Ever wonder how?", "You have to believe",
             userId, Arrays.asList("reactjs", "angularjs", "dragons")));
 
-        UserRepository userRepository = new UserRepository();
+        UserRepository userRepository = new UserRepository.Collection();
         userRepository.save(new User(userId, "123", "Jacob", "jake@jake.jake"));
         findUser = new FindUser(userRepository);
     }
