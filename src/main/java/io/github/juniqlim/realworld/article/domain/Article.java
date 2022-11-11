@@ -13,15 +13,14 @@ public class Article {
     private final LocalDateTime createdAt;
     private final LocalDateTime updatedAt;
     private final List<String> favoriteUserIds;
-    private final int favoritesCount;
     private final String authorId;
 
     public Article(String title, String description, String body, String authorId, List<String> tagList) {
-        this(title, description, body, authorId, tagList, new ArrayList<>(), 0);
+        this(title, description, body, authorId, tagList, new ArrayList<>());
     }
 
     public Article(String title, String description, String body, String authorId, List<String> tagList,
-        List<String> favoriteUserIds, int favoritesCount) {
+        List<String> favoriteUserIds) {
         this.slug = new Slug(title);
         this.title = title;
         this.description = description;
@@ -30,7 +29,6 @@ public class Article {
         this.createdAt = LocalDateTime.now();
         this.updatedAt = LocalDateTime.now();
         this.favoriteUserIds = favoriteUserIds;
-        this.favoritesCount = favoritesCount;
         this.authorId = authorId;
     }
 
@@ -67,7 +65,7 @@ public class Article {
     }
 
     public int getFavoritesCount() {
-        return favoritesCount;
+        return favoriteUserIds.size();
     }
 
     public LocalDateTime getCreatAt() {
@@ -83,15 +81,15 @@ public class Article {
     }
 
     public Article updateTitle(String title) {
-        return new Article(title, description, body, authorId, tagList, favoriteUserIds, favoritesCount);
+        return new Article(title, description, body, authorId, tagList, favoriteUserIds);
     }
 
     public Article updateDescription(String description) {
-        return new Article(title, description, body, authorId, tagList, favoriteUserIds, favoritesCount);
+        return new Article(title, description, body, authorId, tagList, favoriteUserIds);
     }
 
     public Article updateBody(String body) {
-        return new Article(title, description, body, authorId, tagList, favoriteUserIds, favoritesCount);
+        return new Article(title, description, body, authorId, tagList, favoriteUserIds);
     }
 
     public boolean equalsTag(String tag) {
@@ -109,6 +107,11 @@ public class Article {
     public void favorite(String userId) {
         favoriteUserIds.add(userId);
     }
+
+    public void unFavorite(String userId) {
+        favoriteUserIds.remove(userId);
+    }
+
     public boolean isFavorite(String userId) {
         return favoriteUserIds.contains(userId);
     }
