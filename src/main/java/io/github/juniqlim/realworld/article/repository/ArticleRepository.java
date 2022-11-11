@@ -36,6 +36,10 @@ public class ArticleRepository {
             .collect(Collectors.toList());
     }
 
+    public void delete(String slug) {
+        articles.removeIf(article -> article.equalsSlug(slug));
+    }
+
     private static class Conditional {
         private final String tag;
         private final String authorId;
