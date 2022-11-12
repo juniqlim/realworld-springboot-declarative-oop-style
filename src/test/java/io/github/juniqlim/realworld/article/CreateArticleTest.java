@@ -22,6 +22,6 @@ class CreateArticleTest {
         Article article = new CreateArticle(new ArticleRepository(), new FindUser(userRepository)).create(
                 new Request("How to train your dragon", "Ever wonder how?", "You have to believe",
                     user.token(), Arrays.asList("reactjs", "angularjs", "dragons")));
-        assertEquals("how-to-train-your-dragon", article.getSlug());
+        assertEquals("how-to-train-your-dragon", article.slug());
     }
 }

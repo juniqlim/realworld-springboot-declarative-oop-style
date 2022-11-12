@@ -29,24 +29,24 @@ class FindArticleTest {
     @Test
     void test() {
         assertEquals("How to train your dragon",
-            new FindArticle(articleRepository, findUser).find("how-to-train-your-dragon").getTitle());
+            new FindArticle(articleRepository, findUser).find("how-to-train-your-dragon").title());
     }
 
     @Test
     void findByAuthorName() {
         assertEquals("How to train your dragon",
             new FindArticle(articleRepository, findUser).find(new FindArticle.Request(null, "Jacob", null, 0, 100))
-                .get(0).getTitle());
+                .get(0).title());
     }
 
     @Test
     void findByFavoriteUserName() {
         Article article = articleRepository.findBySlug("how-to-train-your-dragon");
         article.favorite(new User.Id(1));
-        articleRepository.update(article.getSlug(), article);
+        articleRepository.update(article.slug(), article);
 
         assertEquals("How to train your dragon",
             new FindArticle(articleRepository, findUser).find(new FindArticle.Request(null, null, "Jacob", 0, 100))
-                .get(0).getTitle());
+                .get(0).title());
     }
 }

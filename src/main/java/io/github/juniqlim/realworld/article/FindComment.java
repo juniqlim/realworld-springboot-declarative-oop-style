@@ -21,7 +21,7 @@ class FindComment {
 
     public List<ResultComment> comments(String slug, String jwsToken) {
         Article article = articleRepository.findBySlug(slug);
-        List<Comment> comments = article.getComments();
+        List<Comment> comments = article.comments();
         List<User.Id> userIds = comments.stream()
             .map(Comment::userId)
             .collect(Collectors.toList());

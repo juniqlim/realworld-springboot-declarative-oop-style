@@ -14,8 +14,8 @@ class DeleteArticleTest {
         ArticleRepository articleRepository = new ArticleRepository();
         articleRepository.save(article);
 
-        new DeleteArticle(articleRepository).delete(article.getSlug());
-        assertThrowsExactly(RuntimeException.class, () -> articleRepository.findBySlug(article.getSlug()),
+        new DeleteArticle(articleRepository).delete(article.slug());
+        assertThrowsExactly(RuntimeException.class, () -> articleRepository.findBySlug(article.slug()),
             "Article not found");
     }
 }

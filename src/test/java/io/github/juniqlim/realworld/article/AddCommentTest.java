@@ -17,7 +17,7 @@ class AddCommentTest {
         ArticleRepository articleRepository = new ArticleRepository();
         articleRepository.save(article);
 
-        Comment comment = new AddComment(articleRepository).add(new Request(article.getSlug(), "This is a comment", new User.Id(1)));
+        Comment comment = new AddComment(articleRepository).add(new Request(article.slug(), "This is a comment", new User.Id(1)));
         assertEquals("This is a comment", comment.body());
     }
 }

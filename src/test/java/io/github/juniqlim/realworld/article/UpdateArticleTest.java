@@ -25,8 +25,8 @@ class UpdateArticleTest {
             new Builder().slug("how-to-train-your-dragon").title("title-dragon").description("description").body("body")
                 .build());
 
-        assertEquals("title-dragon", update.getTitle());
-        assertEquals("description", update.getDescription());
-        assertEquals("body", update.getBody());
+        assertEquals("title-dragon", update.title());
+        assertEquals("description", update.description());
+        assertEquals("body", update.body());
     }
 }

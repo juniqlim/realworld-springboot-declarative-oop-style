@@ -31,6 +31,6 @@ class FindProfileTest {
     @Test
     void test() {
         Profile profile = new FindProfile(repository).profile(jake.token());
-        assertThat(profile.getUsername()).isEqualTo("Jacob");
+        assertThat(profile.username()).isEqualTo("Jacob");
     }
 }

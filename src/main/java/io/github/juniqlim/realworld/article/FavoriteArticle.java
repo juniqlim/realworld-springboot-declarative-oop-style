@@ -14,7 +14,7 @@ class FavoriteArticle {
     public Article favorite(String slug, User.Id userId) {
         Article article = articleRepository.findBySlug(slug);
         article.favorite(userId);
-        articleRepository.update(article.getSlug(), article);
+        articleRepository.update(article.slug(), article);
         return article;
     }
     public Article UnFavorite(String slug, User.Id userId) {

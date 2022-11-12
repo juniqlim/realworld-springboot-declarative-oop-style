@@ -33,12 +33,12 @@ class ArticleRepositoryTest {
         List<Article> articles = articleRepository.findByTagAuthorIdFavoriteUserIdOrderByRegdate("reactjs1", null, null, 1, 3);
 
         System.out.println("articles.size() = " + articles.size());
-        articles.forEach(a -> System.out.println("a.getSlug() = " + a.getSlug() + ", a.getCreateAt = " + a.getCreatAt()));
+        articles.forEach(a -> System.out.println("a.getSlug() = " + a.slug() + ", a.getCreateAt = " + a.createdAt()));
 
         assertEquals(3, articles.size());
-        assertEquals("91", articles.get(0).getSlug());
-        assertEquals("88", articles.get(1).getSlug());
-        assertEquals("85", articles.get(2).getSlug());
+        assertEquals("91", articles.get(0).slug());
+        assertEquals("88", articles.get(1).slug());
+        assertEquals("85", articles.get(2).slug());
 
         List<Article> articles2 = articleRepository.findByTagAuthorIdFavoriteUserIdOrderByRegdate(null, new User.Id(1), null, 0, 100);
 

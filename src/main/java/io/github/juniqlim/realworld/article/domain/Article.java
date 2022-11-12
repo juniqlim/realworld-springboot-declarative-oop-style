@@ -36,51 +36,31 @@ public class Article {
         this.comments = comments;
     }
 
-    public String getSlug() {
+    public String slug() {
         return slug.value();
     }
 
-    public String getTitle() {
+    public String title() {
         return title;
     }
 
-    public String getDescription() {
+    public String description() {
         return description;
     }
 
-    public String getBody() {
+    public String body() {
         return body;
     }
 
-    public List<String> getTagList() {
-        return tagList;
-    }
-
-    public LocalDateTime getCreatedAt() {
+    public LocalDateTime createdAt() {
         return createdAt;
     }
 
-    public LocalDateTime getUpdatedAt() {
-        return updatedAt;
-    }
-
-    public List<User.Id> getFavoriteUserIds() {
-        return favoriteUserIds;
-    }
-
-    public int getFavoritesCount() {
+    public int favoritesCount() {
         return favoriteUserIds.size();
     }
 
-    public LocalDateTime getCreatAt() {
-        return createdAt;
-    }
-
-    public User.Id getAuthorId() {
-        return authorId;
-    }
-
-    public List<Comment> getComments() {
+    public List<Comment> comments() {
         return comments;
     }
 
@@ -109,7 +89,7 @@ public class Article {
     }
 
     public int compareCreatedAt(Article article) {
-        return createdAt.compareTo(article.getCreatedAt());
+        return createdAt.compareTo(article.createdAt());
     }
 
     public void favorite(User.Id userId) {
@@ -134,20 +114,8 @@ public class Article {
         private String image;
         private boolean following;
 
-        public String getUsername() {
+        public String username() {
             return username;
-        }
-
-        public String getBio() {
-            return bio;
-        }
-
-        public String getImage() {
-            return image;
-        }
-
-        public boolean isFollowing() {
-            return following;
         }
     }
 }

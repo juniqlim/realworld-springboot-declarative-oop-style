@@ -25,12 +25,12 @@ class FavoriteArticleTest {
             new Request("How to train your dragon", "Ever wonder how?", "You have to believe",
                 user.token(), Arrays.asList("reactjs", "angularjs", "dragons")));
 
-        Article favoritedArticle = new FavoriteArticle(articleRepository).favorite(article.getSlug(), new User.Id(2));
+        Article favoritedArticle = new FavoriteArticle(articleRepository).favorite(article.slug(), new User.Id(2));
         assertTrue(favoritedArticle.isFavorite(new User.Id(2)));
-        assertEquals(1, favoritedArticle.getFavoritesCount());
+        assertEquals(1, favoritedArticle.favoritesCount());
 
         favoritedArticle.unFavorite(new User.Id(2));
         assertFalse(favoritedArticle.isFavorite(new User.Id(2)));
-        assertEquals(0, favoritedArticle.getFavoritesCount());
+        assertEquals(0, favoritedArticle.favoritesCount());
     }
 }
