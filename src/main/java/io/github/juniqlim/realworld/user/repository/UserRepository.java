@@ -1,9 +1,11 @@
 package io.github.juniqlim.realworld.user.repository;
 
 import io.github.juniqlim.realworld.user.domain.User;
+import io.github.juniqlim.realworld.user.domain.User.Id;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.atomic.AtomicLong;
+import java.util.stream.Collectors;
 import org.springframework.stereotype.Repository;
 
 public interface UserRepository {
@@ -13,6 +15,7 @@ public interface UserRepository {
     User findByToken(String token);
     void update(User user);
     long findSequence();
+    List<User> findByIds(List<User.Id> userIds);
 
     @Repository
     class Collection implements UserRepository {
@@ -48,9 +51,21 @@ public interface UserRepository {
             users.add(update);
         }
 
-        @Override
+        public List<User> findByTokens(List<String> userIds) {
+            return users.stream()
+                .filter(user -> userIds.contains(user.token()))
+                .collect(Collectors.toList());
+        }
+
         public long findSequence() {
             return sequence.getAndIncrement();
+        }
+
+        @Override
+        public List<User> findByIds(List<Id> userIds) {
+            return users.stream()
+                .filter(user -> userIds.contains(user.id()))
+                .collect(Collectors.toList());
         }
     }
 }

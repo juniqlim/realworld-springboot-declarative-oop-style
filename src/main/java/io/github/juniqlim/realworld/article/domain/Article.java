@@ -80,6 +80,10 @@ public class Article {
         return authorId;
     }
 
+    public List<Comment> getComments() {
+        return comments;
+    }
+
     public boolean equalsSlug(String slug) {
         return this.slug.equalsString(slug);
     }

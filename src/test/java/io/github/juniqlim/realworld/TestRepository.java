@@ -2,8 +2,10 @@ package io.github.juniqlim.realworld;
 
 import io.github.juniqlim.object.jwt.Jwt.Jws;
 import io.github.juniqlim.realworld.article.domain.Article;
+import io.github.juniqlim.realworld.article.domain.Comment;
 import io.github.juniqlim.realworld.article.repository.ArticleRepository;
 import io.github.juniqlim.realworld.user.domain.User;
+import io.github.juniqlim.realworld.user.domain.User.Id;
 import io.github.juniqlim.realworld.user.repository.UserRepository;
 import java.security.KeyFactory;
 import java.security.NoSuchAlgorithmException;
@@ -19,18 +21,15 @@ public class TestRepository {
     public TestRepository(UserRepository userRepository, ArticleRepository articleRepository) {
         this.userRepository = userRepository;
         this.articleRepository = articleRepository;
-        try {
-            setData();
-        } catch (InvalidKeySpecException | NoSuchAlgorithmException e) {
-            throw new RuntimeException(e);
-        }
     }
 
-    public UserRepository userRepository() {
+    public UserRepository userRepository() throws InvalidKeySpecException, NoSuchAlgorithmException {
+        setData();
         return userRepository;
     }
 
-    public ArticleRepository articleRepository() {
+    public ArticleRepository articleRepository() throws InvalidKeySpecException, NoSuchAlgorithmException {
+        setData();
         return articleRepository;
     }
 
@@ -39,18 +38,25 @@ public class TestRepository {
         PrivateKey privateKey = KeyFactory.getInstance("RSA")
             .generatePrivate(new PKCS8EncodedKeySpec(Base64.getDecoder().decode(testPrivateKey)));
 
-        User jake = new User(1, new Jws(privateKey).token(), "jakejake", "Jacob", "jake@jake.jake");
-        User juniq = new User(2, new Jws(privateKey).token(), "juniqjuniq", "juniq", "juniq@juniq.juniq");
-        User mink = new User(3, new Jws(privateKey).token(), "minkmink", "mink", "mink@mink.mink");
+        User jake = new User(userRepository.findSequence(), new Jws(privateKey).token(), "jakejake", "Jacob", "jake@jake.jake");
+        User juniq = new User(userRepository.findSequence(), new Jws(privateKey).token(), "juniqjuniq", "juniq", "juniq@juniq.juniq");
+        User mink = new User(userRepository.findSequence(), new Jws(privateKey).token(), "minkmink", "mink", "mink@mink.mink");
         userRepository.save(jake);
         userRepository.save(juniq);
         userRepository.save(mink);
 
-        articleRepository.save(new Article("How to train your dragon", "Ever wonder how?", "You have to believe",
-            new User.Id(1), null));
-        articleRepository.save(new Article("Good day", "So toothless", "You have to believe",
-            new User.Id(2), null));
-        articleRepository.save(new Article("Learn Elm", "learn", "It's like a functional language",
-            new User.Id(3), null));
+        Article jakeArticle = new Article("How to train your dragon", "Ever wonder how?", "You have to believe",
+            jake.id(), null);
+        Article juniqArticle = new Article("Good day", "So toothless", "You have to believe",
+            new Id(2), null);
+        Article minkArticle = new Article("Learn Elm", "learn", "It's like a functional language",
+            new Id(3), null);
+        jakeArticle.addComment(new Comment(articleRepository.findCommentSequence(), "It's easy", juniq.id()));
+        juniqArticle.addComment(new Comment(articleRepository.findCommentSequence(), "It's good", mink.id()));
+        minkArticle.addComment(new Comment(articleRepository.findCommentSequence(), "It's hard", jake.id()));
+        minkArticle.addComment(new Comment(articleRepository.findCommentSequence(), "It's big", juniq.id()));
+        articleRepository.save(jakeArticle);
+        articleRepository.save(juniqArticle);
+        articleRepository.save(minkArticle);
     }
 }
