@@ -3,6 +3,7 @@ package io.github.juniqlim.realworld.article;
 import io.github.juniqlim.realworld.article.domain.Article;
 import io.github.juniqlim.realworld.article.repository.ArticleRepository;
 import io.github.juniqlim.realworld.user.FindUser;
+import io.github.juniqlim.realworld.user.domain.User;
 import java.util.List;
 import org.springframework.stereotype.Service;
 
@@ -52,18 +53,18 @@ class FindArticle {
             return limit;
         }
 
-        public String authorId(FindUser findUser) {
+        public User.Id authorId(FindUser findUser) {
             if (authorName == null) {
                 return null;
             }
-            return findUser.findByUsername(authorName).token();
+            return findUser.findByUsername(authorName).id();
         }
 
-        public String favoriteUserId(FindUser findUser) {
+        public User.Id favoriteUserId(FindUser findUser) {
             if (FavoriteUserName == null) {
                 return null;
             }
-            return findUser.findByUsername(FavoriteUserName).token();
+            return findUser.findByUsername(FavoriteUserName).id();
         }
     }
 }

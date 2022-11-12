@@ -15,15 +15,14 @@ import org.junit.jupiter.api.Test;
 class FindArticleTest {
     ArticleRepository articleRepository = new ArticleRepository();
     FindUser findUser;
-    String userId = Jwt.FAKE.token();
 
     @BeforeEach
     void setUp() {
         articleRepository.save(new Article("How to train your dragon", "Ever wonder how?", "You have to believe",
-            userId, Arrays.asList("reactjs", "angularjs", "dragons")));
+            new User.Id(1), Arrays.asList("reactjs", "angularjs", "dragons")));
 
         UserRepository userRepository = new UserRepository.Collection();
-        userRepository.save(new User(1, userId, "123", "Jacob", "jake@jake.jake"));
+        userRepository.save(new User(1, Jwt.FAKE.token(), "123", "Jacob", "jake@jake.jake"));
         findUser = new FindUser(userRepository);
     }
 
@@ -43,7 +42,7 @@ class FindArticleTest {
     @Test
     void findByFavoriteUserName() {
         Article article = articleRepository.findBySlug("how-to-train-your-dragon");
-        article.favorite(userId);
+        article.favorite(new User.Id(1));
         articleRepository.update(article.getSlug(), article);
 
         assertEquals("How to train your dragon",

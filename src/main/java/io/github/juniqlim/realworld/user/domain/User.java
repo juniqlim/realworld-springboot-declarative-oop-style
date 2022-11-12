@@ -5,7 +5,7 @@ import java.util.Collection;
 import java.util.Objects;
 
 public class User {
-    private final long id;
+    private final Id id;
     private final String token;
     private final String password;
     private final String username;
@@ -15,10 +15,10 @@ public class User {
     private final Collection<String> follows;
 
     public User(long id, String token, String password, String username, String email) {
-        this(id, token, password, username, email, null, null);
+        this(new Id(id), token, password, username, email, null, null);
     }
 
-    public User(long id, String token, String password, String username, String email, String bio, String image) {
+    public User(Id id, String token, String password, String username, String email, String bio, String image) {
         this.id = id;
         this.token = token;
         this.password = password;
@@ -27,6 +27,10 @@ public class User {
         this.bio = bio;
         this.image = image;
         this.follows = new ArrayList<>();
+    }
+
+    public Id id() {
+        return id;
     }
 
     public String email() {
@@ -92,5 +96,34 @@ public class User {
 
     public void unfollow(String jwsToken) {
         follows.remove(jwsToken);
+    }
+
+    public static class Id {
+        private final long value;
+
+        public Id(long value) {
+            this.value = value;
+        }
+
+        public long value() {
+            return value;
+        }
+
+        @Override
+        public boolean equals(Object o) {
+            if (this == o) {
+                return true;
+            }
+            if (o == null || getClass() != o.getClass()) {
+                return false;
+            }
+            Id id = (Id) o;
+            return value == id.value;
+        }
+
+        @Override
+        public int hashCode() {
+            return Objects.hash(value);
+        }
     }
 }

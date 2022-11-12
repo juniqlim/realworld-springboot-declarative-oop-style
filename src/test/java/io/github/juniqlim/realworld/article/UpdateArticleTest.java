@@ -5,6 +5,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import io.github.juniqlim.realworld.article.UpdateArticle.Request.Builder;
 import io.github.juniqlim.realworld.article.domain.Article;
 import io.github.juniqlim.realworld.article.repository.ArticleRepository;
+import io.github.juniqlim.realworld.user.domain.User;
 import java.util.Arrays;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -15,7 +16,7 @@ class UpdateArticleTest {
     @BeforeEach
     void setUp() {
         articleRepository.save(new Article("How to train your dragon", "Ever wonder how?", "You have to believe",
-                "idid", Arrays.asList("reactjs", "angularjs", "dragons")));
+                new User.Id(1), Arrays.asList("reactjs", "angularjs", "dragons")));
     }
 
     @Test

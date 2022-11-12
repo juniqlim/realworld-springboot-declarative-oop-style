@@ -1,5 +1,6 @@
 package io.github.juniqlim.realworld.article.domain;
 
+import io.github.juniqlim.realworld.user.domain.User;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
@@ -12,17 +13,17 @@ public class Article {
     private final List<String> tagList;
     private final LocalDateTime createdAt;
     private final LocalDateTime updatedAt;
-    private final List<String> favoriteUserIds;
-    private final String authorId;
+    private final List<User.Id> favoriteUserIds;
+    private final User.Id authorId;
 
     private final List<Comment> comments;
 
-    public Article(String title, String description, String body, String authorId, List<String> tagList) {
+    public Article(String title, String description, String body, User.Id authorId, List<String> tagList) {
         this(title, description, body, authorId, tagList, new ArrayList<>(), new ArrayList<>());
     }
 
-    public Article(String title, String description, String body, String authorId, List<String> tagList,
-        List<String> favoriteUserIds, List<Comment> comments) {
+    public Article(String title, String description, String body, User.Id authorId, List<String> tagList,
+        List<User.Id> favoriteUserIds, List<Comment> comments) {
         this.slug = new Slug(title);
         this.title = title;
         this.description = description;
@@ -63,7 +64,7 @@ public class Article {
         return updatedAt;
     }
 
-    public List<String> getFavoriteUserIds() {
+    public List<User.Id> getFavoriteUserIds() {
         return favoriteUserIds;
     }
 
@@ -75,7 +76,7 @@ public class Article {
         return createdAt;
     }
 
-    public String getAuthorId() {
+    public User.Id getAuthorId() {
         return authorId;
     }
 
@@ -99,7 +100,7 @@ public class Article {
         return tagList.contains(tag);
     }
 
-    public boolean equalsAuthorId(String authorId) {
+    public boolean equalsAuthorId(User.Id authorId) {
         return this.authorId.equals(authorId);
     }
 
@@ -107,15 +108,15 @@ public class Article {
         return createdAt.compareTo(article.getCreatedAt());
     }
 
-    public void favorite(String userId) {
+    public void favorite(User.Id userId) {
         favoriteUserIds.add(userId);
     }
 
-    public void unFavorite(String userId) {
+    public void unFavorite(User.Id userId) {
         favoriteUserIds.remove(userId);
     }
 
-    public boolean isFavorite(String userId) {
+    public boolean isFavorite(User.Id userId) {
         return favoriteUserIds.contains(userId);
     }
 

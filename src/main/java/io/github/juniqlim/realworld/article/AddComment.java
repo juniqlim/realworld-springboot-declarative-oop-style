@@ -1,8 +1,8 @@
 package io.github.juniqlim.realworld.article;
 
-import io.github.juniqlim.realworld.article.domain.Article;
 import io.github.juniqlim.realworld.article.domain.Comment;
 import io.github.juniqlim.realworld.article.repository.ArticleRepository;
+import io.github.juniqlim.realworld.user.domain.User;
 
 class AddComment {
     private final ArticleRepository articleRepository;
@@ -19,9 +19,9 @@ class AddComment {
     static class Request {
         private final String slug;
         private final String comment;
-        private final String userId;
+        private final User.Id userId;
 
-        public Request(String slug, String comment, String userId) {
+        public Request(String slug, String comment, User.Id userId) {
             this.slug = slug;
             this.comment = comment;
             this.userId = userId;

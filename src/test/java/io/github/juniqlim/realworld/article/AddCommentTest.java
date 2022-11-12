@@ -7,6 +7,7 @@ import io.github.juniqlim.realworld.article.AddComment.Request;
 import io.github.juniqlim.realworld.article.domain.Article;
 import io.github.juniqlim.realworld.article.domain.Comment;
 import io.github.juniqlim.realworld.article.repository.ArticleRepository;
+import io.github.juniqlim.realworld.user.domain.User;
 import org.junit.jupiter.params.ParameterizedTest;
 
 class AddCommentTest {
@@ -16,7 +17,7 @@ class AddCommentTest {
         ArticleRepository articleRepository = new ArticleRepository();
         articleRepository.save(article);
 
-        Comment comment = new AddComment(articleRepository).add(new Request(article.getSlug(), "This is a comment", "idid"));
+        Comment comment = new AddComment(articleRepository).add(new Request(article.getSlug(), "This is a comment", new User.Id(1)));
         assertEquals("This is a comment", comment.body());
     }
 }

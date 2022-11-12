@@ -40,17 +40,17 @@ public class TestRepository {
             .generatePrivate(new PKCS8EncodedKeySpec(Base64.getDecoder().decode(testPrivateKey)));
 
         User jake = new User(1, new Jws(privateKey).token(), "jakejake", "Jacob", "jake@jake.jake");
-        User juniq = new User(1, new Jws(privateKey).token(), "juniqjuniq", "juniq", "juniq@juniq.juniq");
-        User mink = new User(1, new Jws(privateKey).token(), "minkmink", "mink", "mink@mink.mink");
+        User juniq = new User(2, new Jws(privateKey).token(), "juniqjuniq", "juniq", "juniq@juniq.juniq");
+        User mink = new User(3, new Jws(privateKey).token(), "minkmink", "mink", "mink@mink.mink");
         userRepository.save(jake);
         userRepository.save(juniq);
         userRepository.save(mink);
 
         articleRepository.save(new Article("How to train your dragon", "Ever wonder how?", "You have to believe",
-            jake.token(), null));
+            new User.Id(1), null));
         articleRepository.save(new Article("Good day", "So toothless", "You have to believe",
-            juniq.token(), null));
+            new User.Id(2), null));
         articleRepository.save(new Article("Learn Elm", "learn", "It's like a functional language",
-            mink.token(), null));
+            new User.Id(3), null));
     }
 }
