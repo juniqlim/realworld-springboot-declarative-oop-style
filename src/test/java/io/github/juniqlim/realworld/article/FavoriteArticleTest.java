@@ -8,6 +8,7 @@ import autoparams.AutoSource;
 import io.github.juniqlim.realworld.article.CreateArticle.Request;
 import io.github.juniqlim.realworld.article.domain.Article;
 import io.github.juniqlim.realworld.article.repository.ArticleRepository;
+import io.github.juniqlim.realworld.article.repository.TagRepository;
 import io.github.juniqlim.realworld.user.FindUser;
 import io.github.juniqlim.realworld.user.domain.User;
 import io.github.juniqlim.realworld.user.repository.UserRepository.Collection;
@@ -21,7 +22,7 @@ class FavoriteArticleTest {
         Collection userRepository = new Collection();
         userRepository.save(user);
         ArticleRepository articleRepository = new ArticleRepository();
-        Article article = new CreateArticle(articleRepository, new FindUser(userRepository)).create(
+        Article article = new CreateArticle(articleRepository, new FindUser(userRepository), new TagUseCase(new TagRepository())).create(
             new Request("How to train your dragon", "Ever wonder how?", "You have to believe",
                 user.token(), Arrays.asList("reactjs", "angularjs", "dragons")));
 

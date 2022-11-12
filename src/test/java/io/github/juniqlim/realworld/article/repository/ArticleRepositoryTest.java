@@ -5,6 +5,7 @@ import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import io.github.juniqlim.realworld.article.domain.Article;
+import io.github.juniqlim.realworld.article.domain.Tag;
 import io.github.juniqlim.realworld.user.domain.User;
 import java.util.Arrays;
 import java.util.List;
@@ -15,7 +16,7 @@ class ArticleRepositoryTest {
     void save() {
         ArticleRepository articleRepository = new ArticleRepository();
         Article article = new Article("How to train your dragon", "Ever wonder how?",
-                "You have to believe", new User.Id(1), Arrays.asList("reactjs", "angularjs", "dragons"));
+                "You have to believe", new User.Id(1), Arrays.asList(new Tag("reactjs"), new Tag("angularjs"), new Tag("dragons")));
 
         assertDoesNotThrow(() -> articleRepository.save(article));
     }
@@ -26,7 +27,7 @@ class ArticleRepositoryTest {
 
         for (int i = 1; i < 101; i++) {
             articleRepository.save(new Article(i + "", i + "", i + "", new User.Id(i % 2),
-                    Arrays.asList("reactjs" + (i % 3), "angularjs" + i, "dragons" + i)));
+                Arrays.asList(new Tag("reactjs" + (i % 3)), new Tag("angularjs" + i), new Tag("dragons" + i))));
             sleep(10);
         }
 

@@ -1,23 +1,32 @@
 package io.github.juniqlim.realworld.article;
 
 import io.github.juniqlim.realworld.article.domain.Article;
+import io.github.juniqlim.realworld.article.domain.Tag;
 import io.github.juniqlim.realworld.article.repository.ArticleRepository;
 import io.github.juniqlim.realworld.user.FindUser;
 import io.github.juniqlim.realworld.user.domain.User;
+import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 class CreateArticle {
     private final ArticleRepository articleRepository;
     private final FindUser findUser;
+    private final TagUseCase tagUseCase;
 
-    CreateArticle(ArticleRepository articleRepository, FindUser findUser) {
+    CreateArticle(ArticleRepository articleRepository, FindUser findUser, TagUseCase tagUseCase) {
         this.articleRepository = articleRepository;
         this.findUser = findUser;
+        this.tagUseCase = tagUseCase;
     }
 
     Article create(Request request) {
-        User author = findUser.find(request.getJwsToken());
-        Article article = new Article(request.title, request.description, request.body, author.id(), request.tagList);
+        User author = findUser.find(request.jwsToken());
+        tagUseCase.merges(request.tags());
+        Article article = new Article(request.title(), request.description(), request.body(), author.id(),
+            request.tags().stream()
+                .map(Tag::new)
+                .collect(Collectors.toList()));
         articleRepository.save(article);
         return article;
     }
@@ -26,36 +35,38 @@ class CreateArticle {
         private final String title;
         private final String description;
         private final String body;
-
         private final String jwsToken;
-        private final List<String> tagList;
+        private final List<String> tags;
 
-        public Request(String title, String description, String body, String jwsToken, List<String> tagList) {
+        public Request(String title, String description, String body, String jwsToken, List<String> tags) {
             this.title = title;
             this.description = description;
             this.body = body;
             this.jwsToken = jwsToken;
-            this.tagList = tagList;
+            this.tags = tags;
         }
 
-        public String getTitle() {
+        String title() {
             return title;
         }
 
-        public String getDescription() {
+        String description() {
             return description;
         }
 
-        public String getBody() {
+        String body() {
             return body;
         }
 
-        public String getJwsToken() {
+        String jwsToken() {
             return jwsToken;
         }
 
-        public List<String> getTagList() {
-            return tagList;
+        List<String> tags() {
+            if (tags == null) {
+                return new ArrayList<>();
+            }
+            return tags;
         }
     }
 }

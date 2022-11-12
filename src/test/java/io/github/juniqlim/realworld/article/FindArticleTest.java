@@ -4,6 +4,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import io.github.juniqlim.object.jwt.Jwt;
 import io.github.juniqlim.realworld.article.domain.Article;
+import io.github.juniqlim.realworld.article.domain.Tag;
 import io.github.juniqlim.realworld.article.repository.ArticleRepository;
 import io.github.juniqlim.realworld.user.FindUser;
 import io.github.juniqlim.realworld.user.domain.User;
@@ -19,7 +20,7 @@ class FindArticleTest {
     @BeforeEach
     void setUp() {
         articleRepository.save(new Article("How to train your dragon", "Ever wonder how?", "You have to believe",
-            new User.Id(1), Arrays.asList("reactjs", "angularjs", "dragons")));
+            new User.Id(1), Arrays.asList(new Tag("reactjs"), new Tag("angularjs"), new Tag("dragons"))));
 
         UserRepository userRepository = new UserRepository.Collection();
         userRepository.save(new User(1, Jwt.FAKE.token(), "123", "Jacob", "jake@jake.jake"));

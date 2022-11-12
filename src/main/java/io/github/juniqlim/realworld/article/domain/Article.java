@@ -10,7 +10,7 @@ public class Article {
     private final String title;
     private final String description;
     private final String body;
-    private final List<String> tagList;
+    private final List<Tag> tags;
     private final LocalDateTime createdAt;
     private final LocalDateTime updatedAt;
     private final List<User.Id> favoriteUserIds;
@@ -18,17 +18,17 @@ public class Article {
 
     private final List<Comment> comments;
 
-    public Article(String title, String description, String body, User.Id authorId, List<String> tagList) {
-        this(title, description, body, authorId, tagList, new ArrayList<>(), new ArrayList<>());
+    public Article(String title, String description, String body, User.Id authorId, List<Tag> tags) {
+        this(title, description, body, authorId, tags, new ArrayList<>(), new ArrayList<>());
     }
 
-    public Article(String title, String description, String body, User.Id authorId, List<String> tagList,
+    public Article(String title, String description, String body, User.Id authorId, List<Tag> tags,
         List<User.Id> favoriteUserIds, List<Comment> comments) {
         this.slug = new Slug(title);
         this.title = title;
         this.description = description;
         this.body = body;
-        this.tagList = tagList;
+        this.tags = tags;
         this.createdAt = LocalDateTime.now();
         this.updatedAt = LocalDateTime.now();
         this.favoriteUserIds = favoriteUserIds;
@@ -69,19 +69,19 @@ public class Article {
     }
 
     public Article updateTitle(String title) {
-        return new Article(title, description, body, authorId, tagList, favoriteUserIds, comments);
+        return new Article(title, description, body, authorId, tags, favoriteUserIds, comments);
     }
 
     public Article updateDescription(String description) {
-        return new Article(title, description, body, authorId, tagList, favoriteUserIds, comments);
+        return new Article(title, description, body, authorId, tags, favoriteUserIds, comments);
     }
 
     public Article updateBody(String body) {
-        return new Article(title, description, body, authorId, tagList, favoriteUserIds, comments);
+        return new Article(title, description, body, authorId, tags, favoriteUserIds, comments);
     }
 
     public boolean equalsTag(String tag) {
-        return tagList.contains(tag);
+        return tags.contains(new Tag(tag));
     }
 
     public boolean equalsAuthorId(User.Id authorId) {
