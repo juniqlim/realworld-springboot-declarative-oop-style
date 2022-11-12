@@ -31,7 +31,7 @@ class FindComment {
             .map(comment -> {
                 Profile matchedProfile = profiles.stream()
                     .filter(profile -> profile.equalsUserId(comment.userId()))
-                    .findFirst().get();
+                    .findFirst().orElse(new Profile(new User.Id(0L), "", "", "", false));
                 return new ResultComment(comment, matchedProfile);
             }).collect(Collectors.toList());
     }
