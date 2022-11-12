@@ -18,18 +18,18 @@ public class TestRepository {
     private final UserRepository userRepository;
     private final ArticleRepository articleRepository;
 
-    public TestRepository(UserRepository userRepository, ArticleRepository articleRepository) {
+    public TestRepository(UserRepository userRepository, ArticleRepository articleRepository)
+        throws InvalidKeySpecException, NoSuchAlgorithmException {
         this.userRepository = userRepository;
         this.articleRepository = articleRepository;
+        setData();
     }
 
-    public UserRepository userRepository() throws InvalidKeySpecException, NoSuchAlgorithmException {
-        setData();
+    public UserRepository userRepository() {
         return userRepository;
     }
 
-    public ArticleRepository articleRepository() throws InvalidKeySpecException, NoSuchAlgorithmException {
-        setData();
+    public ArticleRepository articleRepository() {
         return articleRepository;
     }
 

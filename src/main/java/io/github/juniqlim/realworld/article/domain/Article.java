@@ -108,6 +108,14 @@ public class Article {
         comments.add(comment);
     }
 
+    public void deleteComment(long commentId, User.Id userId) {
+        comments.stream()
+            .filter(comment -> comment.id() == commentId)
+            .filter(comment -> comment.userId().equals(userId))
+            .findFirst()
+            .ifPresent(comments::remove);
+    }
+
     static class Author {
         private String username;
         private String bio;
