@@ -23,7 +23,7 @@ class FindArticleTest {
             userId, Arrays.asList("reactjs", "angularjs", "dragons")));
 
         UserRepository userRepository = new UserRepository.Collection();
-        userRepository.save(new User(userId, "123", "Jacob", "jake@jake.jake"));
+        userRepository.save(new User(1, userId, "123", "Jacob", "jake@jake.jake"));
         findUser = new FindUser(userRepository);
     }
 

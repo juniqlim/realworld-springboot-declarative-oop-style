@@ -39,9 +39,9 @@ public class TestRepository {
         PrivateKey privateKey = KeyFactory.getInstance("RSA")
             .generatePrivate(new PKCS8EncodedKeySpec(Base64.getDecoder().decode(testPrivateKey)));
 
-        User jake = new User(new Jws(privateKey).token(), "jakejake", "Jacob", "jake@jake.jake");
-        User juniq = new User(new Jws(privateKey).token(), "juniqjuniq", "juniq", "juniq@juniq.juniq");
-        User mink = new User(new Jws(privateKey).token(), "minkmink", "mink", "mink@mink.mink");
+        User jake = new User(1, new Jws(privateKey).token(), "jakejake", "Jacob", "jake@jake.jake");
+        User juniq = new User(1, new Jws(privateKey).token(), "juniqjuniq", "juniq", "juniq@juniq.juniq");
+        User mink = new User(1, new Jws(privateKey).token(), "minkmink", "mink", "mink@mink.mink");
         userRepository.save(jake);
         userRepository.save(juniq);
         userRepository.save(mink);

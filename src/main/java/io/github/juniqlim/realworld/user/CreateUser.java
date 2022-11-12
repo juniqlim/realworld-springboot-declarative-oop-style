@@ -18,7 +18,7 @@ public class CreateUser {
     }
 
     public User user(Request request) {
-        User user = request.user(new Jwt.Jws(privateKey));
+        User user = request.user(new Jwt.Jws(privateKey), userRepository.findSequence());
         userRepository.save(user);
         return user;
     }
@@ -34,8 +34,8 @@ public class CreateUser {
             this.password = password;
         }
 
-        public User user(Jwt token) {
-            return new User(token.token(), password, username, email);
+        public User user(Jwt token, long sequence) {
+            return new User(sequence, token.token(), password, username, email);
         }
     }
 }

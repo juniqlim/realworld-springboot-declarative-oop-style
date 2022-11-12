@@ -9,7 +9,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 public class UserRepositoryTest {
     @Test
     void save() {
-        User user = new User(Jwt.FAKE.token(), "123", "Jacob", "jake@jake.jake");
+        User user = new User(1, Jwt.FAKE.token(), "123", "Jacob", "jake@jake.jake");
 
         UserRepository userRepository = new UserRepository.Collection();
         userRepository.save(user);

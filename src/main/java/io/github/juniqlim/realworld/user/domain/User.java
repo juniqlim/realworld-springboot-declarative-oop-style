@@ -5,6 +5,7 @@ import java.util.Collection;
 import java.util.Objects;
 
 public class User {
+    private final long id;
     private final String token;
     private final String password;
     private final String username;
@@ -13,11 +14,12 @@ public class User {
     private final String image;
     private final Collection<String> follows;
 
-    public User(String token, String password, String username, String email) {
-        this(token, password, username, email, null, null);
+    public User(long id, String token, String password, String username, String email) {
+        this(id, token, password, username, email, null, null);
     }
 
-    public User(String token, String password, String username, String email, String bio, String image) {
+    public User(long id, String token, String password, String username, String email, String bio, String image) {
+        this.id = id;
         this.token = token;
         this.password = password;
         this.username = username;
@@ -77,7 +79,7 @@ public class User {
     }
 
     public User update(String email, String password, String username, String bio, String image) {
-        return new User(token, password, username, email, bio, image);
+        return new User(id, token, password, username, email, bio, image);
     }
 
     public void follow(String jwsToken) {
