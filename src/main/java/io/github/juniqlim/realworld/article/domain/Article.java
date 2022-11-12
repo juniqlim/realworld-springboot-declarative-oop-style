@@ -15,12 +15,14 @@ public class Article {
     private final List<String> favoriteUserIds;
     private final String authorId;
 
+    private final List<Comment> comments;
+
     public Article(String title, String description, String body, String authorId, List<String> tagList) {
-        this(title, description, body, authorId, tagList, new ArrayList<>());
+        this(title, description, body, authorId, tagList, new ArrayList<>(), new ArrayList<>());
     }
 
     public Article(String title, String description, String body, String authorId, List<String> tagList,
-        List<String> favoriteUserIds) {
+        List<String> favoriteUserIds, List<Comment> comments) {
         this.slug = new Slug(title);
         this.title = title;
         this.description = description;
@@ -30,6 +32,7 @@ public class Article {
         this.updatedAt = LocalDateTime.now();
         this.favoriteUserIds = favoriteUserIds;
         this.authorId = authorId;
+        this.comments = comments;
     }
 
     public String getSlug() {
@@ -81,15 +84,15 @@ public class Article {
     }
 
     public Article updateTitle(String title) {
-        return new Article(title, description, body, authorId, tagList, favoriteUserIds);
+        return new Article(title, description, body, authorId, tagList, favoriteUserIds, comments);
     }
 
     public Article updateDescription(String description) {
-        return new Article(title, description, body, authorId, tagList, favoriteUserIds);
+        return new Article(title, description, body, authorId, tagList, favoriteUserIds, comments);
     }
 
     public Article updateBody(String body) {
-        return new Article(title, description, body, authorId, tagList, favoriteUserIds);
+        return new Article(title, description, body, authorId, tagList, favoriteUserIds, comments);
     }
 
     public boolean equalsTag(String tag) {
@@ -114,6 +117,10 @@ public class Article {
 
     public boolean isFavorite(String userId) {
         return favoriteUserIds.contains(userId);
+    }
+
+    public void addComment(Comment comment) {
+        comments.add(comment);
     }
 
     static class Author {
