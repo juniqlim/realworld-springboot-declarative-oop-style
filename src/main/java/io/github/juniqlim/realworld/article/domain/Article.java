@@ -116,6 +116,10 @@ public class Article {
             .ifPresent(comments::remove);
     }
 
+    public User.Id authorId() {
+        return authorId;
+    }
+
     static class Author {
         private String username;
         private String bio;

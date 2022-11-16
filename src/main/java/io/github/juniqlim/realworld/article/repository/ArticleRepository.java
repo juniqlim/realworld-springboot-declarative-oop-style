@@ -47,6 +47,15 @@ public class ArticleRepository {
         return commentSequence.getAndIncrement();
     }
 
+    public List<Article> findByUserIds(List<User.Id> followUsers, int offset, int limit) {
+        return articles.stream()
+            .sorted((article1, article2) -> article2.compareCreatedAt(article1))
+            .filter(article -> followUsers.contains(article.authorId()))
+            .skip((long) offset * limit)
+            .limit(limit)
+            .collect(Collectors.toList());
+    }
+
     private static class Conditional {
         private final String tag;
         private final User.Id authorId;
