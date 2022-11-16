@@ -23,7 +23,7 @@ public class FindProfile {
     public Profile profile(String jwsToken, String username) {
         User me = userRepository.findByToken(jwsToken);
         User user = userRepository.findByUsername(username);
-        return new Profile(user, me.isFollow(user));
+        return new Profile(user, me.isFollow(user.id()));
     }
 
     public List<Profile> profiles(String jwsToken, List<User.Id> userId) {
@@ -34,7 +34,7 @@ public class FindProfile {
     private List<Profile> getProfiles(List<Id> userId, User me) {
         List<User> users = userRepository.findByIds(userId);
         return users.stream()
-            .map(user -> new Profile(user, me.isFollow(user)))
+            .map(user -> new Profile(user, me.isFollow(user.id())))
             .collect(Collectors.toList());
     }
 

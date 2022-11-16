@@ -12,7 +12,7 @@ public class User {
     private final String email;
     private final String bio;
     private final String image;
-    private final Collection<String> follows;
+    private final Collection<User.Id> follows;
 
     public User(long id, String token, String password, String username, String email) {
         this(new Id(id), token, password, username, email, null, null);
@@ -86,16 +86,20 @@ public class User {
         return new User(id, token, password, username, email, bio, image);
     }
 
-    public void follow(String jwsToken) {
-        follows.add(jwsToken);
+    public void follow(Id userId) {
+        follows.add(userId);
     }
 
-    public boolean isFollow(User user) {
-        return follows.contains(user.token);
+    public boolean isFollow(Id userId) {
+        return follows.contains(userId);
     }
 
-    public void unfollow(String jwsToken) {
-        follows.remove(jwsToken);
+    public void unfollow(Id userId) {
+        follows.remove(userId);
+    }
+
+    public Collection<User.Id> follows() {
+        return follows;
     }
 
     public static class Id {

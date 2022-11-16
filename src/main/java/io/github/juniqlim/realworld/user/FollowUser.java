@@ -16,7 +16,7 @@ public class FollowUser {
     public Profile follow(String jwsToken, String username) {
         User user = userRepository.findByToken(jwsToken);
         User followUser = userRepository.findByUsername(username);
-        user.follow(followUser.token());
+        user.follow(followUser.id());
         return new Profile(followUser, true);
     }
 }

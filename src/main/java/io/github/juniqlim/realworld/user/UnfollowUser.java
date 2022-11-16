@@ -16,7 +16,7 @@ public class UnfollowUser {
     public Profile unfollow(String jwsToken, String username) {
         User user = userRepository.findByToken(jwsToken);
         User followUser = userRepository.findByUsername(username);
-        user.unfollow(followUser.token());
+        user.unfollow(followUser.id());
         return new Profile(followUser, false);
     }
 }
