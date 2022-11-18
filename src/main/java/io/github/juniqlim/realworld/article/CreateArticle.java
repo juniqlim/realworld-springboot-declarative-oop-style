@@ -3,35 +3,39 @@ package io.github.juniqlim.realworld.article;
 import io.github.juniqlim.realworld.article.domain.Article;
 import io.github.juniqlim.realworld.article.domain.Tag;
 import io.github.juniqlim.realworld.article.repository.ArticleRepository;
+import io.github.juniqlim.realworld.user.FindProfile;
 import io.github.juniqlim.realworld.user.FindUser;
+import io.github.juniqlim.realworld.user.domain.Profile;
 import io.github.juniqlim.realworld.user.domain.User;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
+import org.springframework.stereotype.Service;
 
-class CreateArticle {
+@Service
+public class CreateArticle {
     private final ArticleRepository articleRepository;
-    private final FindUser findUser;
+    private final FindProfile findProfile;
     private final TagUseCase tagUseCase;
 
-    CreateArticle(ArticleRepository articleRepository, FindUser findUser, TagUseCase tagUseCase) {
+    CreateArticle(ArticleRepository articleRepository, FindProfile findProfile, TagUseCase tagUseCase) {
         this.articleRepository = articleRepository;
-        this.findUser = findUser;
+        this.findProfile = findProfile;
         this.tagUseCase = tagUseCase;
     }
 
-    Article create(Request request) {
-        User author = findUser.find(request.jwsToken());
+    public ArticleResponse create(Request request) {
+        Profile authorProfile = findProfile.profile(request.jwsToken());
         tagUseCase.merges(request.tags());
-        Article article = new Article(request.title(), request.description(), request.body(), author.id(),
+        Article article = new Article(request.title(), request.description(), request.body(), authorProfile.userId(),
             request.tags().stream()
                 .map(Tag::new)
                 .collect(Collectors.toList()));
         articleRepository.save(article);
-        return article;
+        return new ArticleResponse(article, authorProfile);
     }
 
-    static class Request {
+    public static class Request {
         private final String title;
         private final String description;
         private final String body;

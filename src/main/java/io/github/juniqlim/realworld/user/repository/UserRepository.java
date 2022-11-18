@@ -10,6 +10,7 @@ import org.springframework.stereotype.Repository;
 
 public interface UserRepository {
     void save(User user);
+    User findById(Id userId);
     User findByEmail(String email);
     User findByUsername(String username);
     User findByToken(String token);
@@ -17,12 +18,21 @@ public interface UserRepository {
     long findSequence();
     List<User> findByIds(List<User.Id> userIds);
 
+
     @Repository
     class Collection implements UserRepository {
         private final List<User> users = new ArrayList<>();
         private final AtomicLong sequence = new AtomicLong(0);
         public void save(User user) {
             users.add(user);
+        }
+
+        @Override
+        public User findById(Id userId) {
+            return users.stream()
+                .filter(user -> user.equalsId(userId))
+                .findFirst()
+                .orElseThrow(() -> new IllegalArgumentException("User not found"));
         }
 
         public User findByToken(String token) {

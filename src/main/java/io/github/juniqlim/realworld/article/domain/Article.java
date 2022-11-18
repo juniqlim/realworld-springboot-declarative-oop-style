@@ -1,9 +1,11 @@
 package io.github.juniqlim.realworld.article.domain;
 
 import io.github.juniqlim.realworld.user.domain.User;
+import io.github.juniqlim.realworld.user.domain.User.Id;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 public class Article {
     private final Slug slug;
@@ -118,6 +120,20 @@ public class Article {
 
     public User.Id authorId() {
         return authorId;
+    }
+
+    public List<String> tagList() {
+        return tags.stream()
+            .map(tag -> tag.value())
+            .collect(Collectors.toList());
+    }
+
+    public LocalDateTime updatedAt() {
+        return updatedAt;
+    }
+
+    public boolean favorited(Id userId) {
+        return favoriteUserIds.contains(userId);
     }
 
     static class Author {

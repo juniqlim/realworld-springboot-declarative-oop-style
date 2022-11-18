@@ -66,6 +66,10 @@ public class User {
         return Objects.hash(token, password, username, email, bio, image);
     }
 
+    public boolean equalsId(User.Id id) {
+        return this.id.equals(id);
+    }
+
     public boolean equalsToken(String token) {
         return this.token.equals(token);
     }

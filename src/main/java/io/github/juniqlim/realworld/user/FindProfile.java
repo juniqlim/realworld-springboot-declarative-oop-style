@@ -26,6 +26,12 @@ public class FindProfile {
         return new Profile(user, me.isFollow(user.id()));
     }
 
+    public Profile profile(String jwsToken, User.Id userId) {
+        User me = userRepository.findByToken(jwsToken);
+        User user = userRepository.findById(userId);
+        return new Profile(user, me.isFollow(user.id()));
+    }
+
     public List<Profile> profiles(String jwsToken, List<User.Id> userId) {
         User me = userRepository.findByToken(jwsToken);
         return getProfiles(userId, me);

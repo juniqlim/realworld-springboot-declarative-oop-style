@@ -4,7 +4,9 @@ import io.github.juniqlim.realworld.article.domain.Tag;
 import io.github.juniqlim.realworld.article.repository.TagRepository;
 import java.util.List;
 import java.util.stream.Collectors;
+import org.springframework.stereotype.Service;
 
+@Service
 class TagUseCase {
     private final TagRepository tagRepository;
 

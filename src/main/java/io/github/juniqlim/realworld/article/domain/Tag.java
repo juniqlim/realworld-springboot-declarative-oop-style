@@ -25,4 +25,8 @@ public class Tag {
     public int hashCode() {
         return Objects.hash(value);
     }
+
+    public String value() {
+        return value;
+    }
 }
