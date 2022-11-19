@@ -25,8 +25,20 @@ public class Profile {
         return this.userId.equals(userId);
     }
 
+    public Id userId() {
+        return userId;
+    }
+
     public String username() {
         return username;
+    }
+
+    public String bio() {
+        return bio;
+    }
+
+    public String image() {
+        return image;
     }
 
     public boolean isFollowing() {

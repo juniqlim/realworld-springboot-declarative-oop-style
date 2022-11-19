@@ -3,7 +3,9 @@ package io.github.juniqlim.realworld.article.repository;
 import io.github.juniqlim.realworld.article.domain.Tag;
 import java.util.ArrayList;
 import java.util.List;
+import org.springframework.stereotype.Repository;
 
+@Repository
 public class TagRepository {
     private final List<Tag> tags = new ArrayList<>();
 

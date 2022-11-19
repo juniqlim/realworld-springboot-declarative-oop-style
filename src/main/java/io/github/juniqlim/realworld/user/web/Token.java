@@ -3,7 +3,7 @@ package io.github.juniqlim.realworld.user.web;
 import io.github.juniqlim.object.jwt.VerifiedJwt;
 import java.security.PublicKey;
 
-class Token {
+public class Token {
     private final PublicKey publicKey;
     private final String value;
 
