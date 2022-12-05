@@ -124,7 +124,7 @@ public class Article {
 
     public List<String> tagList() {
         return tags.stream()
-            .map(tag -> tag.value())
+            .map(Tag::value)
             .collect(Collectors.toList());
     }
 

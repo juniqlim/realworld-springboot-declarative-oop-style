@@ -15,7 +15,7 @@ public class CreateArticleController {
     private final CreateArticle createArticle;
     private final PublicKey publicKey;
 
-    CreateArticleController(CreateArticle createArticle, PublicKey publicKey) {
+    public CreateArticleController(CreateArticle createArticle, PublicKey publicKey) {
         this.createArticle = createArticle;
         this.publicKey = publicKey;
     }
@@ -68,7 +68,7 @@ public class CreateArticleController {
             this.article = article;
         }
 
-        ArticleResponse getArticle() {
+        public ArticleResponse getArticle() {
             return article;
         }
     }
