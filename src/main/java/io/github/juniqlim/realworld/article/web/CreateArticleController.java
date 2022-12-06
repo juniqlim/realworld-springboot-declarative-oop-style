@@ -1,7 +1,7 @@
 package io.github.juniqlim.realworld.article.web;
 
-import io.github.juniqlim.realworld.article.ArticleResponse;
 import io.github.juniqlim.realworld.article.CreateArticle;
+import io.github.juniqlim.realworld.user.FindProfile;
 import io.github.juniqlim.realworld.user.web.Token;
 import java.security.PublicKey;
 import java.util.List;
@@ -13,17 +13,22 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 public class CreateArticleController {
     private final CreateArticle createArticle;
+    private final FindProfile findProfile;
     private final PublicKey publicKey;
 
-    public CreateArticleController(CreateArticle createArticle, PublicKey publicKey) {
+    CreateArticleController(CreateArticle createArticle, FindProfile findProfile, PublicKey publicKey) {
         this.createArticle = createArticle;
+        this.findProfile = findProfile;
         this.publicKey = publicKey;
     }
 
     @PostMapping("/api/articles")
     public Response articles(@RequestHeader("Authorization") String token, @RequestBody Request request) {
-        ArticleResponse articleResponse = createArticle.create(request.createArticleRequest(new Token(publicKey, token).jwsToken()));
-        return new Response(articleResponse);
+        String jwsToken = new Token(publicKey, token).jwsToken();
+        return new Response(new ArticleResponse(
+            createArticle.create(request.createArticleRequest(jwsToken)),
+            findProfile.profile(jwsToken))
+        );
     }
 
     private static class Request {
