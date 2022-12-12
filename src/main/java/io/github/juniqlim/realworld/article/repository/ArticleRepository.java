@@ -24,6 +24,13 @@ public class ArticleRepository {
             .orElseThrow(() -> new RuntimeException("Article not found"));
     }
 
+    public Article findBySlugAndUserId(String slug, User.Id userId) {
+        return articles.stream()
+            .filter(article -> article.equalsSlugAndAuthorId(slug, userId))
+            .findFirst()
+            .orElseThrow(() -> new RuntimeException("Article not found"));
+    }
+
     public void update(String slug, Article article) {
         articles.removeIf(a -> a.equalsSlug(slug));
         articles.add(article);
@@ -39,8 +46,8 @@ public class ArticleRepository {
             .collect(Collectors.toList());
     }
 
-    public void delete(String slug) {
-        articles.removeIf(article -> article.equalsSlug(slug));
+    public void delete(String slug, User.Id userId) {
+        articles.remove(findBySlugAndUserId(slug, userId));
     }
 
     public long findCommentSequence() {

@@ -5,6 +5,7 @@ import static org.junit.jupiter.api.Assertions.assertThrowsExactly;
 import autoparams.AutoSource;
 import io.github.juniqlim.realworld.article.domain.Article;
 import io.github.juniqlim.realworld.article.repository.ArticleRepository;
+import io.github.juniqlim.realworld.user.web.Token;
 import org.junit.jupiter.params.ParameterizedTest;
 
 class DeleteArticleTest {
@@ -14,7 +15,8 @@ class DeleteArticleTest {
         ArticleRepository articleRepository = new ArticleRepository();
         articleRepository.save(article);
 
-        new DeleteArticle(articleRepository).delete(article.slug());
+        new DeleteArticle(articleRepository).delete(article.slug(),
+            article.authorId());
         assertThrowsExactly(RuntimeException.class, () -> articleRepository.findBySlug(article.slug()),
             "Article not found");
     }
