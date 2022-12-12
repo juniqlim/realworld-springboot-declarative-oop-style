@@ -2,15 +2,17 @@ package io.github.juniqlim.realworld.article;
 
 import io.github.juniqlim.realworld.article.domain.Article;
 import io.github.juniqlim.realworld.article.repository.ArticleRepository;
+import org.springframework.stereotype.Service;
 
-class UpdateArticle {
+@Service
+public class UpdateArticle {
     private final ArticleRepository articleRepository;
 
     UpdateArticle(ArticleRepository articleRepository) {
         this.articleRepository = articleRepository;
     }
 
-    Article update(Request request) {
+    public Article update(Request request) {
         String slug = request.getSlug();
         Article article = articleRepository.findBySlug(slug);
         if (request.getTitle() != null) {
@@ -26,13 +28,15 @@ class UpdateArticle {
         return article;
     }
 
-    static class Request {
+    public static class Request {
+        private final String jwsToken;
         private final String slug;
         private final String title;
         private final String description;
         private final String body;
 
-        public Request(String slug, String title, String description, String body) {
+        private Request(String jwsToken, String slug, String title, String description, String body) {
+            this.jwsToken = jwsToken;
             this.slug = slug;
             this.title = title;
             this.description = description;
@@ -40,6 +44,7 @@ class UpdateArticle {
         }
 
         private Request(Builder builder) {
+            this.jwsToken = builder.jwsToken;
             this.slug = builder.slug;
             this.title = builder.title;
             this.description = builder.description;
@@ -47,10 +52,16 @@ class UpdateArticle {
         }
 
         public static class Builder {
+            public String jwsToken;
             public String slug;
             private String title;
             private String description;
             private String body;
+
+            public Builder jwsToken(String jwsToken) {
+                this.jwsToken = jwsToken;
+                return this;
+            }
 
             public Builder slug(String slug) {
                 this.slug = slug;
@@ -75,6 +86,10 @@ class UpdateArticle {
             public Request build() {
                 return new Request(this);
             }
+        }
+
+        public String getJwsToken() {
+            return jwsToken;
         }
 
         public String getSlug() {
