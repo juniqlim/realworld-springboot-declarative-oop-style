@@ -44,8 +44,12 @@ public class FindProfile {
             .collect(Collectors.toList());
     }
 
-    public List<Profile> profiles(List<User.Id> userId) {
-        List<User> users = userRepository.findByIds(userId);
+    public Profile profile(User.Id userId) {
+        return new Profile(userRepository.findById(userId), false);
+    }
+
+    public List<Profile> profiles(List<User.Id> userIds) {
+        List<User> users = userRepository.findByIds(userIds);
         return users.stream()
             .map(user -> new Profile(user, false))
             .collect(Collectors.toList());

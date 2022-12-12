@@ -8,7 +8,7 @@ import java.util.List;
 import org.springframework.stereotype.Service;
 
 @Service
-class FindArticle {
+public class FindArticle {
     private final ArticleRepository articleRepository;
     private final FindUser findUser;
 
