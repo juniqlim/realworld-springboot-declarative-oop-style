@@ -2,6 +2,7 @@ package io.github.juniqlim.realworld.article;
 
 import io.github.juniqlim.realworld.article.domain.Article;
 import io.github.juniqlim.realworld.article.repository.ArticleRepository;
+import io.github.juniqlim.realworld.user.domain.User;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -14,7 +15,7 @@ public class UpdateArticle {
 
     public Article update(Request request) {
         String slug = request.getSlug();
-        Article article = articleRepository.findBySlug(slug);
+        Article article = articleRepository.findBySlugAndUserId(slug, request.getUserId());
         if (request.getTitle() != null) {
             article = article.updateTitle(request.getTitle());
         }
@@ -29,14 +30,14 @@ public class UpdateArticle {
     }
 
     public static class Request {
-        private final String jwsToken;
+        private final User.Id userId;
         private final String slug;
         private final String title;
         private final String description;
         private final String body;
 
-        private Request(String jwsToken, String slug, String title, String description, String body) {
-            this.jwsToken = jwsToken;
+        public Request(User.Id userId, String slug, String title, String description, String body) {
+            this.userId = userId;
             this.slug = slug;
             this.title = title;
             this.description = description;
@@ -44,7 +45,7 @@ public class UpdateArticle {
         }
 
         private Request(Builder builder) {
-            this.jwsToken = builder.jwsToken;
+            this.userId = builder.userId;
             this.slug = builder.slug;
             this.title = builder.title;
             this.description = builder.description;
@@ -52,14 +53,14 @@ public class UpdateArticle {
         }
 
         public static class Builder {
-            public String jwsToken;
+            public User.Id userId;
             public String slug;
             private String title;
             private String description;
             private String body;
 
-            public Builder jwsToken(String jwsToken) {
-                this.jwsToken = jwsToken;
+            public Builder userId(User.Id userId) {
+                this.userId = userId;
                 return this;
             }
 
@@ -88,8 +89,8 @@ public class UpdateArticle {
             }
         }
 
-        public String getJwsToken() {
-            return jwsToken;
+        public User.Id getUserId() {
+            return userId;
         }
 
         public String getSlug() {

@@ -3,6 +3,7 @@ package io.github.juniqlim.realworld.article.web;
 import io.github.juniqlim.realworld.article.UpdateArticle;
 import io.github.juniqlim.realworld.article.UpdateArticle.Request.Builder;
 import io.github.juniqlim.realworld.user.FindProfile;
+import io.github.juniqlim.realworld.user.domain.Profile;
 import io.github.juniqlim.realworld.user.web.Token;
 import java.security.PublicKey;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -26,16 +27,16 @@ public class UpdateArticleController {
     @PutMapping("/api/articles/{slug}")
     public Response articles(@RequestHeader("Authorization") String token, @PathVariable("slug") String slug,
         @RequestBody Request request) {
-        String jwsToken = new Token(publicKey, token).jwsToken();
-        return new Response(new ArticleResponse(
-            updateArticle.update(new Builder()
-                .jwsToken(new Token(publicKey, token).jwsToken())
-                .slug(slug)
-                .title(request.getArticle().getTitle())
-                .description(request.getArticle().getDescription())
-                .body(request.getArticle().getBody())
-                .build()),
-            findProfile.profile(jwsToken))
+        Profile profile = findProfile.profile(new Token(publicKey, token).jwsToken());
+        UpdateArticle.Request updateRequest = new Builder()
+            .userId(profile.userId())
+            .slug(slug)
+            .title(request.getArticle().getTitle())
+            .description(request.getArticle().getDescription())
+            .body(request.getArticle().getBody())
+            .build();
+        return new Response(
+            new ArticleResponse(updateArticle.update(updateRequest), profile)
         );
     }
 
