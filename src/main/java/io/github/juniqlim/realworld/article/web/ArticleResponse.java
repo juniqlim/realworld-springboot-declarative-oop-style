@@ -4,7 +4,7 @@ import io.github.juniqlim.realworld.user.domain.Profile;
 import java.time.LocalDateTime;
 import java.util.List;
 
-class ArticleResponse {
+public class ArticleResponse {
     private final String slug;
     private final String title;
     private final String description;
@@ -16,7 +16,7 @@ class ArticleResponse {
     private final int favoritesCount;
     private final Author author;
 
-    ArticleResponse(io.github.juniqlim.realworld.article.domain.Article article, Profile profile) {
+    public ArticleResponse(io.github.juniqlim.realworld.article.domain.Article article, Profile profile) {
         this(article.slug(), article.title(), article.description(), article.body(), article.tagList(),
             article.createdAt(), article.updatedAt(), article.favorited(profile.userId()), article.favoritesCount(),
             new Author(profile));
