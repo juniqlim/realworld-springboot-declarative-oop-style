@@ -22,7 +22,7 @@ public class CreateArticle {
         this.tagUseCase = tagUseCase;
     }
 
-    public ArticleResponse create(Request request) {
+    public Article create(Request request) {
         Profile authorProfile = findProfile.profile(request.jwsToken());
         tagUseCase.merges(request.tags());
         Article article = new Article(request.title(), request.description(), request.body(), authorProfile.userId(),
@@ -30,7 +30,7 @@ public class CreateArticle {
                 .map(Tag::new)
                 .collect(Collectors.toList()));
         articleRepository.save(article);
-        return new ArticleResponse(article, authorProfile);
+        return article;
     }
 
     public static class Request {

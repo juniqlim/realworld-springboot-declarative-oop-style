@@ -1,33 +1,42 @@
 package io.github.juniqlim.realworld.article.web;
 
-import io.github.juniqlim.realworld.article.CreateArticle;
+import io.github.juniqlim.realworld.article.UpdateArticle;
+import io.github.juniqlim.realworld.article.UpdateArticle.Request.Builder;
 import io.github.juniqlim.realworld.user.FindProfile;
+import io.github.juniqlim.realworld.user.domain.Profile;
 import io.github.juniqlim.realworld.user.web.Token;
 import java.security.PublicKey;
-import java.util.List;
-import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-public class CreateArticleController {
-    private final CreateArticle createArticle;
+public class UpdateArticleController {
+    private final UpdateArticle updateArticle;
     private final FindProfile findProfile;
     private final PublicKey publicKey;
 
-    CreateArticleController(CreateArticle createArticle, FindProfile findProfile, PublicKey publicKey) {
-        this.createArticle = createArticle;
+    UpdateArticleController(UpdateArticle updateArticle, FindProfile findProfile, PublicKey publicKey) {
+        this.updateArticle = updateArticle;
         this.findProfile = findProfile;
         this.publicKey = publicKey;
     }
 
-    @PostMapping("/api/articles")
-    public Response articles(@RequestHeader("Authorization") String token, @RequestBody Request request) {
-        String jwsToken = new Token(publicKey, token).jwsToken();
-        return new Response(new ArticleResponse(
-            createArticle.create(request.createArticleRequest(jwsToken)),
-            findProfile.profile(jwsToken))
+    @PutMapping("/api/articles/{slug}")
+    public Response articles(@RequestHeader("Authorization") String token, @PathVariable("slug") String slug,
+        @RequestBody Request request) {
+        Profile profile = findProfile.profile(new Token(publicKey, token).jwsToken());
+        UpdateArticle.Request updateRequest = new Builder()
+            .userId(profile.userId())
+            .slug(slug)
+            .title(request.getArticle().getTitle())
+            .description(request.getArticle().getDescription())
+            .body(request.getArticle().getBody())
+            .build();
+        return new Response(
+            new ArticleResponse(updateArticle.update(updateRequest), profile)
         );
     }
 
@@ -38,15 +47,10 @@ public class CreateArticleController {
             return article;
         }
 
-        private CreateArticle.Request createArticleRequest(String jwsToken) {
-            return new CreateArticle.Request(article.getTitle(), article.getDescription(), article.getBody(), jwsToken, article.getTagList());
-        }
-
         private static class Article {
             private String title;
             private String description;
             private String body;
-            private List<String> tagList;
 
             public String getTitle() {
                 return title;
@@ -58,10 +62,6 @@ public class CreateArticleController {
 
             public String getBody() {
                 return body;
-            }
-
-            public List<String> getTagList() {
-                return tagList;
             }
         }
     }

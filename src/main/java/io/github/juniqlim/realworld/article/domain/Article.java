@@ -90,6 +90,10 @@ public class Article {
         return this.authorId.equals(authorId);
     }
 
+    public boolean equalsSlugAndAuthorId(String slug, User.Id authorId) {
+        return equalsSlug(slug) && equalsAuthorId(authorId);
+    }
+
     public int compareCreatedAt(Article article) {
         return createdAt.compareTo(article.createdAt());
     }

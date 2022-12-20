@@ -1,4 +1,4 @@
-package io.github.juniqlim.realworld.article;
+package io.github.juniqlim.realworld.article.web;
 
 import io.github.juniqlim.realworld.user.domain.Profile;
 import java.time.LocalDateTime;
@@ -22,7 +22,7 @@ public class ArticleResponse {
             new Author(profile));
     }
 
-    public ArticleResponse(String slug, String title, String description, String body, List<String> tagList,
+    ArticleResponse(String slug, String title, String description, String body, List<String> tagList,
         LocalDateTime createdAt, LocalDateTime updatedAt, boolean favorited, int favoritesCount, Author author) {
         this.slug = slug;
         this.title = title;

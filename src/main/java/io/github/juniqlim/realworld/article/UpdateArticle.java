@@ -2,17 +2,20 @@ package io.github.juniqlim.realworld.article;
 
 import io.github.juniqlim.realworld.article.domain.Article;
 import io.github.juniqlim.realworld.article.repository.ArticleRepository;
+import io.github.juniqlim.realworld.user.domain.User;
+import org.springframework.stereotype.Service;
 
-class UpdateArticle {
+@Service
+public class UpdateArticle {
     private final ArticleRepository articleRepository;
 
     UpdateArticle(ArticleRepository articleRepository) {
         this.articleRepository = articleRepository;
     }
 
-    Article update(Request request) {
+    public Article update(Request request) {
         String slug = request.getSlug();
-        Article article = articleRepository.findBySlug(slug);
+        Article article = articleRepository.findBySlugAndUserId(slug, request.getUserId());
         if (request.getTitle() != null) {
             article = article.updateTitle(request.getTitle());
         }
@@ -26,13 +29,15 @@ class UpdateArticle {
         return article;
     }
 
-    static class Request {
+    public static class Request {
+        private final User.Id userId;
         private final String slug;
         private final String title;
         private final String description;
         private final String body;
 
-        public Request(String slug, String title, String description, String body) {
+        public Request(User.Id userId, String slug, String title, String description, String body) {
+            this.userId = userId;
             this.slug = slug;
             this.title = title;
             this.description = description;
@@ -40,6 +45,7 @@ class UpdateArticle {
         }
 
         private Request(Builder builder) {
+            this.userId = builder.userId;
             this.slug = builder.slug;
             this.title = builder.title;
             this.description = builder.description;
@@ -47,10 +53,16 @@ class UpdateArticle {
         }
 
         public static class Builder {
+            public User.Id userId;
             public String slug;
             private String title;
             private String description;
             private String body;
+
+            public Builder userId(User.Id userId) {
+                this.userId = userId;
+                return this;
+            }
 
             public Builder slug(String slug) {
                 this.slug = slug;
@@ -75,6 +87,10 @@ class UpdateArticle {
             public Request build() {
                 return new Request(this);
             }
+        }
+
+        public User.Id getUserId() {
+            return userId;
         }
 
         public String getSlug() {

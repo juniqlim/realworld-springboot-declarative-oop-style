@@ -23,7 +23,7 @@ class UpdateArticleTest {
     @Test
     void test() {
         Article update = new UpdateArticle(articleRepository).update(
-            new Builder().slug("how-to-train-your-dragon").title("title-dragon").description("description").body("body")
+            new Builder().userId(new User.Id(1)).slug("how-to-train-your-dragon").title("title-dragon").description("description").body("body")
                 .build());
 
         assertEquals("title-dragon", update.title());
