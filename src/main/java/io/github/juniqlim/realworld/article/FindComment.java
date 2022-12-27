@@ -3,7 +3,7 @@ package io.github.juniqlim.realworld.article;
 import io.github.juniqlim.realworld.article.domain.Article;
 import io.github.juniqlim.realworld.article.domain.Comment;
 import io.github.juniqlim.realworld.article.repository.ArticleRepository;
-import io.github.juniqlim.realworld.user.FindProfile;
+import io.github.juniqlim.realworld.user.FindUser;
 import io.github.juniqlim.realworld.user.domain.Profile;
 import io.github.juniqlim.realworld.user.domain.User;
 import java.time.LocalDateTime;
@@ -12,20 +12,23 @@ import java.util.stream.Collectors;
 
 class FindComment {
     private final ArticleRepository articleRepository;
-    private final FindProfile findProfile;
+    private final FindUser findUser;
 
-    public FindComment(ArticleRepository articleRepository, FindProfile findProfile) {
+    FindComment(ArticleRepository articleRepository, FindUser findUser) {
         this.articleRepository = articleRepository;
-        this.findProfile = findProfile;
+        this.findUser = findUser;
     }
 
     public List<ResultComment> comments(String slug, String jwsToken) {
+        User.Id finderId = findUser.find(jwsToken).id();
         Article article = articleRepository.findBySlug(slug);
         List<Comment> comments = article.comments();
         List<User.Id> userIds = comments.stream()
             .map(Comment::userId)
             .collect(Collectors.toList());
-        List<Profile> profiles = findProfile.profiles(jwsToken, userIds);
+        List<Profile> profiles = findUser.findList(userIds).stream()
+            .map(user -> user.profile(finderId))
+            .collect(Collectors.toList());
 
         return comments.stream()
             .map(comment -> {

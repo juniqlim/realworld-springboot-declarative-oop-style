@@ -5,7 +5,6 @@ import static java.util.stream.Collectors.toList;
 import io.github.juniqlim.realworld.article.domain.Article;
 import io.github.juniqlim.realworld.article.repository.ArticleRepository;
 import io.github.juniqlim.realworld.article.web.ArticleResponse;
-import io.github.juniqlim.realworld.user.FindProfile;
 import io.github.juniqlim.realworld.user.FindUser;
 import io.github.juniqlim.realworld.user.domain.User;
 import java.util.List;
@@ -15,12 +14,10 @@ import org.springframework.stereotype.Service;
 public class FindArticleResponse {
     private final ArticleRepository articleRepository;
     private final FindUser findUser;
-    private final FindProfile findProfile;
 
-    FindArticleResponse(ArticleRepository articleRepository, FindUser findUser, FindProfile findProfile) {
+    public FindArticleResponse(ArticleRepository articleRepository, FindUser findUser) {
         this.articleRepository = articleRepository;
         this.findUser = findUser;
-        this.findProfile = findProfile;
     }
 
     public Article find(String slug) {
@@ -33,7 +30,7 @@ public class FindArticleResponse {
             request.offset(), request.limit());
 
         return articles.stream()
-            .map(article -> new ArticleResponse(article, findProfile.profile(request.jwtToken(), article.authorId())))
+            .map(article -> new ArticleResponse(article, findUser.find(request.jwtToken()).profile(article.authorId())))
             .collect(toList());
     }
 

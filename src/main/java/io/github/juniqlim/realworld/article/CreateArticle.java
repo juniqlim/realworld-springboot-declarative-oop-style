@@ -3,8 +3,8 @@ package io.github.juniqlim.realworld.article;
 import io.github.juniqlim.realworld.article.domain.Article;
 import io.github.juniqlim.realworld.article.domain.Tag;
 import io.github.juniqlim.realworld.article.repository.ArticleRepository;
-import io.github.juniqlim.realworld.user.FindProfile;
-import io.github.juniqlim.realworld.user.domain.Profile;
+import io.github.juniqlim.realworld.user.FindUser;
+import io.github.juniqlim.realworld.user.domain.User;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -13,19 +13,19 @@ import org.springframework.stereotype.Service;
 @Service
 public class CreateArticle {
     private final ArticleRepository articleRepository;
-    private final FindProfile findProfile;
+    private final FindUser findUser;
     private final TagUseCase tagUseCase;
 
-    CreateArticle(ArticleRepository articleRepository, FindProfile findProfile, TagUseCase tagUseCase) {
+    public CreateArticle(ArticleRepository articleRepository, FindUser findUser, TagUseCase tagUseCase) {
         this.articleRepository = articleRepository;
-        this.findProfile = findProfile;
+        this.findUser = findUser;
         this.tagUseCase = tagUseCase;
     }
 
     public Article create(Request request) {
-        Profile authorProfile = findProfile.profile(request.jwsToken());
+        User authorUser = findUser.find(request.jwsToken());
         tagUseCase.merges(request.tags());
-        Article article = new Article(request.title(), request.description(), request.body(), authorProfile.userId(),
+        Article article = new Article(request.title(), request.description(), request.body(), authorUser.id(),
             request.tags().stream()
                 .map(Tag::new)
                 .collect(Collectors.toList()));

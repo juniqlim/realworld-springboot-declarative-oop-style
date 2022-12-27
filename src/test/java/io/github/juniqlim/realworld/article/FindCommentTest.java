@@ -8,8 +8,9 @@ import autoparams.AutoSource;
 import io.github.juniqlim.realworld.TestRepository;
 import io.github.juniqlim.realworld.article.FindComment.ResultComment;
 import io.github.juniqlim.realworld.article.repository.ArticleRepository;
-import io.github.juniqlim.realworld.user.FindProfile;
+import io.github.juniqlim.realworld.user.FindUser;
 import io.github.juniqlim.realworld.user.FollowUser;
+import io.github.juniqlim.realworld.user.domain.Profile;
 import io.github.juniqlim.realworld.user.domain.User;
 import io.github.juniqlim.realworld.user.repository.UserRepository;
 import io.github.juniqlim.realworld.user.repository.UserRepository.Collection;
@@ -29,11 +30,12 @@ class FindCommentTest {
         User mink = userRepository.findByUsername("mink");
         new FollowUser(userRepository).follow(mink.token(), "juniq");
 
-        List<ResultComment> comments = new FindComment(articleRepository, new FindProfile(userRepository)).comments(
+        List<ResultComment> comments = new FindComment(articleRepository, new FindUser(userRepository)).comments(
             "learn-elm", mink.token());
 
         assertEquals(2, comments.size());
         assertFalse(comments.get(0).getAuthor().isFollowing());
+        Profile author = comments.get(1).getAuthor();
         assertTrue(comments.get(1).getAuthor().isFollowing());
     }
 }

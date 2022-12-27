@@ -48,9 +48,9 @@ public class TestRepository {
         Article jakeArticle = new Article("How to train your dragon", "Ever wonder how?", "You have to believe",
             jake.id(), null);
         Article juniqArticle = new Article("Good day", "So toothless", "You have to believe",
-            new Id(2), null);
+            juniq.id(), null);
         Article minkArticle = new Article("Learn Elm", "learn", "It's like a functional language",
-            new Id(3), null);
+            mink.id(), null);
         jakeArticle.addComment(new Comment(articleRepository.findCommentSequence(), "It's easy", juniq.id()));
         juniqArticle.addComment(new Comment(articleRepository.findCommentSequence(), "It's good", mink.id()));
         minkArticle.addComment(new Comment(articleRepository.findCommentSequence(), "It's hard", jake.id()));

@@ -1,7 +1,7 @@
 package io.github.juniqlim.realworld.user.web;
 
 import io.github.juniqlim.object.jwt.VerifiedJwt;
-import io.github.juniqlim.realworld.user.FindProfile;
+import io.github.juniqlim.realworld.user.FindUser;
 import io.github.juniqlim.realworld.user.domain.Profile;
 import io.github.juniqlim.realworld.user.domain.User;
 import java.security.PublicKey;
@@ -12,17 +12,17 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 public class FindProfileController {
-    private final FindProfile findProfile;
+    private final FindUser findUser;
     private final PublicKey publicKey;
 
-    public FindProfileController(FindProfile findProfile, PublicKey publicKey) {
-        this.findProfile = findProfile;
+    FindProfileController(FindUser findUser, PublicKey publicKey) {
+        this.findUser = findUser;
         this.publicKey = publicKey;
     }
 
     @GetMapping("/api/profiles/{username}")
     public Response profile(@RequestHeader("Authorization") String token, @PathVariable("username") String username) {
-        return new Response(findProfile.profile(new Token(publicKey, token).jwsToken(), username));
+        return new Response(findUser.find(new Token(publicKey, token).jwsToken()).profile(findUser.findByUsername(username).id()));
     }
 
     private static class Response {

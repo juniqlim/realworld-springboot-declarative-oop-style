@@ -2,8 +2,8 @@ package io.github.juniqlim.realworld.article.web;
 
 import io.github.juniqlim.realworld.article.UpdateArticle;
 import io.github.juniqlim.realworld.article.UpdateArticle.Request.Builder;
-import io.github.juniqlim.realworld.user.FindProfile;
-import io.github.juniqlim.realworld.user.domain.Profile;
+import io.github.juniqlim.realworld.user.FindUser;
+import io.github.juniqlim.realworld.user.domain.User;
 import io.github.juniqlim.realworld.user.web.Token;
 import java.security.PublicKey;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -15,28 +15,28 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 public class UpdateArticleController {
     private final UpdateArticle updateArticle;
-    private final FindProfile findProfile;
+    private final FindUser findUser;
     private final PublicKey publicKey;
 
-    UpdateArticleController(UpdateArticle updateArticle, FindProfile findProfile, PublicKey publicKey) {
+    UpdateArticleController(UpdateArticle updateArticle, FindUser findUser, PublicKey publicKey) {
         this.updateArticle = updateArticle;
-        this.findProfile = findProfile;
+        this.findUser = findUser;
         this.publicKey = publicKey;
     }
 
     @PutMapping("/api/articles/{slug}")
     public Response articles(@RequestHeader("Authorization") String token, @PathVariable("slug") String slug,
         @RequestBody Request request) {
-        Profile profile = findProfile.profile(new Token(publicKey, token).jwsToken());
+        User user = findUser.find(new Token(publicKey, token).jwsToken());
         UpdateArticle.Request updateRequest = new Builder()
-            .userId(profile.userId())
+            .userId(user.id())
             .slug(slug)
             .title(request.getArticle().getTitle())
             .description(request.getArticle().getDescription())
             .body(request.getArticle().getBody())
             .build();
         return new Response(
-            new ArticleResponse(updateArticle.update(updateRequest), profile)
+            new ArticleResponse(updateArticle.update(updateRequest), user.profile())
         );
     }
 

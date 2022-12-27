@@ -106,6 +106,14 @@ public class User {
         return follows;
     }
 
+    public Profile profile() {
+        return new Profile(id, username, bio, image, false);
+    }
+
+    public Profile profile(User.Id selecterId) {
+        return new Profile(id, username, bio, image, follows.contains(selecterId));
+    }
+
     public static class Id {
         private final long value;
 

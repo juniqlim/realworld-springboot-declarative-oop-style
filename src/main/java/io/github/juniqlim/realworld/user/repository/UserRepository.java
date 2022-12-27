@@ -22,7 +22,7 @@ public interface UserRepository {
     @Repository
     class Collection implements UserRepository {
         private final List<User> users = new ArrayList<>();
-        private final AtomicLong sequence = new AtomicLong(0);
+        private final AtomicLong sequence = new AtomicLong(1);
         public void save(User user) {
             users.add(user);
         }
