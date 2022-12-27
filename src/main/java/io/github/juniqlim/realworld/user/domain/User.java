@@ -13,6 +13,7 @@ public class User {
     private final String bio;
     private final String image;
     private final Collection<User.Id> follows;
+    private final Collection<User.Id> followers;
 
     public User(long id, String token, String password, String username, String email) {
         this(new Id(id), token, password, username, email, null, null);
@@ -27,6 +28,7 @@ public class User {
         this.bio = bio;
         this.image = image;
         this.follows = new ArrayList<>();
+        this.followers = new ArrayList<>();
     }
 
     public Id id() {
@@ -106,12 +108,24 @@ public class User {
         return follows;
     }
 
+    public void addFollower(Id userId) {
+        followers.add(userId);
+    }
+
+    public void removeFollower(Id userId) {
+        followers.remove(userId);
+    }
+
+    public Collection<User.Id> followers() {
+        return followers;
+    }
+
     public Profile profile() {
         return new Profile(id, username, bio, image, false);
     }
 
     public Profile profile(User.Id selecterId) {
-        return new Profile(id, username, bio, image, follows.contains(selecterId));
+        return new Profile(id, username, bio, image, followers.contains(selecterId));
     }
 
     public static class Id {

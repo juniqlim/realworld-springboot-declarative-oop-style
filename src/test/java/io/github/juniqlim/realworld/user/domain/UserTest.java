@@ -4,7 +4,6 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatCode;
 
 import io.github.juniqlim.object.jwt.Jwt;
-import io.github.juniqlim.realworld.user.domain.User.Id;
 import org.junit.jupiter.api.Test;
 
 public class UserTest {
@@ -16,10 +15,11 @@ public class UserTest {
     @Test
     void follow() {
         User jacob = new User(1, Jwt.FAKE.token(), "123", "Jacob", "jake@jake.jake");
-        User.Id juniqId = new Id(2);
-        jacob.follow(juniqId);
+        User juniq = new User(2, Jwt.FAKE.token(), "juniqjuniq", "juniq", "juniq@juniq.juniq");
+        jacob.follow(juniq.id());
+        juniq.addFollower(jacob.id());
 
-        Profile profileViewedByJuniq = jacob.profile(juniqId);
-        assertThat(profileViewedByJuniq.isFollowing()).isTrue();
+        Profile juniqProfile = juniq.profile(jacob.id());
+        assertThat(juniqProfile.isFollowing()).isTrue();
     }
 }
