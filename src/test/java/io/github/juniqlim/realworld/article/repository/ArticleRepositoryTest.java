@@ -22,6 +22,15 @@ class ArticleRepositoryTest {
     }
 
     @Test
+    void condition() {
+        ArticleRepository articleRepository = new ArticleRepository();
+        Article article = new Article("How to train your dragon", "Ever wonder how?",
+            "You have to believe", new User.Id(1), Arrays.asList(new Tag("reactjs"), new Tag("angularjs"), new Tag("dragons")));
+
+        assertDoesNotThrow(() -> articleRepository.save(article));
+    }
+
+    @Test
     void filter() throws InterruptedException {
         ArticleRepository articleRepository = new ArticleRepository();
 
