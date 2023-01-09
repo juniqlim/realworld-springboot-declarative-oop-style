@@ -63,7 +63,7 @@ public class ArticleRepository {
             .collect(Collectors.toList());
     }
 
-    private static class Conditional {
+    static class Conditional {
         private final String tag;
         private final User.Id authorId;
         private final User.Id favoriteUserId;
@@ -75,16 +75,17 @@ public class ArticleRepository {
         }
 
         public boolean value(Article article) {
+            boolean isEqualsTag = false, isEqualsAuthorId = false, isEqualsFavoriteUserId = false;
             if (tag == null || article.equalsTag(tag)) {
-                return true;
+                isEqualsTag = true;
             }
             if (authorId == null || article.equalsAuthorId(authorId)) {
-                return true;
+                isEqualsAuthorId = true;
             }
             if (favoriteUserId == null || article.isFavorite(favoriteUserId)) {
-                return true;
+                isEqualsFavoriteUserId = true;
             }
-            return false;
+            return isEqualsTag && isEqualsAuthorId && isEqualsFavoriteUserId;
         }
     }
 }
