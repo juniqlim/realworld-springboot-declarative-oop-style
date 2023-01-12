@@ -21,15 +21,14 @@ public class FindArticlesController {
 
     @GetMapping("/api/articles")
     public Response articles(@RequestHeader(name = "Authorization", required = false) String token, Request request) {
-        Request nullOrRequest = new NullOrRequest(request).value();
         return new Response(findArticleResponse.find(
             new FindArticleResponse.Request.Builder()
                 .jwtToken(new NullOrToken(publicKey, token).jwsToken())
-                .tag(nullOrRequest.tag)
-                .authorName(nullOrRequest.author)
-                .favoriteUserName(nullOrRequest.favorited)
-                .limit(nullOrRequest.limit)
-                .offset(nullOrRequest.offset)
+                .tag(request.tag)
+                .authorName(request.author)
+                .favoriteUserName(request.favorited)
+                .limit(request.limit)
+                .offset(request.offset)
                 .build())
         );
     }
@@ -41,15 +40,12 @@ public class FindArticlesController {
         private Integer limit;
         private Integer offset;
 
-        public Request() {
-        }
-
-        public Request(String tag, String author, String favorited, Integer limit, Integer offset) {
+        public Request(String tag, String author, String favorited) {
             this.tag = tag;
             this.author = author;
             this.favorited = favorited;
-            this.limit = limit;
-            this.offset = offset;
+            this.limit = 20;
+            this.offset = 0;
         }
 
         public String getTag() {
@@ -90,21 +86,6 @@ public class FindArticlesController {
 
         public void setOffset(Integer offset) {
             this.offset = offset;
-        }
-    }
-
-    static class NullOrRequest {
-        private final Request request;
-
-        public NullOrRequest(Request request) {
-            this.request = request;
-        }
-
-        public Request value() {
-            if (request == null) {
-                return new Request(null, null, null, 20, 0);
-            }
-            return request;
         }
     }
 

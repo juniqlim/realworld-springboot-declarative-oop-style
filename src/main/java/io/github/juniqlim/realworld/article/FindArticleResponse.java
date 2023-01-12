@@ -36,10 +36,17 @@ public class FindArticleResponse {
     }
 
     private Profile profile(Request request, Article article) {
-        if (request.jwtToken() == null) {
-            return findUser.find(article.authorId()).profile();
+        try {
+            if (request.jwtToken() == null) {
+                return findUser.find(article.authorId()).profile();
+            }
+            return findUser.find(article.authorId()).profile(findUser.find(request.jwtToken()).id());
+        } catch (IllegalArgumentException e) {
+            if (e.getMessage().equals("User not found")) {
+                return null;
+            }
         }
-        return findUser.find(article.authorId()).profile(findUser.find(request.jwtToken()).id());
+        return null;
     }
 
     public static class Request {
@@ -122,14 +129,28 @@ public class FindArticleResponse {
             if (authorName == null) {
                 return null;
             }
-            return findUser.findByUsername(authorName).id();
+            try {
+                return findUser.findByUsername(authorName).id();
+            } catch (IllegalArgumentException e) {
+                if (e.getMessage().equals("User not found")) {
+                    return null;
+                }
+                throw e;
+            }
         }
 
         User.Id favoriteUserId(FindUser findUser) {
             if (FavoriteUserName == null) {
                 return null;
             }
-            return findUser.findByUsername(FavoriteUserName).id();
+            try {
+                return findUser.findByUsername(FavoriteUserName).id();
+            } catch (IllegalArgumentException e) {
+                if (e.getMessage().equals("User not found")) {
+                    return null;
+                }
+                throw e;
+            }
         }
     }
 }

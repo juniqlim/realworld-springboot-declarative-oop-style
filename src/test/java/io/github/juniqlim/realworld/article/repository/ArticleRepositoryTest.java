@@ -95,4 +95,13 @@ class ArticleRepositoryTest {
 
         assertTrue(conditional.value(article));
     }
+
+    @Test
+    void condition6() {
+        Conditional conditional = new Conditional(null, null, null);
+        Article article = new Article("How to train your dragon", "Ever wonder how?",
+            "You have to believe", new User.Id(1), Arrays.asList(new Tag("reactjs"), new Tag("angularjs"), new Tag("dragons")));
+
+        assertTrue(conditional.value(article));
+    }
 }
