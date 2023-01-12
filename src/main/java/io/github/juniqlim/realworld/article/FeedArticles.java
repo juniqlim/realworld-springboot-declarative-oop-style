@@ -1,12 +1,19 @@
 package io.github.juniqlim.realworld.article;
 
+import static java.util.stream.Collectors.toList;
+
+import io.github.juniqlim.realworld.article.FindArticleResponse.Request;
 import io.github.juniqlim.realworld.article.domain.Article;
 import io.github.juniqlim.realworld.article.repository.ArticleRepository;
+import io.github.juniqlim.realworld.article.web.ArticleResponse;
 import io.github.juniqlim.realworld.user.FindUser;
+import io.github.juniqlim.realworld.user.domain.Profile;
 import io.github.juniqlim.realworld.user.domain.User;
 import java.util.List;
+import org.springframework.stereotype.Service;
 
-class FeedArticles {
+@Service
+public class FeedArticles {
     private final ArticleRepository articleRepository;
     private final FindUser findUser;
 
@@ -15,15 +22,31 @@ class FeedArticles {
         this.findUser = findUser;
     }
 
-    public List<Article> articles(Request request) {
-        return articleRepository.findByUserIds(followUsers(request.jwsToken()), request.offset(), request.limit());
+    public List<ArticleResponse> articles(Request request) {
+        return articleRepository.findByUserIds(followUsers(request.jwsToken()), request.offset(), request.limit()).stream()
+            .map(article -> new ArticleResponse(article, profile(request.jwsToken(), article)))
+            .collect(toList());
     }
 
     private List<User.Id> followUsers(String jwsToken) {
         return (List<User.Id>) findUser.find(jwsToken).follows();
     }
 
-    static class Request {
+    private Profile profile(String jwtToken, Article article) {
+        try {
+            if (jwtToken == null) {
+                return findUser.find(article.authorId()).profile();
+            }
+            return findUser.find(article.authorId()).profile(findUser.find(jwtToken).id());
+        } catch (IllegalArgumentException e) {
+            if (e.getMessage().equals("User not found")) {
+                return null;
+            }
+        }
+        return null;
+    }
+
+    public static class Request {
         private final String jwsToken;
         private final int offset;
         private final int limit;
