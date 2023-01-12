@@ -29,3 +29,9 @@ GET {{domain}}/api/articles/how-to-train-your-dragon
 DELETE {{domain}}/api/articles/how-to-train-your-dragon
 Content-Type: application/json
 Authorization: Token eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzUxMiJ9.eyJleHAiOjMxNTM2MDAwLCJqdGkiOiJqWnpscThiMWl1ZFRyNC1lajFYc0dBIiwiaWF0IjoxNjcwODM2ODYyfQ.Qi_b0fzKMf5hPZfnzbt1RQ4-GTOzwI_KWrYvbZDhJKUy5If2042HF4jmtNC1zlytDeKunJoLOQPUuwCN0TY5R_wpztyOGwDvgy6RBwKViNCdQNLCiksVxsrHq-uhZ2W2kp2yu_JxwcWFj8jQQhdPQmv71Wwtj2rzcwX-Pv5aNVSPsswSx2_cwd46AvFMyMj5srS_U5eytCtEp4VrkFhnBl8423zrvLs26uOAgQjWECThitvkHgBflG8pkoe8ZryWEOyd9-fNKmHotXd5U1XXUlP591dBPaFbwV5PNWzrvbu5ZoIMnqDVCgAqtcEPzLwQonGE3P3DsAnhErC5_bu7zQ
+
+###
+GET {{domain}}/api/articles
+
+###
+GET {{domain}}/api/articles?offset=1&limit=2

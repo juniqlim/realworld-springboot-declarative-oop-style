@@ -63,10 +63,9 @@ public class ArticleRepository {
             .collect(Collectors.toList());
     }
 
-    private static class Conditional {
+    static class Conditional {
         private final String tag;
         private final User.Id authorId;
-
         private final User.Id favoriteUserId;
 
         public Conditional(String tag, User.Id authorId, User.Id favoriteUserId) {
@@ -76,16 +75,17 @@ public class ArticleRepository {
         }
 
         public boolean value(Article article) {
-            if (tag != null && article.equalsTag(tag)) {
-                return true;
+            boolean isEqualsTag = false, isEqualsAuthorId = false, isEqualsFavoriteUserId = false;
+            if (tag == null || article.equalsTag(tag)) {
+                isEqualsTag = true;
             }
-            if (authorId != null && article.equalsAuthorId(authorId)) {
-                return true;
+            if (authorId == null || article.equalsAuthorId(authorId)) {
+                isEqualsAuthorId = true;
             }
-            if (favoriteUserId != null && article.isFavorite(favoriteUserId)) {
-                return true;
+            if (favoriteUserId == null || article.isFavorite(favoriteUserId)) {
+                isEqualsFavoriteUserId = true;
             }
-            return false;
+            return isEqualsTag && isEqualsAuthorId && isEqualsFavoriteUserId;
         }
     }
 }

@@ -6,6 +6,7 @@ import io.github.juniqlim.realworld.article.domain.Article;
 import io.github.juniqlim.realworld.article.repository.ArticleRepository;
 import io.github.juniqlim.realworld.article.web.ArticleResponse;
 import io.github.juniqlim.realworld.user.FindUser;
+import io.github.juniqlim.realworld.user.domain.Profile;
 import io.github.juniqlim.realworld.user.domain.User;
 import java.util.List;
 import org.springframework.stereotype.Service;
@@ -30,8 +31,15 @@ public class FindArticleResponse {
             request.offset(), request.limit());
 
         return articles.stream()
-            .map(article -> new ArticleResponse(article, findUser.find(request.jwtToken()).profile(article.authorId())))
+            .map(article -> new ArticleResponse(article, profile(request, article)))
             .collect(toList());
+    }
+
+    private Profile profile(Request request, Article article) {
+        if (request.jwtToken() == null) {
+            return findUser.find(article.authorId()).profile();
+        }
+        return findUser.find(article.authorId()).profile(findUser.find(request.jwtToken()).id());
     }
 
     public static class Request {
@@ -49,6 +57,49 @@ public class FindArticleResponse {
             FavoriteUserName = favoriteUserName;
             this.offset = offset;
             this.limit = limit;
+        }
+
+        public static class Builder {
+            private String jwtToken;
+            private String tag;
+            private String authorName;
+            private String favoriteUserName;
+            private int offset;
+            private int limit;
+
+            public Builder jwtToken(String jwtToken) {
+                this.jwtToken = jwtToken;
+                return this;
+            }
+
+            public Builder tag(String tag) {
+                this.tag = tag;
+                return this;
+            }
+
+            public Builder authorName(String authorName) {
+                this.authorName = authorName;
+                return this;
+            }
+
+            public Builder favoriteUserName(String favoriteUserName) {
+                this.favoriteUserName = favoriteUserName;
+                return this;
+            }
+
+            public Builder offset(int offset) {
+                this.offset = offset;
+                return this;
+            }
+
+            public Builder limit(int limit) {
+                this.limit = limit;
+                return this;
+            }
+
+            public Request build() {
+                return new Request(jwtToken, tag, authorName, favoriteUserName, offset, limit);
+            }
         }
 
         String jwtToken() {
