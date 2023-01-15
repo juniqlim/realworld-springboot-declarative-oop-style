@@ -27,16 +27,16 @@ public class UpdateArticleController {
     @PutMapping("/api/articles/{slug}")
     public Response articles(@RequestHeader("Authorization") String token, @PathVariable("slug") String slug,
         @RequestBody Request request) {
-        User user = findUser.find(new Token(publicKey, token).jwsToken());
+        User loginUser = findUser.find(new Token(publicKey, token).jwsToken());
         UpdateArticle.Request updateRequest = new Builder()
-            .userId(user.id())
+            .userId(loginUser.id())
             .slug(slug)
             .title(request.getArticle().getTitle())
             .description(request.getArticle().getDescription())
             .body(request.getArticle().getBody())
             .build();
         return new Response(
-            new ArticleResponse(updateArticle.update(updateRequest), user.profile())
+            new ArticleResponse(updateArticle.update(updateRequest), loginUser.profile(), loginUser.id())
         );
     }
 

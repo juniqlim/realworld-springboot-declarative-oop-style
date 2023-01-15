@@ -2,7 +2,6 @@ package io.github.juniqlim.realworld.article;
 
 import static java.util.stream.Collectors.toList;
 
-import io.github.juniqlim.realworld.article.FindArticleResponse.Request;
 import io.github.juniqlim.realworld.article.domain.Article;
 import io.github.juniqlim.realworld.article.repository.ArticleRepository;
 import io.github.juniqlim.realworld.article.web.ArticleResponse;
@@ -23,8 +22,9 @@ public class FeedArticles {
     }
 
     public List<ArticleResponse> articles(Request request) {
+        User.Id loginUserId = findUser.find(request.jwsToken()).id();
         return articleRepository.findByUserIds(followUsers(request.jwsToken()), request.offset(), request.limit()).stream()
-            .map(article -> new ArticleResponse(article, profile(request.jwsToken(), article)))
+            .map(article -> new ArticleResponse(article, profile(request.jwsToken(), article), loginUserId))
             .collect(toList());
     }
 

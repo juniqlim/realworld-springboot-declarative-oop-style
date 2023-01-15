@@ -1,6 +1,8 @@
 package io.github.juniqlim.realworld.article.web;
 
+import io.github.juniqlim.realworld.article.domain.Article;
 import io.github.juniqlim.realworld.user.domain.Profile;
+import io.github.juniqlim.realworld.user.domain.User;
 import java.time.LocalDateTime;
 import java.util.List;
 
@@ -16,9 +18,17 @@ public class ArticleResponse {
     private final int favoritesCount;
     private final Author author;
 
-    public ArticleResponse(io.github.juniqlim.realworld.article.domain.Article article, Profile profile) {
+    public ArticleResponse(Article article, Profile profile) {
+        this(article, profile, null);
+    }
+
+    public ArticleResponse(Article article, Profile profile, User.Id loginUserId) {
+        this(article, profile, loginUserId != null ? article.favorited(loginUserId): false);
+    }
+
+    private ArticleResponse(Article article, Profile profile, boolean favorited) {
         this(article.slug(), article.title(), article.description(), article.body(), article.tagList(),
-            article.createdAt(), article.updatedAt(), article.favorited(profile.userId()), article.favoritesCount(),
+            article.createdAt(), article.updatedAt(), favorited, article.favoritesCount(),
             new Author(profile));
     }
 

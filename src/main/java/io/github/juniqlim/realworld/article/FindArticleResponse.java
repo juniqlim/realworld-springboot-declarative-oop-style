@@ -8,8 +8,6 @@ import io.github.juniqlim.realworld.article.web.ArticleResponse;
 import io.github.juniqlim.realworld.user.FindUser;
 import io.github.juniqlim.realworld.user.domain.Profile;
 import io.github.juniqlim.realworld.user.domain.User;
-import io.github.juniqlim.realworld.user.domain.User.Id;
-import java.util.Collection;
 import java.util.List;
 import org.springframework.stereotype.Service;
 
@@ -31,20 +29,9 @@ public class FindArticleResponse {
         List<Article> articles = articleRepository.findByTagAuthorIdFavoriteUserIdOrderByRegdate(
             request.tag(), request.authorId(findUser), request.favoriteUserId(findUser),
             request.offset(), request.limit());
-
+        User.Id loginUserId = findUser.find(request.jwtToken()).id();
         return articles.stream()
-            .map(article -> new ArticleResponse(article, profile(request, article)))
-            .collect(toList());
-    }
-
-    public List<ArticleResponse> findFollow(Request request) {
-        Collection<Id> followers = findUser.find(request.jwtToken).followers();
-        List<Article> articles = articleRepository.findByTagAuthorIdFavoriteUserIdOrderByRegdate(
-            request.tag(), request.authorId(findUser), request.favoriteUserId(findUser),
-            request.offset(), request.limit());
-
-        return articles.stream()
-            .map(article -> new ArticleResponse(article, profile(request, article)))
+            .map(article -> new ArticleResponse(article, profile(request, article), loginUserId))
             .collect(toList());
     }
 

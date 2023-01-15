@@ -2,6 +2,7 @@ package io.github.juniqlim.realworld.article.web;
 
 import io.github.juniqlim.realworld.article.CreateArticle;
 import io.github.juniqlim.realworld.user.FindUser;
+import io.github.juniqlim.realworld.user.domain.User;
 import io.github.juniqlim.realworld.user.web.Token;
 import java.security.PublicKey;
 import java.util.List;
@@ -25,10 +26,11 @@ public class CreateArticleController {
     @PostMapping("/api/articles")
     public Response articles(@RequestHeader("Authorization") String token, @RequestBody Request request) {
         String jwsToken = new Token(publicKey, token).jwsToken();
+        User loginUser = findUser.find(jwsToken);
         return new Response(new ArticleResponse(
             createArticle.create(request.createArticleRequest(jwsToken)),
-            findUser.find(jwsToken).profile()
-        ));
+            loginUser.profile(),
+            loginUser.id()));
     }
 
     private static class Request {
