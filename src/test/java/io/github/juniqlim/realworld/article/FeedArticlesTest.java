@@ -6,6 +6,7 @@ import io.github.juniqlim.realworld.TestRepository;
 import io.github.juniqlim.realworld.article.FeedArticles.Request;
 import io.github.juniqlim.realworld.article.domain.Article;
 import io.github.juniqlim.realworld.article.repository.ArticleRepository;
+import io.github.juniqlim.realworld.article.web.ArticleResponse;
 import io.github.juniqlim.realworld.user.FindUser;
 import io.github.juniqlim.realworld.user.FollowUser;
 import io.github.juniqlim.realworld.user.domain.User;
@@ -30,7 +31,7 @@ class FeedArticlesTest {
         new FollowUser(userRepository).follow(juniq.token(), jake.username());
         new FollowUser(userRepository).follow(juniq.token(), mink.username());
 
-        List<Article> articles = new FeedArticles(articleRepository, new FindUser(userRepository)).articles(
+        List<ArticleResponse> articles = new FeedArticles(articleRepository, new FindUser(userRepository)).articles(
             new Request(juniq.token(), 0, 1));
 
         assertEquals(1, articles.size());

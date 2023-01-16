@@ -4,14 +4,14 @@ import io.github.juniqlim.realworld.article.domain.Comment;
 import io.github.juniqlim.realworld.user.domain.Profile;
 import java.time.LocalDateTime;
 
-class CommentResponse {
+public class CommentResponse {
     private long id;
     private LocalDateTime createdAt;
     private LocalDateTime updatedAt;
     private String body;
     private Author author;
 
-    CommentResponse(Comment comment, Profile profile) {
+    public CommentResponse(Comment comment, Profile profile) {
         this(comment.id(), comment.createdAt(), comment.updatedAt(), comment.body(), new Author(profile));
     }
 

@@ -2,7 +2,7 @@ package io.github.juniqlim.realworld.article.web;
 
 import io.github.juniqlim.realworld.user.domain.Profile;
 
-class Author {
+public class Author {
     private final String username;
     private final String bio;
     private final String image;
