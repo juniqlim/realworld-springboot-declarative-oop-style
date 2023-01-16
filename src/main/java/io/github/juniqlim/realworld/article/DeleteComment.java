@@ -3,7 +3,9 @@ package io.github.juniqlim.realworld.article;
 import io.github.juniqlim.realworld.article.repository.ArticleRepository;
 import io.github.juniqlim.realworld.user.FindUser;
 import io.github.juniqlim.realworld.user.domain.User;
+import org.springframework.stereotype.Service;
 
+@Service
 public class DeleteComment {
     private final ArticleRepository articleRepository;
     private final FindUser findUser;
@@ -23,7 +25,7 @@ public class DeleteComment {
         private final long commentId;
         private final String jwsToken;
 
-        Request(String slug, long commentId, String jwsToken) {
+        public Request(String slug, long commentId, String jwsToken) {
             this.slug = slug;
             this.commentId = commentId;
             this.jwsToken = jwsToken;
