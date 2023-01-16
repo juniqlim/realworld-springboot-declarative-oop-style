@@ -3,8 +3,10 @@ package io.github.juniqlim.realworld.article;
 import io.github.juniqlim.realworld.article.domain.Comment;
 import io.github.juniqlim.realworld.article.repository.ArticleRepository;
 import io.github.juniqlim.realworld.user.domain.User;
+import org.springframework.stereotype.Service;
 
-class AddComment {
+@Service
+public class AddComment {
     private final ArticleRepository articleRepository;
     public AddComment(ArticleRepository articleRepository) {
         this.articleRepository = articleRepository;
@@ -16,7 +18,7 @@ class AddComment {
         return comment;
     }
 
-    static class Request {
+    public static class Request {
         private final String slug;
         private final String comment;
         private final User.Id userId;

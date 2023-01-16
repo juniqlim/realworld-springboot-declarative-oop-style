@@ -85,34 +85,4 @@ public class ArticleResponse {
     public Author getAuthor() {
         return author;
     }
-
-    private static class Author {
-        private final String username;
-        private final String bio;
-        private final String image;
-        private final boolean following;
-
-        private Author(Profile profile) {
-            this.username = profile.username();
-            this.bio = profile.bio();
-            this.image = profile.image();
-            this.following = profile.isFollowing();
-        }
-
-        public String getUsername() {
-            return username;
-        }
-
-        public String getBio() {
-            return bio;
-        }
-
-        public String getImage() {
-            return image;
-        }
-
-        public boolean isFollowing() {
-            return following;
-        }
-    }
 }
