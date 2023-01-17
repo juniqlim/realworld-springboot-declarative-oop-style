@@ -125,7 +125,7 @@ public class User {
     }
 
     public Profile profile(User.Id selecterId) {
-        return new Profile(id, username, bio, image, followers.contains(selecterId));
+        return new Profile(id, username, bio, image, follows.contains(selecterId));
     }
 
     public static class Id {
