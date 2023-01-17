@@ -7,7 +7,7 @@ import java.util.stream.Collectors;
 import org.springframework.stereotype.Service;
 
 @Service
-class TagUseCase {
+public class TagUseCase {
     private final TagRepository tagRepository;
 
     public TagUseCase(TagRepository tagRepository) {
