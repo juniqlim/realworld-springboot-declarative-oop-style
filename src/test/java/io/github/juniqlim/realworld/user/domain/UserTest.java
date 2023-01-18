@@ -19,7 +19,7 @@ public class UserTest {
         jacob.follow(juniq.id());
         juniq.addFollower(jacob.id());
 
-        Profile jacobProfile = jacob.profile(juniq.id());
-        assertThat(jacobProfile.isFollowing()).isTrue();
+        Profile juniqProfile = juniq.profile(jacob.id());
+        assertThat(juniqProfile.isFollowing()).isTrue();
     }
 }

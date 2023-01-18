@@ -27,6 +27,7 @@ class FindCommentTest {
             new ArticleRepository());
         ArticleRepository articleRepository = testRepository.articleRepository();
         UserRepository userRepository = testRepository.userRepository();
+
         User mink = userRepository.findByUsername("mink");
         new FollowUser(userRepository).follow(mink.token(), "juniq");
 
