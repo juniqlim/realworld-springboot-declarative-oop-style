@@ -1,7 +1,9 @@
 package io.github.juniqlim.realworld.article.web;
 
 import io.github.juniqlim.realworld.article.FeedArticles;
-import io.github.juniqlim.realworld.user.web.NullOrToken;
+import io.github.juniqlim.realworld.user.FindUser;
+import io.github.juniqlim.realworld.user.User.UserByToken;
+import io.github.juniqlim.realworld.user.web.Token2.Jws;
 import java.security.PublicKey;
 import java.util.List;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -11,17 +13,19 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 public class FindFeedArticlesController {
     private final FeedArticles feedArticles;
+    private final FindUser findUser;
     private final PublicKey publicKey;
 
-    FindFeedArticlesController(FeedArticles feedArticles, PublicKey publicKey) {
+    FindFeedArticlesController(FeedArticles feedArticles, FindUser findUser, PublicKey publicKey) {
         this.feedArticles = feedArticles;
+        this.findUser = findUser;
         this.publicKey = publicKey;
     }
 
     @GetMapping("/api/articles/feed")
     public Response articles(@RequestHeader(name = "Authorization", required = false) String token, Request request) {
         return new Response(feedArticles.articles(
-            new FeedArticles.Request(new NullOrToken(publicKey, token).jwsToken(), request.limit, request.offset))
+            new FeedArticles.Request(new UserByToken(findUser, new Jws(publicKey, token)), request.limit, request.offset))
         );
     }
 

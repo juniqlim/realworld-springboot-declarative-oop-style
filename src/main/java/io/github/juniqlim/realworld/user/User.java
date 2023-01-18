@@ -73,4 +73,17 @@ public interface User {
             return token == null;
         }
     }
+
+    class NoUser implements User {
+        public io.github.juniqlim.realworld.user.domain.User.Id id() {
+            return null;
+        }
+        public boolean isExist() {
+            return false;
+        }
+
+        public boolean isNull() {
+            return true;
+        }
+    }
 }

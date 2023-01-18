@@ -3,6 +3,7 @@ package io.github.juniqlim.realworld.user;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertNull;
 
+import io.github.juniqlim.realworld.user.User.UserByName;
 import io.github.juniqlim.realworld.user.repository.UserRepository.Collection;
 import org.junit.jupiter.api.Test;
 

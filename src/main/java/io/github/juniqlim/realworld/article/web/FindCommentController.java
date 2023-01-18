@@ -1,7 +1,9 @@
 package io.github.juniqlim.realworld.article.web;
 
 import io.github.juniqlim.realworld.article.FindComment;
-import io.github.juniqlim.realworld.user.web.NullOrToken;
+import io.github.juniqlim.realworld.user.FindUser;
+import io.github.juniqlim.realworld.user.User;
+import io.github.juniqlim.realworld.user.web.Token2.Jws;
 import java.security.PublicKey;
 import java.util.List;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -12,19 +14,18 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 class FindCommentController {
     private final FindComment findComment;
+    private final FindUser findUser;
     private final PublicKey publicKey;
 
-    FindCommentController(FindComment findComment, PublicKey publicKey) {
+    FindCommentController(FindComment findComment, FindUser findUser, PublicKey publicKey) {
         this.findComment = findComment;
+        this.findUser = findUser;
         this.publicKey = publicKey;
     }
 
     @GetMapping("/api/articles/{slug}/comments")
     public Response articles(@RequestHeader(name = "Authorization", required = false) String token, @PathVariable("slug") String slug) {
-        if (new NullOrToken(publicKey, token).jwsToken() != null) {
-            return new Response(findComment.comments(slug, new NullOrToken(publicKey, token).jwsToken()));
-        }
-        return new Response(findComment.comments(slug));
+        return new Response(findComment.comments(slug, new User.UserByToken(findUser, new Jws(publicKey, token))));
     }
 
     private static class Response {

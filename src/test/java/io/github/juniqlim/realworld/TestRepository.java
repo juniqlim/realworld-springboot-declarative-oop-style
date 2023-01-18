@@ -5,13 +5,13 @@ import io.github.juniqlim.realworld.article.domain.Article;
 import io.github.juniqlim.realworld.article.domain.Comment;
 import io.github.juniqlim.realworld.article.repository.ArticleRepository;
 import io.github.juniqlim.realworld.user.domain.User;
-import io.github.juniqlim.realworld.user.domain.User.Id;
 import io.github.juniqlim.realworld.user.repository.UserRepository;
 import java.security.KeyFactory;
 import java.security.NoSuchAlgorithmException;
 import java.security.PrivateKey;
 import java.security.spec.InvalidKeySpecException;
 import java.security.spec.PKCS8EncodedKeySpec;
+import java.util.ArrayList;
 import java.util.Base64;
 
 public class TestRepository {
@@ -46,11 +46,11 @@ public class TestRepository {
         userRepository.save(mink);
 
         Article jakeArticle = new Article("How to train your dragon", "Ever wonder how?", "You have to believe",
-            jake.id(), null);
+            jake.id(), new ArrayList<>());
         Article juniqArticle = new Article("Good day", "So toothless", "You have to believe",
-            juniq.id(), null);
+            juniq.id(), new ArrayList<>());
         Article minkArticle = new Article("Learn Elm", "learn", "It's like a functional language",
-            mink.id(), null);
+            mink.id(), new ArrayList<>());
         jakeArticle.addComment(new Comment(articleRepository.findCommentSequence(), "It's easy", juniq.id()));
         juniqArticle.addComment(new Comment(articleRepository.findCommentSequence(), "It's good", mink.id()));
         minkArticle.addComment(new Comment(articleRepository.findCommentSequence(), "It's hard", jake.id()));

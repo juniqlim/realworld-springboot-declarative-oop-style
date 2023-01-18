@@ -22,22 +22,21 @@ public class FeedArticles {
     }
 
     public List<ArticleResponse> articles(Request request) {
-        User.Id loginUserId = findUser.find(request.jwsToken()).id();
-        return articleRepository.findByUserIds(followUsers(request.jwsToken()), request.offset(), request.limit()).stream()
-            .map(article -> new ArticleResponse(article, profile(request.jwsToken(), article), loginUserId))
+        return articleRepository.findByUserIds(followUsers(request.loginUser()), request.offset(), request.limit()).stream()
+            .map(article -> new ArticleResponse(article, profile(request.loginUser(), article), request.loginUser()))
             .collect(toList());
     }
 
-    private List<User.Id> followUsers(String jwsToken) {
-        return (List<User.Id>) findUser.find(jwsToken).follows();
+    private List<User.Id> followUsers(io.github.juniqlim.realworld.user.User loginUser) {
+        return (List<User.Id>) findUser.find(loginUser.id()).follows();
     }
 
-    private Profile profile(String jwtToken, Article article) {
+    private Profile profile(io.github.juniqlim.realworld.user.User loginUser, Article article) {
         try {
-            if (jwtToken == null) {
-                return findUser.find(article.authorId()).profile();
+            if (loginUser.isExist()) {
+                return findUser.find(article.authorId()).profile(loginUser.id());
             }
-            return findUser.find(article.authorId()).profile(findUser.find(jwtToken).id());
+            return findUser.find(article.authorId()).profile();
         } catch (IllegalArgumentException e) {
             if (e.getMessage().equals("User not found")) {
                 return null;
@@ -47,18 +46,18 @@ public class FeedArticles {
     }
 
     public static class Request {
-        private final String jwsToken;
+        private final io.github.juniqlim.realworld.user.User loginUser;
         private final int offset;
         private final int limit;
 
-        public Request(String jwsToken, int offset, int limit) {
-            this.jwsToken = jwsToken;
+        public Request(io.github.juniqlim.realworld.user.User loginUser, int offset, int limit) {
+            this.loginUser = loginUser;
             this.offset = offset;
             this.limit = limit;
         }
 
-        public String jwsToken() {
-            return jwsToken;
+        public io.github.juniqlim.realworld.user.User loginUser() {
+            return loginUser;
         }
 
         public int offset() {
