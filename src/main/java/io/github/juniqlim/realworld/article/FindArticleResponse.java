@@ -7,7 +7,6 @@ import io.github.juniqlim.realworld.article.repository.ArticleRepository;
 import io.github.juniqlim.realworld.article.web.ArticleResponse;
 import io.github.juniqlim.realworld.user.FindUser;
 import io.github.juniqlim.realworld.user.domain.Profile;
-import io.github.juniqlim.realworld.user.domain.User;
 import java.util.List;
 import org.springframework.stereotype.Service;
 
@@ -26,21 +25,21 @@ public class FindArticleResponse {
     }
 
     public List<ArticleResponse> find(Request request) {
-        List<Article> articles = articleRepository.findByTagAuthorIdFavoriteUserIdOrderByRegdate(
-            request.tag(), request.authorId(findUser), request.favoriteUserId(findUser),
+        List<Article> articles = articleRepository.findByTagAuthorFavoriteUserOrderByRegdate(
+            request.tag(), request.author(), request.favoriteUser(),
             request.offset(), request.limit());
-        User.Id loginUserId = findUser.find(request.jwtToken()).id();
+
         return articles.stream()
-            .map(article -> new ArticleResponse(article, profile(request, article), loginUserId))
+            .map(article -> new ArticleResponse(article, profile(request, article), request.user))
             .collect(toList());
     }
 
     private Profile profile(Request request, Article article) {
         try {
-            if (request.jwtToken() == null) {
-                return findUser.find(article.authorId()).profile();
+            if (request.user().isExist()) {
+                return findUser.find(article.authorId()).profile(request.user().id());
             }
-            return findUser.find(article.authorId()).profile(findUser.find(request.jwtToken()).id());
+            return findUser.find(article.authorId()).profile();
         } catch (IllegalArgumentException e) {
             if (e.getMessage().equals("User not found")) {
                 return null;
@@ -50,67 +49,28 @@ public class FindArticleResponse {
     }
 
     public static class Request {
-        private final String jwtToken;
+        private final io.github.juniqlim.realworld.user.User user;
         private final String tag;
-        private final String authorName;
-        private final String FavoriteUserName;
+        private final io.github.juniqlim.realworld.user.User author;
+        private final io.github.juniqlim.realworld.user.User favoriteUser;
         private final int offset;
         private final int limit;
 
-        public Request(String jwtToken, String tag, String authorName, String favoriteUserName, int offset, int limit) {
-            this.jwtToken = jwtToken;
+        public Request(io.github.juniqlim.realworld.user.User user, String tag,
+            io.github.juniqlim.realworld.user.User author, io.github.juniqlim.realworld.user.User favoriteUser,
+            int offset, int limit) {
+            this.user = user;
             this.tag = tag;
-            this.authorName = authorName;
-            FavoriteUserName = favoriteUserName;
+            this.author = author;
+            this.favoriteUser = favoriteUser;
             this.offset = offset;
             this.limit = limit;
         }
 
-        public static class Builder {
-            private String jwtToken;
-            private String tag;
-            private String authorName;
-            private String favoriteUserName;
-            private int offset;
-            private int limit;
 
-            public Builder jwtToken(String jwtToken) {
-                this.jwtToken = jwtToken;
-                return this;
-            }
 
-            public Builder tag(String tag) {
-                this.tag = tag;
-                return this;
-            }
-
-            public Builder authorName(String authorName) {
-                this.authorName = authorName;
-                return this;
-            }
-
-            public Builder favoriteUserName(String favoriteUserName) {
-                this.favoriteUserName = favoriteUserName;
-                return this;
-            }
-
-            public Builder offset(int offset) {
-                this.offset = offset;
-                return this;
-            }
-
-            public Builder limit(int limit) {
-                this.limit = limit;
-                return this;
-            }
-
-            public Request build() {
-                return new Request(jwtToken, tag, authorName, favoriteUserName, offset, limit);
-            }
-        }
-
-        String jwtToken() {
-            return jwtToken;
+        io.github.juniqlim.realworld.user.User user() {
+            return user;
         }
 
         String tag() {
@@ -125,31 +85,54 @@ public class FindArticleResponse {
             return limit;
         }
 
-        User.Id authorId(FindUser findUser) {
-            if (authorName == null) {
-                return null;
-            }
-            try {
-                return findUser.findByUsername(authorName).id();
-            } catch (IllegalArgumentException e) {
-                if (e.getMessage().equals("User not found")) {
-                    return null;
-                }
-                throw e;
-            }
+        io.github.juniqlim.realworld.user.User author() {
+            return author;
         }
 
-        User.Id favoriteUserId(FindUser findUser) {
-            if (FavoriteUserName == null) {
-                return null;
+        io.github.juniqlim.realworld.user.User favoriteUser() {
+            return favoriteUser;
+        }
+
+        public static class Builder {
+            private io.github.juniqlim.realworld.user.User user;
+            private String tag;
+            private io.github.juniqlim.realworld.user.User author;
+            private io.github.juniqlim.realworld.user.User favoriteUser;
+            private int offset;
+            private int limit;
+
+            public Builder user(io.github.juniqlim.realworld.user.User user) {
+                this.user = user;
+                return this;
             }
-            try {
-                return findUser.findByUsername(FavoriteUserName).id();
-            } catch (IllegalArgumentException e) {
-                if (e.getMessage().equals("User not found")) {
-                    return null;
-                }
-                throw e;
+
+            public Builder tag(String tag) {
+                this.tag = tag;
+                return this;
+            }
+
+            public Builder author(io.github.juniqlim.realworld.user.User authorName) {
+                this.author = authorName;
+                return this;
+            }
+
+            public Builder favoriteUser(io.github.juniqlim.realworld.user.User favoriteUserName) {
+                this.favoriteUser = favoriteUserName;
+                return this;
+            }
+
+            public Builder offset(int offset) {
+                this.offset = offset;
+                return this;
+            }
+
+            public Builder limit(int limit) {
+                this.limit = limit;
+                return this;
+            }
+
+            public Request build() {
+                return new Request(user, tag, author, favoriteUser, offset, limit);
             }
         }
     }

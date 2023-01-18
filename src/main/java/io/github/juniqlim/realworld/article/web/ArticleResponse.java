@@ -19,7 +19,11 @@ public class ArticleResponse {
     private final Author author;
 
     public ArticleResponse(Article article, Profile profile) {
-        this(article, profile, null);
+        this(article, profile, false);
+    }
+
+    public ArticleResponse(Article article, Profile profile, io.github.juniqlim.realworld.user.User loginUser) {
+        this(article, profile, loginUser.isExist() ? article.favorited(loginUser.id()): false);
     }
 
     public ArticleResponse(Article article, Profile profile, User.Id loginUserId) {
