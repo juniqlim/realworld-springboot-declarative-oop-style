@@ -1,6 +1,7 @@
 package io.github.juniqlim.realworld.user.web;
 
 import io.github.juniqlim.realworld.user.FindUser;
+import io.github.juniqlim.realworld.user.web.Token.Jws;
 import java.security.PublicKey;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -19,7 +20,7 @@ public class FindProfileController {
 
     @GetMapping("/api/profiles/{username}")
     public Response profile(@RequestHeader("Authorization") String token, @PathVariable("username") String username) {
-        return new Response(findUser.find(new Token(publicKey, token).jwsToken()).profile(findUser.findByUsername(username).id()));
+        return new Response(findUser.find(new Jws(publicKey, token).value()).profile(findUser.findByUsername(username).id()));
     }
 
     private static class Response {

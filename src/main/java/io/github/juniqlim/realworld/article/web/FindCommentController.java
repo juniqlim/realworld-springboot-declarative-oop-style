@@ -3,7 +3,7 @@ package io.github.juniqlim.realworld.article.web;
 import io.github.juniqlim.realworld.article.FindComment;
 import io.github.juniqlim.realworld.user.FindUser;
 import io.github.juniqlim.realworld.user.User;
-import io.github.juniqlim.realworld.user.web.Token2.Jws;
+import io.github.juniqlim.realworld.user.web.Token;
 import java.security.PublicKey;
 import java.util.List;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -25,7 +25,7 @@ class FindCommentController {
 
     @GetMapping("/api/articles/{slug}/comments")
     public Response articles(@RequestHeader(name = "Authorization", required = false) String token, @PathVariable("slug") String slug) {
-        return new Response(findComment.comments(slug, new User.UserByToken(findUser, new Jws(publicKey, token))));
+        return new Response(findComment.comments(slug, new User.UserByToken(findUser, new Token.Jws(publicKey, token))));
     }
 
     private static class Response {

@@ -25,7 +25,7 @@ class CreateCommentController {
 
     @PostMapping("/api/articles/{slug}/comments")
     public Response articles(@RequestHeader("Authorization") String token, @PathVariable("slug") String slug, @RequestBody Request request) {
-        User loginUser = findUser.find(new Token(publicKey, token).jwsToken());
+        User loginUser = findUser.find(new Token.Jws(publicKey, token).value());
         return new Response(new CommentResponse(
             addComment.add(new AddComment.Request(slug, request.comment.body, loginUser.id())),
             loginUser.profile()

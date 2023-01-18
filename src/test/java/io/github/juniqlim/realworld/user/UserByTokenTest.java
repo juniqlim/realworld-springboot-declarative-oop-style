@@ -5,7 +5,7 @@ import static org.junit.jupiter.api.Assertions.assertNull;
 
 import io.github.juniqlim.realworld.user.User.UserByToken;
 import io.github.juniqlim.realworld.user.repository.UserRepository.Collection;
-import io.github.juniqlim.realworld.user.web.Token2.Jws;
+import io.github.juniqlim.realworld.user.web.Token.Jws;
 import java.security.KeyFactory;
 import java.security.NoSuchAlgorithmException;
 import java.security.PublicKey;

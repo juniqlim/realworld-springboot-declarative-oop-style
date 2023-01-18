@@ -13,7 +13,7 @@ import io.github.juniqlim.realworld.user.User.UserByToken;
 import io.github.juniqlim.realworld.user.domain.User;
 import io.github.juniqlim.realworld.user.repository.UserRepository;
 import io.github.juniqlim.realworld.user.repository.UserRepository.Collection;
-import io.github.juniqlim.realworld.user.web.Token2.Jws;
+import io.github.juniqlim.realworld.user.web.Token;
 import java.security.NoSuchAlgorithmException;
 import java.security.spec.InvalidKeySpecException;
 import java.util.List;
@@ -34,7 +34,7 @@ class FeedArticlesTest {
         new FollowUser(userRepository).follow(juniq.token(), mink.username());
 
         io.github.juniqlim.realworld.user.User loginUser = new UserByToken(new FindUser(userRepository),
-            new Jws(new TestPublicKey().publicKey(), "token " + juniq.token()));
+            new Token.Jws(new TestPublicKey().publicKey(), "token " + juniq.token()));
         List<ArticleResponse> articles = new FeedArticles(articleRepository, new FindUser(userRepository)).articles(
             new Request(loginUser, 0, 1));
 

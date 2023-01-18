@@ -17,14 +17,14 @@ import org.junit.jupiter.api.Test;
 class TokenTest {
     @Test
     void get() throws NoSuchAlgorithmException, InvalidKeySpecException {
-        Token token = new Token(publicKey(), "token " +  new Jws(privateKey()).token());
-        assertEquals("ey", token.jwsToken().substring(0, 2));
+        Token token = new Token.Jws(publicKey(), "token " +  new Jws(privateKey()).token());
+        assertEquals("ey", token.value().substring(0, 2));
     }
 
     @Test
     void valid() throws NoSuchAlgorithmException, InvalidKeySpecException {
-        Token token = new Token(publicKey(), "token eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzUxMiJ9.eyJleHAiOjMxNTM2MDAwLCJqdGkiOiJFV21hdGlQQkVsMkdHQlIzUlRJR213IiwiaWF0IjoxNjY3MzczOTEzfQ.fKYHVdJuaEt9j66a7l4-WEankDt67FaER-1l3G78vcX6PWMdTf4mj2euTjTRwyEfXjYdS4RailUVaxeDK_2wRjcRabaCEyz7SnipmeCU02rHM1tfuAC8YEa9jwXxyjx8q6Yxl8opVZ8RpUYJhHLp4zcNooljrGLEswYWJjhvl7BHPOydBw6T4XIb1fLoMwy7rAmhUHD8dxo483QLiZgxMVvRydRbJLboWLuzBJx-8KS-brYisxdE9Ot-M7j3k61g1gvWf-W3YjR6QulXkxcl0bRv4q7j1jHsBVjl8U5Y1OEVA9Lxll1Y0llVjkrpjv0L6uLT_S2OKdX98CMrrw4PU1");
-        assertThrows(IllegalArgumentException.class, token::jwsToken, "Invalid jws");
+        Token token = new Token.Jws(publicKey(), "token eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzUxMiJ9.eyJleHAiOjMxNTM2MDAwLCJqdGkiOiJFV21hdGlQQkVsMkdHQlIzUlRJR213IiwiaWF0IjoxNjY3MzczOTEzfQ.fKYHVdJuaEt9j66a7l4-WEankDt67FaER-1l3G78vcX6PWMdTf4mj2euTjTRwyEfXjYdS4RailUVaxeDK_2wRjcRabaCEyz7SnipmeCU02rHM1tfuAC8YEa9jwXxyjx8q6Yxl8opVZ8RpUYJhHLp4zcNooljrGLEswYWJjhvl7BHPOydBw6T4XIb1fLoMwy7rAmhUHD8dxo483QLiZgxMVvRydRbJLboWLuzBJx-8KS-brYisxdE9Ot-M7j3k61g1gvWf-W3YjR6QulXkxcl0bRv4q7j1jHsBVjl8U5Y1OEVA9Lxll1Y0llVjkrpjv0L6uLT_S2OKdX98CMrrw4PU1");
+        assertThrows(IllegalArgumentException.class, token::value, "Invalid jws");
     }
 
     PrivateKey privateKey() throws NoSuchAlgorithmException, InvalidKeySpecException {

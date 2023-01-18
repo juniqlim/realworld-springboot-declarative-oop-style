@@ -26,6 +26,6 @@ public class DeleteArticleController {
     @DeleteMapping("/api/articles/{slug}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void articles(@RequestHeader("Authorization") String token, @PathVariable("slug") String slug) {
-        deleteArticle.delete(slug, findUser.find(new Token(publicKey, token).jwsToken()).id());
+        deleteArticle.delete(slug, findUser.find(new Token.Jws(publicKey, token).value()).id());
     }
 }

@@ -1,12 +1,11 @@
 package io.github.juniqlim.realworld.user.web;
 
-import io.github.juniqlim.object.jwt.VerifiedJwt;
 import io.github.juniqlim.realworld.user.FindUser;
+import io.github.juniqlim.realworld.user.web.Token.Jws;
+import java.security.PublicKey;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RestController;
-
-import java.security.PublicKey;
 
 @RestController
 public class FindUserController {
@@ -20,7 +19,7 @@ public class FindUserController {
 
     @GetMapping("/api/user")
     public Response user(@RequestHeader("Authorization") String token) {
-        return new Response(findUser.find(new Token(publicKey, token).jwsToken()));
+        return new Response(findUser.find(new Jws(publicKey, token).value()));
     }
 
     private static class Response {

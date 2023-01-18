@@ -1,6 +1,7 @@
 package io.github.juniqlim.realworld.user.web;
 
 import io.github.juniqlim.realworld.user.FollowUser;
+import io.github.juniqlim.realworld.user.web.Token.Jws;
 import java.security.PublicKey;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -19,7 +20,7 @@ public class FollowUserController {
 
     @PostMapping("/api/profiles/{followeeUsername}/follow")
     public Response follow(@RequestHeader("Authorization") String token, @PathVariable String followeeUsername) {
-        return new Response(followUser.follow(new Token(publicKey, token).jwsToken(), followeeUsername));
+        return new Response(followUser.follow(new Jws(publicKey, token).value(), followeeUsername));
     }
 
     private static class Response {

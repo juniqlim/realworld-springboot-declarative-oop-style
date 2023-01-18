@@ -1,6 +1,6 @@
 package io.github.juniqlim.realworld.user;
 
-import io.github.juniqlim.realworld.user.web.Token2;
+import io.github.juniqlim.realworld.user.web.Token;
 
 public interface User {
     io.github.juniqlim.realworld.user.domain.User.Id id();
@@ -40,9 +40,9 @@ public interface User {
 
     class UserByToken implements User {
         private final FindUser findUser;
-        private final Token2 token;
+        private final Token token;
 
-        public UserByToken(FindUser findUser, Token2 token) {
+        public UserByToken(FindUser findUser, Token token) {
             this.findUser = findUser;
             this.token = token;
         }

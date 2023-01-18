@@ -14,7 +14,7 @@ import io.github.juniqlim.realworld.user.User.UserByToken;
 import io.github.juniqlim.realworld.user.domain.User;
 import io.github.juniqlim.realworld.user.repository.UserRepository;
 import io.github.juniqlim.realworld.user.repository.UserRepository.Collection;
-import io.github.juniqlim.realworld.user.web.Token2.Jws;
+import io.github.juniqlim.realworld.user.web.Token;
 import java.security.NoSuchAlgorithmException;
 import java.security.spec.InvalidKeySpecException;
 import java.util.List;
@@ -32,7 +32,7 @@ class FindCommentTest {
         new FollowUser(userRepository).follow(mink.token(), "juniq");
 
         io.github.juniqlim.realworld.user.User loginUser = new UserByToken(new FindUser(userRepository),
-            new Jws(new TestPublicKey().publicKey(), "token " + mink.token()));
+            new Token.Jws(new TestPublicKey().publicKey(), "token " + mink.token()));
         List<CommentResponse> comments = new FindComment(articleRepository, new FindUser(userRepository)).comments(
             "learn-elm", loginUser);
 

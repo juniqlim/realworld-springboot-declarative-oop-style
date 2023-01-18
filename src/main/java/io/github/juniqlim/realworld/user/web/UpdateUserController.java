@@ -1,6 +1,7 @@
 package io.github.juniqlim.realworld.user.web;
 
 import io.github.juniqlim.realworld.user.UpdateUser;
+import io.github.juniqlim.realworld.user.web.Token.Jws;
 import java.security.PublicKey;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -19,7 +20,7 @@ public class UpdateUserController {
 
     @PutMapping("/api/user")
     public Response update(@RequestHeader("Authorization") String token, @RequestBody Request request) {
-        return new Response(updateUser.update(request.updateRequest(new Token(publicKey, token).jwsToken())));
+        return new Response(updateUser.update(request.updateRequest(new Jws(publicKey, token).value())));
     }
 
     private static class Request {

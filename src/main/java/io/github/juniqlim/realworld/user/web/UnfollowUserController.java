@@ -1,7 +1,7 @@
 package io.github.juniqlim.realworld.user.web;
 
 import io.github.juniqlim.realworld.user.UnfollowUser;
-import io.github.juniqlim.realworld.user.domain.Profile;
+import io.github.juniqlim.realworld.user.web.Token.Jws;
 import java.security.PublicKey;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -20,7 +20,7 @@ class UnfollowUserController {
 
     @DeleteMapping("/api/profiles/{followeeUsername}/follow")
     Response unfollow(@RequestHeader("Authorization") String token, @PathVariable String followeeUsername) {
-        return new Response(unfollowUser.unfollow(new Token(publicKey, token).jwsToken(), followeeUsername));
+        return new Response(unfollowUser.unfollow(new Jws(publicKey, token).value(), followeeUsername));
     }
 
     private static class Response {

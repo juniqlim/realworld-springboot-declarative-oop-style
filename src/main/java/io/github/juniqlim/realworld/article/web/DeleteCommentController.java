@@ -23,6 +23,6 @@ class DeleteCommentController {
     @DeleteMapping("/api/articles/{slug}/comments/{id}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void deleteComment(@RequestHeader("Authorization") String token, @PathVariable("slug") String slug, @PathVariable("id") Long id) {
-        deleteComment.delete(new DeleteComment.Request(slug, id, new Token(publicKey, token).jwsToken()));
+        deleteComment.delete(new DeleteComment.Request(slug, id, new Token.Jws(publicKey, token).value()));
     }
 }

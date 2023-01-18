@@ -4,7 +4,7 @@ import io.github.juniqlim.realworld.article.FindArticleResponse;
 import io.github.juniqlim.realworld.user.FindUser;
 import io.github.juniqlim.realworld.user.User.UserByName;
 import io.github.juniqlim.realworld.user.User.UserByToken;
-import io.github.juniqlim.realworld.user.web.Token2.Jws;
+import io.github.juniqlim.realworld.user.web.Token.Jws;
 import java.security.PublicKey;
 import java.util.List;
 import org.springframework.web.bind.annotation.GetMapping;

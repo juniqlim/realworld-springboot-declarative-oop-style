@@ -25,7 +25,7 @@ public class CreateArticleController {
 
     @PostMapping("/api/articles")
     public Response articles(@RequestHeader("Authorization") String token, @RequestBody Request request) {
-        String jwsToken = new Token(publicKey, token).jwsToken();
+        String jwsToken = new Token.Jws(publicKey, token).value();
         User loginUser = findUser.find(jwsToken);
         return new Response(new ArticleResponse(
             createArticle.create(request.createArticleRequest(jwsToken)),

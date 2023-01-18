@@ -27,7 +27,7 @@ public class UpdateArticleController {
     @PutMapping("/api/articles/{slug}")
     public Response articles(@RequestHeader("Authorization") String token, @PathVariable("slug") String slug,
         @RequestBody Request request) {
-        User loginUser = findUser.find(new Token(publicKey, token).jwsToken());
+        User loginUser = findUser.find(new Token.Jws(publicKey, token).value());
         UpdateArticle.Request updateRequest = new Builder()
             .userId(loginUser.id())
             .slug(slug)
