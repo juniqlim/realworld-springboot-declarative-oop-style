@@ -14,13 +14,12 @@ public class UpdateUser {
 
     public User update(Request updateRequest) {
         User findedUser = userRepository.findByToken(updateRequest.jwsToken());
-        User updateUser = findedUser.update(updateRequest.email(), updateRequest.username(), updateRequest.password(),
-            updateRequest.bio(), updateRequest.image());
+        User updateUser = findedUser.update(updateRequest);
         userRepository.update(updateUser);
         return updateUser;
     }
 
-    public static class Request {
+    public static class Request implements User.UpdateRequest {
         private final String jwsToken;
         private final String email;
         private final String username;

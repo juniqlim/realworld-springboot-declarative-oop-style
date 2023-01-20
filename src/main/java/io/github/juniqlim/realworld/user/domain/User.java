@@ -55,19 +55,6 @@ public class User {
         return image;
     }
 
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        User user = (User) o;
-        return Objects.equals(token, user.token) && Objects.equals(password, user.password) && Objects.equals(username, user.username) && Objects.equals(email, user.email) && Objects.equals(bio, user.bio) && Objects.equals(image, user.image);
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(token, password, username, email, bio, image);
-    }
-
     public boolean equalsId(User.Id id) {
         return this.id.equals(id);
     }
@@ -88,8 +75,9 @@ public class User {
         return this.username.equals(username);
     }
 
-    public User update(String email, String password, String username, String bio, String image) {
-        return new User(id, token, password, username, email, bio, image);
+    public User update(UpdateRequest updateRequest) {
+        RefinedUpdateRequest request = new RefinedUpdateRequest(updateRequest);
+        return new User(id, token, request.password(), request.username(), request.email(), request.bio(), request.image());
     }
 
     public void follow(Id userId) {
@@ -155,5 +143,54 @@ public class User {
         public int hashCode() {
             return Objects.hash(value);
         }
+    }
+
+    public interface UpdateRequest {
+        String email();
+        String password();
+        String username();
+        String bio();
+        String image();
+    }
+
+    private class RefinedUpdateRequest {
+        private final UpdateRequest updateRequest;
+
+        public RefinedUpdateRequest(UpdateRequest updateRequest) {
+            this.updateRequest = updateRequest;
+        }
+
+        public String email() {
+            return updateRequest.email() == null || updateRequest.email().isEmpty() ? email : updateRequest.email();
+        }
+
+        public String password() {
+            return updateRequest.password() == null || updateRequest.password().isEmpty() ? password : updateRequest.password();
+        }
+
+        public String username() {
+            return updateRequest.username() == null || updateRequest.username().isEmpty() ? username : updateRequest.username();
+        }
+
+        public String bio() {
+            return updateRequest.bio() == null || updateRequest.bio().isEmpty() ? bio : updateRequest.bio();
+        }
+
+        public String image() {
+            return updateRequest.image() == null || updateRequest.image().isEmpty() ? image : updateRequest.image();
+        }
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        User user = (User) o;
+        return Objects.equals(token, user.token) && Objects.equals(password, user.password) && Objects.equals(username, user.username) && Objects.equals(email, user.email) && Objects.equals(bio, user.bio) && Objects.equals(image, user.image);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(token, password, username, email, bio, image);
     }
 }
