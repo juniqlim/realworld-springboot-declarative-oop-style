@@ -37,71 +37,17 @@ public class FindArticlesController {
         );
     }
 
-    private static class Request {
-        private String tag;
-        private String author;
-        private String favorited;
-        private Integer limit;
-        private Integer offset;
+    private record Request(String tag, String author, String favorited, Integer limit, Integer offset) {
+        private Request {
+            if (limit == null) {
+                limit = 20;
+            }
 
-        public Request(String tag, String author, String favorited) {
-            this.tag = tag;
-            this.author = author;
-            this.favorited = favorited;
-            this.limit = 20;
-            this.offset = 0;
-        }
-
-        public String getTag() {
-            return tag;
-        }
-
-        public String getAuthor() {
-            return author;
-        }
-
-        public String getFavorited() {
-            return favorited;
-        }
-
-        public Integer getLimit() {
-            return limit;
-        }
-
-        public Integer getOffset() {
-            return offset;
-        }
-
-        public void setTag(String tag) {
-            this.tag = tag;
-        }
-
-        public void setAuthor(String author) {
-            this.author = author;
-        }
-
-        public void setFavorited(String favorited) {
-            this.favorited = favorited;
-        }
-
-        public void setLimit(Integer limit) {
-            this.limit = limit;
-        }
-
-        public void setOffset(Integer offset) {
-            this.offset = offset;
+            if (offset == null) {
+                offset = 0;
+            }
         }
     }
 
-    private static class Response {
-        private final List<ArticleResponse> articles;
-
-        Response(List<ArticleResponse> articles) {
-            this.articles = articles;
-        }
-
-        public List<ArticleResponse> getArticles() {
-            return articles;
-        }
-    }
+    private record Response(List<ArticleResponse> articles) {}
 }
