@@ -35,3 +35,12 @@ GET {{domain}}/api/articles
 
 ###
 GET {{domain}}/api/articles?offset=1&limit=2
+
+###
+GET {{domain}}/api/kt/articles
+
+###
+GET {{domain}}/api/kt/articles?offset=1&limit=2
+
+###
+GET {{domain}}/api/kt/articles?offset=1&limit=2&author=mink
