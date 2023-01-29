@@ -1,6 +1,5 @@
 package io.github.juniqlim.realworld.article.web
 
-import io.github.juniqlim.realworld.article.FindArticleResponse
 import io.github.juniqlim.realworld.user.FindUser
 import io.github.juniqlim.realworld.user.User.UserByName
 import io.github.juniqlim.realworld.user.User.UserByToken
@@ -12,7 +11,7 @@ import java.security.PublicKey
 
 @RestController
 private class KtFindArticlesController(
-    val findArticleResponse: FindArticleResponse,
+    val findArticleResponse: KtFindArticleResponse,
     val findUser: FindUser,
     val publicKey: PublicKey
 ) {
@@ -23,14 +22,14 @@ private class KtFindArticlesController(
     ): Response {
         return Response(
             findArticleResponse.find(
-                FindArticleResponse.Request.Builder()
-                    .user(UserByToken(findUser, Token.Jws(publicKey, token)))
-                    .tag(request.tag)
-                    .author(UserByName(findUser, request.author))
-                    .favoriteUser(UserByName(findUser, request.favorited))
-                    .limit(request.limit)
-                    .offset(request.offset)
-                    .build()
+                KtFindArticleResponse.Request(
+                    UserByToken(findUser, Token.Jws(publicKey, token)),
+                    request.tag,
+                    UserByName(findUser, request.author),
+                    UserByName(findUser, request.favorited),
+                    request.offset,
+                    request.limit
+                )
             )
         )
     }
