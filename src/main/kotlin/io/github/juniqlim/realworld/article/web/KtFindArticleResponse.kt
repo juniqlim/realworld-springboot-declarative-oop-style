@@ -1,5 +1,6 @@
 package io.github.juniqlim.realworld.article.web
 
+import com.fasterxml.jackson.databind.ObjectMapper
 import io.github.juniqlim.realworld.article.domain.Article
 import io.github.juniqlim.realworld.article.repository.ArticleRepository
 import io.github.juniqlim.realworld.user.FindUser

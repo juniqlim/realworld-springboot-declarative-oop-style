@@ -2,80 +2,30 @@ package io.github.juniqlim.realworld.article.repository;
 
 import io.github.juniqlim.realworld.article.domain.Article;
 import io.github.juniqlim.realworld.user.domain.User;
-import java.util.ArrayList;
 import java.util.List;
-import java.util.concurrent.atomic.AtomicLong;
-import java.util.stream.Collectors;
-import org.springframework.stereotype.Repository;
 
-@Repository
-public class ArticleRepository {
-    private final List<Article> articles = new ArrayList<>();
-    private final AtomicLong commentSequence = new AtomicLong(1);
+public interface ArticleRepository {
+    void save(Article article);
 
-    public void save(Article article) {
-        articles.add(article);
-    }
+    Article findBySlug(String slug);
 
-    public Article findBySlug(String slug) {
-        return articles.stream()
-            .filter(article -> article.equalsSlug(slug))
-            .findFirst()
-            .orElseThrow(() -> new RuntimeException("Article not found"));
-    }
+    Article findBySlugAndUserId(String slug, User.Id userId);
 
-    public Article findBySlugAndUserId(String slug, User.Id userId) {
-        return articles.stream()
-            .filter(article -> article.equalsSlugAndAuthorId(slug, userId))
-            .findFirst()
-            .orElseThrow(() -> new RuntimeException("Article not found"));
-    }
+    void update(String slug, Article article);
 
-    public void update(String slug, Article article) {
-        articles.removeIf(a -> a.equalsSlug(slug));
-        articles.add(article);
-    }
+    List<Article> findByTagAuthorIdFavoriteUserIdOrderByRegdate(String tag, User.Id authorId, User.Id favoriteUserId, int offset, int limit);
 
-    public List<Article> findByTagAuthorIdFavoriteUserIdOrderByRegdate(String tag, User.Id authorId, User.Id favoriteUserId, int offset, int limit) {
-        Conditional conditional = new Conditional(tag, authorId, favoriteUserId);
-        return articles.stream()
-            .sorted((article1, article2) -> article2.compareCreatedAt(article1))
-            .filter(conditional::value)
-            .skip((long) offset * limit)
-            .limit(limit)
-            .collect(Collectors.toList());
-    }
-
-    public List<Article> findByTagAuthorFavoriteUserOrderByRegdate(String tag,
+    List<Article> findByTagAuthorFavoriteUserOrderByRegdate(String tag,
         io.github.juniqlim.realworld.user.User author, io.github.juniqlim.realworld.user.User favoriteUser, int offset,
-        int limit) {
-        Conditional2 conditional = new Conditional2(tag, author, favoriteUser);
-        return articles.stream()
-            .sorted((article1, article2) -> article2.compareCreatedAt(article1))
-            .filter(conditional::value)
-            .skip((long) offset * limit)
-            .limit(limit)
-            .collect(Collectors.toList());
-    }
+        int limit);
 
-    public void delete(String slug, User.Id userId) {
-        articles.remove(findBySlugAndUserId(slug, userId));
-    }
+    void delete(String slug, User.Id userId);
 
-    public long findCommentSequence() {
-        return commentSequence.getAndIncrement();
-    }
+    long findCommentSequence();
 
-    public List<Article> findByUserIds(List<User.Id> followUsers, int offset, int limit) {
-        return articles.stream()
-            .sorted((article1, article2) -> article2.compareCreatedAt(article1))
-            .filter(article -> followUsers.contains(article.authorId()))
-            .skip((long) offset * limit)
-            .limit(limit)
-            .collect(Collectors.toList());
-    }
+    List<Article> findByUserIds(List<User.Id> followUsers, int offset, int limit);
 
-    static class Conditional {
+    class Conditional {
         private final String tag;
         private final User.Id authorId;
         private final User.Id favoriteUserId;
@@ -101,7 +51,7 @@ public class ArticleRepository {
         }
     }
 
-    static class Conditional2 {
+    class Conditional2 {
         private final String tag;
         private final io.github.juniqlim.realworld.user.User author;
         private final io.github.juniqlim.realworld.user.User favoriteUser;

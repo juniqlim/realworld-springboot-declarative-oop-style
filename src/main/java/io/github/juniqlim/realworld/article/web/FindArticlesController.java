@@ -13,11 +13,11 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 public class FindArticlesController {
-    private final FindArticleResponse findArticleResponse;
+    private final KtFindArticleResponse findArticleResponse;
     private final FindUser findUser;
     private final PublicKey publicKey;
 
-    FindArticlesController(FindArticleResponse findArticleResponse, FindUser findUser, PublicKey publicKey) {
+    FindArticlesController(KtFindArticleResponse findArticleResponse, FindUser findUser, PublicKey publicKey) {
         this.findArticleResponse = findArticleResponse;
         this.findUser = findUser;
         this.publicKey = publicKey;
@@ -26,15 +26,10 @@ public class FindArticlesController {
     @GetMapping("/api/articles")
     public Response articles(@RequestHeader(name = "Authorization", required = false) String token, Request request) {
         return new Response(findArticleResponse.find(
-            new FindArticleResponse.Request.Builder()
-                .user(new UserByToken(findUser, new Jws(publicKey, token)))
-                .tag(request.tag)
-                .author(new UserByName(findUser, request.author))
-                .favoriteUser(new UserByName(findUser, request.favorited))
-                .limit(request.limit)
-                .offset(request.offset)
-                .build())
-        );
+            new KtFindArticleResponse.Request(
+                new UserByToken(findUser, new Jws(publicKey, token)), request.tag, new UserByName(findUser, request.author), new UserByName(findUser, request.favorited), request.limit, request.offset
+            )
+        ));
     }
 
     private static class Request {
