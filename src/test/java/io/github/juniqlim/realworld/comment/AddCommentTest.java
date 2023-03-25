@@ -1,9 +1,9 @@
-package io.github.juniqlim.realworld.article;
+package io.github.juniqlim.realworld.comment;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import autoparams.AutoSource;
-import io.github.juniqlim.realworld.article.AddComment.Request;
+import io.github.juniqlim.realworld.comment.AddComment.Request;
 import io.github.juniqlim.realworld.article.domain.Article;
 import io.github.juniqlim.realworld.article.domain.Comment;
 import io.github.juniqlim.realworld.article.repository.ArticleRepository;

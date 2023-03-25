@@ -1,4 +1,4 @@
-package io.github.juniqlim.realworld.article;
+package io.github.juniqlim.realworld.comment;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
@@ -7,7 +7,7 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 import io.github.juniqlim.realworld.TestPublicKey;
 import io.github.juniqlim.realworld.TestRepository;
 import io.github.juniqlim.realworld.article.repository.ArticleRepository;
-import io.github.juniqlim.realworld.article.web.CommentResponse;
+import io.github.juniqlim.realworld.comment.web.CommentResponse;
 import io.github.juniqlim.realworld.user.FindUser;
 import io.github.juniqlim.realworld.user.FollowUser;
 import io.github.juniqlim.realworld.user.User.UserByToken;

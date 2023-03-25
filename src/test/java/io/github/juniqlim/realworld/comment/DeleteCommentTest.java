@@ -1,9 +1,9 @@
-package io.github.juniqlim.realworld.article;
+package io.github.juniqlim.realworld.comment;
 
 import static org.junit.jupiter.api.Assertions.*;
 
 import io.github.juniqlim.realworld.TestRepository;
-import io.github.juniqlim.realworld.article.DeleteComment.Request;
+import io.github.juniqlim.realworld.comment.DeleteComment.Request;
 import io.github.juniqlim.realworld.article.repository.ArticleRepository;
 import io.github.juniqlim.realworld.user.FindUser;
 import io.github.juniqlim.realworld.user.domain.User;

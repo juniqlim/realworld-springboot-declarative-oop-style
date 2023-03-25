@@ -1,6 +1,6 @@
-package io.github.juniqlim.realworld.article.web;
+package io.github.juniqlim.realworld.comment.web;
 
-import io.github.juniqlim.realworld.article.DeleteComment;
+import io.github.juniqlim.realworld.comment.DeleteComment;
 import io.github.juniqlim.realworld.user.web.Token;
 import java.security.PublicKey;
 import org.springframework.http.HttpStatus;

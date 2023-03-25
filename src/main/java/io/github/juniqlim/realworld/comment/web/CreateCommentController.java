@@ -1,6 +1,6 @@
-package io.github.juniqlim.realworld.article.web;
+package io.github.juniqlim.realworld.comment.web;
 
-import io.github.juniqlim.realworld.article.AddComment;
+import io.github.juniqlim.realworld.comment.AddComment;
 import io.github.juniqlim.realworld.user.FindUser;
 import io.github.juniqlim.realworld.user.domain.User;
 import io.github.juniqlim.realworld.user.web.Token;

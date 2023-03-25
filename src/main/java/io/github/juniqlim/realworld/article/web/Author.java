@@ -8,7 +8,7 @@ public class Author {
     private final String image;
     private final boolean following;
 
-    Author(Profile profile) {
+    public Author(Profile profile) {
         this.username = profile.username();
         this.bio = profile.bio();
         this.image = profile.image();

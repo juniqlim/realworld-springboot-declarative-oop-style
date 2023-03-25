@@ -1,6 +1,7 @@
-package io.github.juniqlim.realworld.article.web;
+package io.github.juniqlim.realworld.comment.web;
 
 import io.github.juniqlim.realworld.article.domain.Comment;
+import io.github.juniqlim.realworld.article.web.Author;
 import io.github.juniqlim.realworld.user.domain.Profile;
 import java.time.LocalDateTime;
 
