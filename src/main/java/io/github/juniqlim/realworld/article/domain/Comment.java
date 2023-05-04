@@ -5,13 +5,15 @@ import java.time.LocalDateTime;
 
 public class Comment {
     private final long id;
+    private final long articleId;
     private final String body;
     private final User.Id userId;
     private final LocalDateTime createdAt;
     private final LocalDateTime updatedAt;
 
-    public Comment(long id, String body, User.Id userId) {
+    public Comment(long id, long articleId, String body, User.Id userId) {
         this.id = id;
+        this.articleId = articleId;
         this.body = body;
         this.userId = userId;
         this.createdAt = LocalDateTime.now();
@@ -20,6 +22,10 @@ public class Comment {
 
     public long id() {
         return id;
+    }
+
+    public long articleId() {
+        return articleId;
     }
 
     public String body() {

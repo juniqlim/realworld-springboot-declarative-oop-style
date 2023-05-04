@@ -48,16 +48,16 @@ public class TestRepository {
         userRepository.save(juniq);
         userRepository.save(mink);
 
-        Article jakeArticle = new Article("How to train your dragon", "Ever wonder how?", "You have to believe",
+        Article jakeArticle = new Article(1, "How to train your dragon", "Ever wonder how?", "You have to believe",
             jake.id(), new ArrayList<>());
-        Article juniqArticle = new Article("Good day", "So toothless", "You have to believe",
+        Article juniqArticle = new Article(2, "Good day", "So toothless", "You have to believe",
             new Id(2), new ArrayList<>());
-        Article minkArticle = new Article("Learn Elm", "learn", "It's like a functional language",
+        Article minkArticle = new Article(3, "Learn Elm", "learn", "It's like a functional language",
             new Id(3), new ArrayList<>());
-        jakeArticle.addComment(new Comment(articleRepository.findCommentSequence(), "It's easy", juniq.id()));
-        juniqArticle.addComment(new Comment(articleRepository.findCommentSequence(), "It's good", mink.id()));
-        minkArticle.addComment(new Comment(articleRepository.findCommentSequence(), "It's hard", jake.id()));
-        minkArticle.addComment(new Comment(articleRepository.findCommentSequence(), "It's big", juniq.id()));
+        jakeArticle.addComment(new Comment(articleRepository.findCommentSequence(), 1, "It's easy", juniq.id()));
+        juniqArticle.addComment(new Comment(articleRepository.findCommentSequence(), 2, "It's good", mink.id()));
+        minkArticle.addComment(new Comment(articleRepository.findCommentSequence(), 3, "It's hard", jake.id()));
+        minkArticle.addComment(new Comment(articleRepository.findCommentSequence(), 3, "It's big", juniq.id()));
         articleRepository.save(jakeArticle);
         articleRepository.save(juniqArticle);
         articleRepository.save(minkArticle);

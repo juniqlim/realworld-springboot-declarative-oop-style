@@ -8,6 +8,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 public class Article {
+    private final long id;
     private final Slug slug;
     private final String title;
     private final String description;
@@ -20,12 +21,13 @@ public class Article {
 
     private final List<Comment> comments;
 
-    public Article(String title, String description, String body, User.Id authorId, List<Tag> tags) {
-        this(title, description, body, authorId, tags, new ArrayList<>(), new ArrayList<>());
+    public Article(long id, String title, String description, String body, User.Id authorId, List<Tag> tags) {
+        this(id, title, description, body, authorId, tags, new ArrayList<>(), new ArrayList<>());
     }
 
-    public Article(String title, String description, String body, User.Id authorId, List<Tag> tags,
+    public Article(long id, String title, String description, String body, User.Id authorId, List<Tag> tags,
         List<User.Id> favoriteUserIds, List<Comment> comments) {
+        this.id = id;
         this.slug = new Slug(title);
         this.title = title;
         this.description = description;
@@ -36,6 +38,10 @@ public class Article {
         this.favoriteUserIds = favoriteUserIds;
         this.authorId = authorId;
         this.comments = comments;
+    }
+
+    public long id() {
+        return id;
     }
 
     public String slug() {
@@ -71,15 +77,15 @@ public class Article {
     }
 
     public Article updateTitle(String title) {
-        return new Article(title, description, body, authorId, tags, favoriteUserIds, comments);
+        return new Article(id, title, description, body, authorId, tags, favoriteUserIds, comments);
     }
 
     public Article updateDescription(String description) {
-        return new Article(title, description, body, authorId, tags, favoriteUserIds, comments);
+        return new Article(id, title, description, body, authorId, tags, favoriteUserIds, comments);
     }
 
     public Article updateBody(String body) {
-        return new Article(title, description, body, authorId, tags, favoriteUserIds, comments);
+        return new Article(id, title, description, body, authorId, tags, favoriteUserIds, comments);
     }
 
     public boolean equalsTag(String tag) {
