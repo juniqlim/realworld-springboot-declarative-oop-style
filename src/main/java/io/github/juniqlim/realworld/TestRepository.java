@@ -1,6 +1,7 @@
 package io.github.juniqlim.realworld;
 
 import io.github.juniqlim.object.jwt.Jwt.Jws;
+import io.github.juniqlim.realworld.Id.LongId;
 import io.github.juniqlim.realworld.article.domain.Article;
 import io.github.juniqlim.realworld.comment.domain.Comment;
 import io.github.juniqlim.realworld.article.repository.ArticleRepository;
@@ -49,10 +50,10 @@ public class TestRepository {
             new Id(2), new ArrayList<>());
         Article minkArticle = new Article("Learn Elm", "learn", "It's like a functional language",
             new Id(3), new ArrayList<>());
-        jakeArticle.addComment(new Comment(commentRepository.findCommentSequence(), 1, "It's easy", juniq.id()));
-        juniqArticle.addComment(new Comment(commentRepository.findCommentSequence(), 2, "It's good", mink.id()));
-        minkArticle.addComment(new Comment(commentRepository.findCommentSequence(), 3, "It's hard", jake.id()));
-        minkArticle.addComment(new Comment(commentRepository.findCommentSequence(), 3, "It's big", juniq.id()));
+        jakeArticle.addComment(new Comment(commentRepository.createCommentId(), new LongId(1), "It's easy", juniq.id()));
+        juniqArticle.addComment(new Comment(commentRepository.createCommentId(), new LongId(2), "It's good", mink.id()));
+        minkArticle.addComment(new Comment(commentRepository.createCommentId(), new LongId(3), "It's hard", jake.id()));
+        minkArticle.addComment(new Comment(commentRepository.createCommentId(), new LongId(3), "It's big", juniq.id()));
         articleRepository.save(jakeArticle);
         articleRepository.save(juniqArticle);
         articleRepository.save(minkArticle);

@@ -2,6 +2,7 @@ package io.github.juniqlim.realworld;
 
 import io.github.juniqlim.object.jwt.Jwt;
 import io.github.juniqlim.object.jwt.Jwt.Jws;
+import io.github.juniqlim.realworld.Id.LongId;
 import io.github.juniqlim.realworld.article.domain.Article;
 import io.github.juniqlim.realworld.article.domain.Tag;
 import io.github.juniqlim.realworld.article.repository.ArticleRepository;
@@ -43,19 +44,19 @@ public class Fixture {
     public static final Article MINK_ARTICLE = new Article(3L, "Learn Elm", "learn", "It's like a functional language",
         MINK.id(), new ArrayList<>());
 
-    public static final Comment JAKE_ARTICLE_COMMENT = new Comment(1, JAKE_ARTICLE.id(), "It's easy", Fixture.JUNIQ.id());
-    public static final Comment JUNIQ_ARTICLE_COMMENT = new Comment(2, JUNIQ_ARTICLE.id(), "It's good", Fixture.MINK.id());
-    public static final Comment MINK_ARTICLE_COMMENT1 = new Comment(3, MINK_ARTICLE.id(), "It's easy", Fixture.JAKE.id());
-    public static final Comment MINK_ARTICLE_COMMENT2 = new Comment(4, MINK_ARTICLE.id(), "It's easy", Fixture.JUNIQ.id());
+    public static final Comment JAKE_ARTICLE_COMMENT = new Comment(new LongId(1), new LongId(JAKE_ARTICLE.id()), "It's easy", Fixture.JUNIQ.id());
+    public static final Comment JUNIQ_ARTICLE_COMMENT = new Comment(new LongId(2), new LongId(JUNIQ_ARTICLE.id()), "It's good", Fixture.MINK.id());
+    public static final Comment MINK_ARTICLE_COMMENT1 = new Comment(new LongId(3), new LongId(MINK_ARTICLE.id()), "It's easy", Fixture.JAKE.id());
+    public static final Comment MINK_ARTICLE_COMMENT2 = new Comment(new LongId(4), new LongId(MINK_ARTICLE.id()), "It's easy", Fixture.JUNIQ.id());
 
     public static final UserRepository USER_REPOSITORY = new UserRepository.Collection();
     public static final ArticleRepository ARTICLE_REPOSITORY = new ArticleRepository();
 
     static {
-        Fixture.JAKE_ARTICLE.addComment(new Comment(1, 1L, "It's easy", Fixture.JUNIQ.id()));
-        Fixture.JUNIQ_ARTICLE.addComment(new Comment(2, 2L, "It's good", Fixture.MINK.id()));
-        Fixture.MINK_ARTICLE.addComment(new Comment(3, 3L, "It's hard", Fixture.JAKE.id()));
-        Fixture.MINK_ARTICLE.addComment(new Comment(4, 3L, "It's big", Fixture.JUNIQ.id()));
+        Fixture.JAKE_ARTICLE.addComment(JAKE_ARTICLE_COMMENT);
+        Fixture.JUNIQ_ARTICLE.addComment(JUNIQ_ARTICLE_COMMENT);
+        Fixture.MINK_ARTICLE.addComment(MINK_ARTICLE_COMMENT1);
+        Fixture.MINK_ARTICLE.addComment(MINK_ARTICLE_COMMENT2);
 
         USER_REPOSITORY.save(Fixture.JAKE);
         USER_REPOSITORY.save(Fixture.JUNIQ);

@@ -1,5 +1,7 @@
 package io.github.juniqlim.realworld.comment.repository;
 
+import io.github.juniqlim.realworld.Id;
+import io.github.juniqlim.realworld.Id.LongId;
 import io.github.juniqlim.realworld.comment.domain.Comment;
 import java.util.ArrayList;
 import java.util.List;
@@ -16,13 +18,17 @@ public class CommentRepository {
         comments.add(comment);
     }
 
-    List<Comment> findByArticleId(long articleId) {
+    List<Comment> findByArticleId(Id articleId) {
         return comments.stream()
-            .filter(comment -> comment.articleId() == articleId)
+            .filter(comment -> comment.articleId().equals(articleId))
             .collect(Collectors.toList());
     }
 
     public long findCommentSequence() {
         return commentSequence.getAndIncrement();
+    }
+
+    public Id createCommentId() {
+        return new LongId(commentSequence.getAndIncrement());
     }
 }

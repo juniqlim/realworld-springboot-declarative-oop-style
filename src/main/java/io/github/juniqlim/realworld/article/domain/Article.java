@@ -126,7 +126,7 @@ public class Article {
 
     public void deleteComment(long commentId, User.Id userId) {
         comments.stream()
-            .filter(comment -> comment.id() == commentId)
+            .filter(comment -> comment.id().equals(commentId))
             .filter(comment -> comment.userId().equals(userId))
             .findFirst()
             .ifPresent(comments::remove);
