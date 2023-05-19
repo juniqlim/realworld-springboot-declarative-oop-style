@@ -1,8 +1,8 @@
 package io.github.juniqlim.realworld.comment;
 
 import io.github.juniqlim.realworld.article.domain.Article;
-import io.github.juniqlim.realworld.article.domain.Comment;
 import io.github.juniqlim.realworld.article.repository.ArticleRepository;
+import io.github.juniqlim.realworld.comment.domain.Comment;
 import io.github.juniqlim.realworld.comment.web.CommentResponse;
 import io.github.juniqlim.realworld.user.FindUser;
 import io.github.juniqlim.realworld.user.domain.Profile;

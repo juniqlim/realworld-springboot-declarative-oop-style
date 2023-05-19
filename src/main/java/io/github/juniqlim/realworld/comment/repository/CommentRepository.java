@@ -1,6 +1,6 @@
 package io.github.juniqlim.realworld.comment.repository;
 
-import io.github.juniqlim.realworld.article.domain.Comment;
+import io.github.juniqlim.realworld.comment.domain.Comment;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.atomic.AtomicLong;

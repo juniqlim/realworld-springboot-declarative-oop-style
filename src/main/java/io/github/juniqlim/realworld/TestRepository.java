@@ -2,7 +2,7 @@ package io.github.juniqlim.realworld;
 
 import io.github.juniqlim.object.jwt.Jwt.Jws;
 import io.github.juniqlim.realworld.article.domain.Article;
-import io.github.juniqlim.realworld.article.domain.Comment;
+import io.github.juniqlim.realworld.comment.domain.Comment;
 import io.github.juniqlim.realworld.article.repository.ArticleRepository;
 import io.github.juniqlim.realworld.user.domain.User;
 import io.github.juniqlim.realworld.user.domain.User.Id;

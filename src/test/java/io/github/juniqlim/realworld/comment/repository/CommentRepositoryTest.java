@@ -3,7 +3,7 @@ package io.github.juniqlim.realworld.comment.repository;
 import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
-import io.github.juniqlim.realworld.article.domain.Comment;
+import io.github.juniqlim.realworld.comment.domain.Comment;
 import io.github.juniqlim.realworld.user.domain.User.Id;
 import org.junit.jupiter.api.Test;
 
