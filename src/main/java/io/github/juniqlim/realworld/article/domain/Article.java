@@ -1,13 +1,14 @@
 package io.github.juniqlim.realworld.article.domain;
 
 import io.github.juniqlim.realworld.Id;
+import io.github.juniqlim.realworld.Id.EmptyId;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
 public class Article {
-    private final Long id;
+    private final Id id;
     private final Slug slug;
     private final String title;
     private final String description;
@@ -18,15 +19,15 @@ public class Article {
     private final List<Id> favoriteUserIds;
     private final Id authorId;
 
-    public Article(Long id, String title, String description, String body, Id authorId, List<Tag> tags) {
+    public Article(Id id, String title, String description, String body, Id authorId, List<Tag> tags) {
         this(id, title, description, body, authorId, tags, new ArrayList<>());
     }
 
     public Article(String title, String description, String body, Id authorId, List<Tag> tags) {
-        this(null, title, description, body, authorId, tags, new ArrayList<>());
+        this(new EmptyId(), title, description, body, authorId, tags, new ArrayList<>());
     }
 
-    public Article(Long id, String title, String description, String body, Id authorId, List<Tag> tags,
+    public Article(Id id, String title, String description, String body, Id authorId, List<Tag> tags,
         List<Id> favoriteUserIds) {
         this.id = id;
         this.slug = new Slug(title);
@@ -40,7 +41,7 @@ public class Article {
         this.authorId = authorId;
     }
 
-    public Long id() {
+    public Id id() {
         return id;
     }
 

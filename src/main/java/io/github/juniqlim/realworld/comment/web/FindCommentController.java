@@ -1,6 +1,5 @@
 package io.github.juniqlim.realworld.comment.web;
 
-import io.github.juniqlim.realworld.Id.LongId;
 import io.github.juniqlim.realworld.article.repository.ArticleRepository;
 import io.github.juniqlim.realworld.comment.FindComment;
 import io.github.juniqlim.realworld.user.FindUser;
@@ -31,7 +30,7 @@ class FindCommentController {
     public Response articles(@RequestHeader(name = "Authorization", required = false) String token, @PathVariable("slug") String slug) {
         return new Response(
             findComment.comments(
-                new LongId(articleRepository.findBySlug(slug).id()),
+                articleRepository.findBySlug(slug).id(),
                 new User.UserByToken(findUser, new Token.Jws(publicKey, token))
             )
         );

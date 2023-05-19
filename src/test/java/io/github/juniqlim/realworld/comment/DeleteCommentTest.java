@@ -20,6 +20,6 @@ class DeleteCommentTest {
             .delete(new Request(new LongId(4), Fixture.JUNIQ.token()));
 
         new FindComment(Fixture.COMMENT_REPOSITORY, new FindUser(userRepository))
-            .comments(new LongId(Fixture.MINK_ARTICLE.id()), new User.UserByToken(new FindUser(userRepository), null));
+            .comments(Fixture.MINK_ARTICLE.id(), new User.UserByToken(new FindUser(userRepository), null));
     }
 }
