@@ -33,7 +33,7 @@ public class FeedArticles {
 
     private Profile profile(Id loginUserId, Article article) {
         try {
-            if (loginUserId instanceof Id.EmptyId) {
+            if (loginUserId.isEmpty()) {
                 return findUser.find(article.authorId()).profile();
             }
             return findUser.find(article.authorId()).profile(loginUserId);

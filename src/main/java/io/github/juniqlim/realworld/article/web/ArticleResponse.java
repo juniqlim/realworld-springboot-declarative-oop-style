@@ -24,7 +24,7 @@ public class ArticleResponse {
     }
 
     public ArticleResponse(Article article, Profile profile, Id loginUserId) {
-        this(article, profile, !(loginUserId instanceof Id.EmptyId) ? article.favorited(loginUserId): false);
+        this(article, profile, !loginUserId.isEmpty() ? article.favorited(loginUserId): false);
     }
 
     private ArticleResponse(Article article, Profile profile, boolean favorited) {

@@ -4,6 +4,7 @@ import java.util.Objects;
 
 public interface Id {
     boolean equals(Id id);
+    boolean isEmpty();
 
     class LongId implements Id {
         private final long value;
@@ -17,6 +18,11 @@ public interface Id {
             if (id instanceof LongId) {
                 return value == ((LongId) id).value;
             }
+            return false;
+        }
+
+        @Override
+        public boolean isEmpty() {
             return false;
         }
 
@@ -46,6 +52,11 @@ public interface Id {
         @Override
         public boolean equals(Id id) {
             throw new UnsupportedOperationException();
+        }
+
+        @Override
+        public boolean isEmpty() {
+            return true;
         }
     }
 }

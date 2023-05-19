@@ -37,7 +37,7 @@ public class FindArticleResponse {
 
     private Profile profile(Request request, Article article) {
         try {
-            if (request.loginUserId instanceof Id.EmptyId) {
+            if (request.loginUserId.isEmpty()) {
                 return findUser.find(article.authorId()).profile();
             }
             return findUser.find(article.authorId()).profile(request.loginUserId);

@@ -25,7 +25,7 @@ public class FindComment {
 
     public List<CommentResponse> comments(Id articleId, Id loginUserId) {
         List<Comment> comments = commentRepository.findByArticleId(articleId);
-        if (loginUserId instanceof EmptyId) {
+        if (loginUserId.isEmpty()) {
             List<Profile> profiles = findUser.findList(userIds(comments)).stream()
                 .map(User::profile)
                 .collect(Collectors.toList());
