@@ -9,7 +9,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 public class Article {
-    private final long id;
+    private final Long id;
     private final Slug slug;
     private final String title;
     private final String description;
@@ -19,14 +19,17 @@ public class Article {
     private final LocalDateTime updatedAt;
     private final List<User.Id> favoriteUserIds;
     private final User.Id authorId;
-
     private final List<Comment> comments;
 
-    public Article(long id, String title, String description, String body, User.Id authorId, List<Tag> tags) {
+    public Article(Long id, String title, String description, String body, User.Id authorId, List<Tag> tags) {
         this(id, title, description, body, authorId, tags, new ArrayList<>(), new ArrayList<>());
     }
 
-    public Article(long id, String title, String description, String body, User.Id authorId, List<Tag> tags,
+    public Article(String title, String description, String body, User.Id authorId, List<Tag> tags) {
+        this(null, title, description, body, authorId, tags, new ArrayList<>(), new ArrayList<>());
+    }
+
+    public Article(Long id, String title, String description, String body, User.Id authorId, List<Tag> tags,
         List<User.Id> favoriteUserIds, List<Comment> comments) {
         this.id = id;
         this.slug = new Slug(title);
@@ -41,7 +44,7 @@ public class Article {
         this.comments = comments;
     }
 
-    public long id() {
+    public Long id() {
         return id;
     }
 
