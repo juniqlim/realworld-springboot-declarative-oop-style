@@ -1,5 +1,7 @@
 package io.github.juniqlim.realworld.comment.web;
 
+import io.github.juniqlim.realworld.Id.LongId;
+import io.github.juniqlim.realworld.article.repository.ArticleRepository;
 import io.github.juniqlim.realworld.comment.FindComment;
 import io.github.juniqlim.realworld.user.FindUser;
 import io.github.juniqlim.realworld.user.User;
@@ -16,16 +18,23 @@ class FindCommentController {
     private final FindComment findComment;
     private final FindUser findUser;
     private final PublicKey publicKey;
+    private final ArticleRepository articleRepository;
 
-    FindCommentController(FindComment findComment, FindUser findUser, PublicKey publicKey) {
+    FindCommentController(FindComment findComment, FindUser findUser, PublicKey publicKey, ArticleRepository articleRepository) {
         this.findComment = findComment;
         this.findUser = findUser;
         this.publicKey = publicKey;
+        this.articleRepository = articleRepository;
     }
 
     @GetMapping("/api/articles/{slug}/comments")
     public Response articles(@RequestHeader(name = "Authorization", required = false) String token, @PathVariable("slug") String slug) {
-        return new Response(findComment.comments(slug, new User.UserByToken(findUser, new Token.Jws(publicKey, token))));
+        return new Response(
+            findComment.comments(
+                new LongId(articleRepository.findBySlug(slug).id()),
+                new User.UserByToken(findUser, new Token.Jws(publicKey, token))
+            )
+        );
     }
 
     private static class Response {

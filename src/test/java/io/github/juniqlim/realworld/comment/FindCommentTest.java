@@ -5,6 +5,7 @@ import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import io.github.juniqlim.realworld.Fixture;
+import io.github.juniqlim.realworld.Id.LongId;
 import io.github.juniqlim.realworld.TestPublicKey;
 import io.github.juniqlim.realworld.comment.web.CommentResponse;
 import io.github.juniqlim.realworld.user.FindUser;
@@ -23,8 +24,8 @@ class FindCommentTest {
 
         io.github.juniqlim.realworld.user.User loginUser = new UserByToken(new FindUser(Fixture.USER_REPOSITORY),
             new Token.Jws(new TestPublicKey().publicKey(), "token " + Fixture.MINK.token()));
-        List<CommentResponse> comments = new FindComment(Fixture.ARTICLE_REPOSITORY, new FindUser(Fixture.USER_REPOSITORY)).comments(
-            "learn-elm", loginUser);
+        List<CommentResponse> comments = new FindComment(Fixture.COMMENT_REPOSITORY, new FindUser(Fixture.USER_REPOSITORY)).comments(
+            new LongId(Fixture.MINK_ARTICLE.id()), loginUser);
 
         assertEquals(2, comments.size());
         assertFalse(comments.get(0).getAuthor().isFollowing());

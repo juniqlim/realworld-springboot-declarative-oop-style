@@ -1,6 +1,5 @@
 package io.github.juniqlim.realworld.article.domain;
 
-import io.github.juniqlim.realworld.comment.domain.Comment;
 import io.github.juniqlim.realworld.user.domain.User;
 import io.github.juniqlim.realworld.user.domain.User.Id;
 import java.time.LocalDateTime;
@@ -19,18 +18,17 @@ public class Article {
     private final LocalDateTime updatedAt;
     private final List<User.Id> favoriteUserIds;
     private final User.Id authorId;
-    private final List<Comment> comments;
 
     public Article(Long id, String title, String description, String body, User.Id authorId, List<Tag> tags) {
-        this(id, title, description, body, authorId, tags, new ArrayList<>(), new ArrayList<>());
+        this(id, title, description, body, authorId, tags, new ArrayList<>());
     }
 
     public Article(String title, String description, String body, User.Id authorId, List<Tag> tags) {
-        this(null, title, description, body, authorId, tags, new ArrayList<>(), new ArrayList<>());
+        this(null, title, description, body, authorId, tags, new ArrayList<>());
     }
 
     public Article(Long id, String title, String description, String body, User.Id authorId, List<Tag> tags,
-        List<User.Id> favoriteUserIds, List<Comment> comments) {
+        List<User.Id> favoriteUserIds) {
         this.id = id;
         this.slug = new Slug(title);
         this.title = title;
@@ -41,7 +39,6 @@ public class Article {
         this.updatedAt = LocalDateTime.now();
         this.favoriteUserIds = favoriteUserIds;
         this.authorId = authorId;
-        this.comments = comments;
     }
 
     public Long id() {
@@ -72,24 +69,20 @@ public class Article {
         return favoriteUserIds.size();
     }
 
-    public List<Comment> comments() {
-        return comments;
-    }
-
     public boolean equalsSlug(String slug) {
         return this.slug.equalsString(slug);
     }
 
     public Article updateTitle(String title) {
-        return new Article(id, title, description, body, authorId, tags, favoriteUserIds, comments);
+        return new Article(id, title, description, body, authorId, tags, favoriteUserIds);
     }
 
     public Article updateDescription(String description) {
-        return new Article(id, title, description, body, authorId, tags, favoriteUserIds, comments);
+        return new Article(id, title, description, body, authorId, tags, favoriteUserIds);
     }
 
     public Article updateBody(String body) {
-        return new Article(id, title, description, body, authorId, tags, favoriteUserIds, comments);
+        return new Article(id, title, description, body, authorId, tags, favoriteUserIds);
     }
 
     public boolean equalsTag(String tag) {
@@ -118,18 +111,6 @@ public class Article {
 
     public boolean isFavorite(User.Id userId) {
         return favoriteUserIds.contains(userId);
-    }
-
-    public void addComment(Comment comment) {
-        comments.add(comment);
-    }
-
-    public void deleteComment(long commentId, User.Id userId) {
-        comments.stream()
-            .filter(comment -> comment.id().equals(commentId))
-            .filter(comment -> comment.userId().equals(userId))
-            .findFirst()
-            .ifPresent(comments::remove);
     }
 
     public User.Id authorId() {

@@ -1,11 +1,10 @@
 package io.github.juniqlim.realworld.comment;
 
-import static org.junit.jupiter.api.Assertions.*;
-
 import io.github.juniqlim.realworld.Fixture;
+import io.github.juniqlim.realworld.Id.LongId;
 import io.github.juniqlim.realworld.comment.DeleteComment.Request;
-import io.github.juniqlim.realworld.article.repository.ArticleRepository;
 import io.github.juniqlim.realworld.user.FindUser;
+import io.github.juniqlim.realworld.user.User;
 import io.github.juniqlim.realworld.user.repository.UserRepository;
 import org.junit.jupiter.api.Test;
 
@@ -15,12 +14,12 @@ class DeleteCommentTest {
         UserRepository userRepository = new UserRepository.Collection();
         userRepository.save(Fixture.JUNIQ);
 
-        ArticleRepository articleRepository = new ArticleRepository();
-        articleRepository.save(Fixture.MINK_ARTICLE);
+        new DeleteComment(Fixture.COMMENT_REPOSITORY, new FindUser(userRepository))
+            .delete(new Request(new LongId(3), Fixture.JUNIQ.token()));
+        new DeleteComment(Fixture.COMMENT_REPOSITORY, new FindUser(userRepository))
+            .delete(new Request(new LongId(4), Fixture.JUNIQ.token()));
 
-        new DeleteComment(articleRepository, new FindUser(userRepository)).delete(new Request("learn-elm", 3, Fixture.JUNIQ.token()));
-        new DeleteComment(articleRepository, new FindUser(userRepository)).delete(new Request("learn-elm", 4, Fixture.JUNIQ.token()));
-
-        assertEquals(1, articleRepository.findBySlug("learn-elm").comments().size());
+        new FindComment(Fixture.COMMENT_REPOSITORY, new FindUser(userRepository))
+            .comments(new LongId(Fixture.MINK_ARTICLE.id()), new User.UserByToken(new FindUser(userRepository), null));
     }
 }

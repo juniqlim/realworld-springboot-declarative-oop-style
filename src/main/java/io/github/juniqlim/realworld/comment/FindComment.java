@@ -1,44 +1,43 @@
 package io.github.juniqlim.realworld.comment;
 
-import io.github.juniqlim.realworld.article.domain.Article;
-import io.github.juniqlim.realworld.article.repository.ArticleRepository;
+import io.github.juniqlim.realworld.Id;
 import io.github.juniqlim.realworld.comment.domain.Comment;
+import io.github.juniqlim.realworld.comment.repository.CommentRepository;
 import io.github.juniqlim.realworld.comment.web.CommentResponse;
 import io.github.juniqlim.realworld.user.FindUser;
 import io.github.juniqlim.realworld.user.domain.Profile;
 import io.github.juniqlim.realworld.user.domain.User;
-import io.github.juniqlim.realworld.user.domain.User.Id;
 import java.util.List;
 import java.util.stream.Collectors;
 import org.springframework.stereotype.Service;
 
 @Service
 public class FindComment {
-    private final ArticleRepository articleRepository;
+    private final CommentRepository commentRepository;
     private final FindUser findUser;
 
-    FindComment(ArticleRepository articleRepository, FindUser findUser) {
-        this.articleRepository = articleRepository;
+    public FindComment(CommentRepository commentRepository, FindUser findUser) {
+        this.commentRepository = commentRepository;
         this.findUser = findUser;
     }
 
-    public List<CommentResponse> comments(String slug, io.github.juniqlim.realworld.user.User loginUser) {
-        Article article = articleRepository.findBySlug(slug);
+    public List<CommentResponse> comments(Id articleId, io.github.juniqlim.realworld.user.User loginUser) {
+        List<Comment> comments = commentRepository.findByArticleId(articleId);
         if (loginUser.isExist()) {
-            List<Profile> profiles = findUser.findList(userIds(article)).stream()
+            List<Profile> profiles = findUser.findList(userIds(comments)).stream()
                 .map(user -> user.profile(loginUser.id()))
                 .collect(Collectors.toList());
-            return comments(article.comments(), profiles);
+            return comments(comments, profiles);
         }
 
-        List<Profile> profiles = findUser.findList(userIds(article)).stream()
+        List<Profile> profiles = findUser.findList(userIds(comments)).stream()
             .map(User::profile)
             .collect(Collectors.toList());
-        return comments(article.comments(), profiles);
+        return comments(comments, profiles);
     }
 
-    private static List<Id> userIds(Article article) {
-        return article.comments().stream()
+    private static List<User.Id> userIds(List<Comment> comments) {
+        return comments.stream()
             .map(Comment::userId)
             .collect(Collectors.toList());
     }

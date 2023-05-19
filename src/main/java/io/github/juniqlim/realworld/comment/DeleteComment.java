@@ -1,32 +1,31 @@
 package io.github.juniqlim.realworld.comment;
 
-import io.github.juniqlim.realworld.article.repository.ArticleRepository;
+import io.github.juniqlim.realworld.Id;
+import io.github.juniqlim.realworld.comment.repository.CommentRepository;
 import io.github.juniqlim.realworld.user.FindUser;
 import io.github.juniqlim.realworld.user.domain.User;
 import org.springframework.stereotype.Service;
 
 @Service
 public class DeleteComment {
-    private final ArticleRepository articleRepository;
+    private final CommentRepository commentRepository;
     private final FindUser findUser;
 
-    public DeleteComment(ArticleRepository articleRepository, FindUser findUser) {
-        this.articleRepository = articleRepository;
+    DeleteComment(CommentRepository commentRepository, FindUser findUser) {
+        this.commentRepository = commentRepository;
         this.findUser = findUser;
     }
 
     public void delete(DeleteComment.Request request) {
         User user = findUser.find(request.jwsToken());
-        articleRepository.findBySlug(request.slug).deleteComment(request.commentId, user.id());
+        commentRepository.deleteComment(request.commentId, user.id());
     }
 
     public static class Request {
-        private final String slug;
-        private final long commentId;
+        private final Id commentId;
         private final String jwsToken;
 
-        public Request(String slug, long commentId, String jwsToken) {
-            this.slug = slug;
+        public Request(Id commentId, String jwsToken) {
             this.commentId = commentId;
             this.jwsToken = jwsToken;
         }

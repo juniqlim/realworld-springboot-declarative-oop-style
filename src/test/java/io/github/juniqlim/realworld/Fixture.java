@@ -7,6 +7,7 @@ import io.github.juniqlim.realworld.article.domain.Article;
 import io.github.juniqlim.realworld.article.domain.Tag;
 import io.github.juniqlim.realworld.article.repository.ArticleRepository;
 import io.github.juniqlim.realworld.comment.domain.Comment;
+import io.github.juniqlim.realworld.comment.repository.CommentRepository;
 import io.github.juniqlim.realworld.user.domain.User;
 import io.github.juniqlim.realworld.user.repository.UserRepository;
 import java.security.KeyFactory;
@@ -51,18 +52,18 @@ public class Fixture {
 
     public static final UserRepository USER_REPOSITORY = new UserRepository.Collection();
     public static final ArticleRepository ARTICLE_REPOSITORY = new ArticleRepository();
+    public static final CommentRepository COMMENT_REPOSITORY = new CommentRepository();
 
     static {
-        Fixture.JAKE_ARTICLE.addComment(JAKE_ARTICLE_COMMENT);
-        Fixture.JUNIQ_ARTICLE.addComment(JUNIQ_ARTICLE_COMMENT);
-        Fixture.MINK_ARTICLE.addComment(MINK_ARTICLE_COMMENT1);
-        Fixture.MINK_ARTICLE.addComment(MINK_ARTICLE_COMMENT2);
-
         USER_REPOSITORY.save(Fixture.JAKE);
         USER_REPOSITORY.save(Fixture.JUNIQ);
         USER_REPOSITORY.save(Fixture.MINK);
         ARTICLE_REPOSITORY.save(Fixture.JAKE_ARTICLE);
         ARTICLE_REPOSITORY.save(Fixture.JUNIQ_ARTICLE);
         ARTICLE_REPOSITORY.save(Fixture.MINK_ARTICLE);
+        COMMENT_REPOSITORY.save(Fixture.JAKE_ARTICLE_COMMENT);
+        COMMENT_REPOSITORY.save(Fixture.JUNIQ_ARTICLE_COMMENT);
+        COMMENT_REPOSITORY.save(Fixture.MINK_ARTICLE_COMMENT1);
+        COMMENT_REPOSITORY.save(Fixture.MINK_ARTICLE_COMMENT2);
     }
 }
