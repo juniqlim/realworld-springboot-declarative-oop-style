@@ -149,15 +149,4 @@ public class Article {
     public boolean favorited(Id userId) {
         return favoriteUserIds.contains(userId);
     }
-
-    static class Author {
-        private String username;
-        private String bio;
-        private String image;
-        private boolean following;
-
-        public String username() {
-            return username;
-        }
-    }
 }

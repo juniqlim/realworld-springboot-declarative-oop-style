@@ -4,14 +4,12 @@ import io.github.juniqlim.realworld.article.domain.Article;
 import io.github.juniqlim.realworld.user.domain.User;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.concurrent.atomic.AtomicLong;
 import java.util.stream.Collectors;
 import org.springframework.stereotype.Repository;
 
 @Repository
 public class ArticleRepository {
     private final List<Article> articles = new ArrayList<>();
-    private final AtomicLong commentSequence = new AtomicLong(1);
 
     public void save(Article article) {
         articles.add(article);
@@ -60,10 +58,6 @@ public class ArticleRepository {
 
     public void delete(String slug, User.Id userId) {
         articles.remove(findBySlugAndUserId(slug, userId));
-    }
-
-    public long findCommentSequence() {
-        return commentSequence.getAndIncrement();
     }
 
     public List<Article> findByUserIds(List<User.Id> followUsers, int offset, int limit) {

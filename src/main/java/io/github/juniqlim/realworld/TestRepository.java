@@ -4,6 +4,7 @@ import io.github.juniqlim.object.jwt.Jwt.Jws;
 import io.github.juniqlim.realworld.article.domain.Article;
 import io.github.juniqlim.realworld.comment.domain.Comment;
 import io.github.juniqlim.realworld.article.repository.ArticleRepository;
+import io.github.juniqlim.realworld.comment.repository.CommentRepository;
 import io.github.juniqlim.realworld.user.domain.User;
 import io.github.juniqlim.realworld.user.domain.User.Id;
 import io.github.juniqlim.realworld.user.repository.UserRepository;
@@ -20,20 +21,14 @@ import org.springframework.stereotype.Component;
 public class TestRepository {
     private final UserRepository userRepository;
     private final ArticleRepository articleRepository;
+    private final CommentRepository commentRepository;
 
-    public TestRepository(UserRepository userRepository, ArticleRepository articleRepository)
-        throws InvalidKeySpecException, NoSuchAlgorithmException {
-        this.userRepository = userRepository;
-        this.articleRepository = articleRepository;
+
+    public TestRepository() throws InvalidKeySpecException, NoSuchAlgorithmException {
+        this.userRepository = new UserRepository.Collection();
+        this.articleRepository = new ArticleRepository();
+        this.commentRepository = new CommentRepository();
         setData();
-    }
-
-    public UserRepository userRepository() {
-        return userRepository;
-    }
-
-    public ArticleRepository articleRepository() {
-        return articleRepository;
     }
 
     private void setData() throws InvalidKeySpecException, NoSuchAlgorithmException {
@@ -54,10 +49,10 @@ public class TestRepository {
             new Id(2), new ArrayList<>());
         Article minkArticle = new Article("Learn Elm", "learn", "It's like a functional language",
             new Id(3), new ArrayList<>());
-        jakeArticle.addComment(new Comment(articleRepository.findCommentSequence(), 1, "It's easy", juniq.id()));
-        juniqArticle.addComment(new Comment(articleRepository.findCommentSequence(), 2, "It's good", mink.id()));
-        minkArticle.addComment(new Comment(articleRepository.findCommentSequence(), 3, "It's hard", jake.id()));
-        minkArticle.addComment(new Comment(articleRepository.findCommentSequence(), 3, "It's big", juniq.id()));
+        jakeArticle.addComment(new Comment(commentRepository.findCommentSequence(), 1, "It's easy", juniq.id()));
+        juniqArticle.addComment(new Comment(commentRepository.findCommentSequence(), 2, "It's good", mink.id()));
+        minkArticle.addComment(new Comment(commentRepository.findCommentSequence(), 3, "It's hard", jake.id()));
+        minkArticle.addComment(new Comment(commentRepository.findCommentSequence(), 3, "It's big", juniq.id()));
         articleRepository.save(jakeArticle);
         articleRepository.save(juniqArticle);
         articleRepository.save(minkArticle);
