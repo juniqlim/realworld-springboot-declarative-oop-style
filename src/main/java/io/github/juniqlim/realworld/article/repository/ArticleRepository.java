@@ -2,7 +2,6 @@ package io.github.juniqlim.realworld.article.repository;
 
 import io.github.juniqlim.realworld.Id;
 import io.github.juniqlim.realworld.article.domain.Article;
-import io.github.juniqlim.realworld.user.domain.User;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;

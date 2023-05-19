@@ -3,7 +3,6 @@ package io.github.juniqlim.realworld.comment.web;
 import io.github.juniqlim.realworld.article.repository.ArticleRepository;
 import io.github.juniqlim.realworld.comment.FindComment;
 import io.github.juniqlim.realworld.user.FindUser;
-import io.github.juniqlim.realworld.user.User;
 import io.github.juniqlim.realworld.user.web.Token;
 import java.security.PublicKey;
 import java.util.List;
@@ -31,7 +30,7 @@ class FindCommentController {
         return new Response(
             findComment.comments(
                 articleRepository.findBySlug(slug).id(),
-                new User.UserByToken(findUser, new Token.Jws(publicKey, token))
+                findUser.find(new Token.Jws(publicKey, token)).id()
             )
         );
     }
