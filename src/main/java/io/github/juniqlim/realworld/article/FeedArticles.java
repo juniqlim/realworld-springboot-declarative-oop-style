@@ -2,12 +2,12 @@ package io.github.juniqlim.realworld.article;
 
 import static java.util.stream.Collectors.toList;
 
+import io.github.juniqlim.realworld.Id;
 import io.github.juniqlim.realworld.article.domain.Article;
 import io.github.juniqlim.realworld.article.repository.ArticleRepository;
 import io.github.juniqlim.realworld.article.web.ArticleResponse;
 import io.github.juniqlim.realworld.user.FindUser;
 import io.github.juniqlim.realworld.user.domain.Profile;
-import io.github.juniqlim.realworld.user.domain.User;
 import java.util.List;
 import org.springframework.stereotype.Service;
 
@@ -27,8 +27,8 @@ public class FeedArticles {
             .collect(toList());
     }
 
-    private List<User.Id> followUsers(io.github.juniqlim.realworld.user.User loginUser) {
-        return (List<User.Id>) findUser.find(loginUser.id()).follows();
+    private List<Id> followUsers(io.github.juniqlim.realworld.user.User loginUser) {
+        return (List<Id>) findUser.find(loginUser.id()).follows();
     }
 
     private Profile profile(io.github.juniqlim.realworld.user.User loginUser, Article article) {

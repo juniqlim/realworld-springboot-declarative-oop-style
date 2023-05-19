@@ -1,5 +1,6 @@
 package io.github.juniqlim.realworld.article.repository;
 
+import io.github.juniqlim.realworld.Id;
 import io.github.juniqlim.realworld.article.domain.Article;
 import io.github.juniqlim.realworld.user.domain.User;
 import java.util.ArrayList;
@@ -22,7 +23,7 @@ public class ArticleRepository {
             .orElseThrow(() -> new RuntimeException("Article not found"));
     }
 
-    public Article findBySlugAndUserId(String slug, User.Id userId) {
+    public Article findBySlugAndUserId(String slug, Id userId) {
         return articles.stream()
             .filter(article -> article.equalsSlugAndAuthorId(slug, userId))
             .findFirst()
@@ -34,7 +35,7 @@ public class ArticleRepository {
         articles.add(article);
     }
 
-    public List<Article> findByTagAuthorIdFavoriteUserIdOrderByRegdate(String tag, User.Id authorId, User.Id favoriteUserId, int offset, int limit) {
+    public List<Article> findByTagAuthorIdFavoriteUserIdOrderByRegdate(String tag, Id authorId, Id favoriteUserId, int offset, int limit) {
         Conditional conditional = new Conditional(tag, authorId, favoriteUserId);
         return articles.stream()
             .sorted((article1, article2) -> article2.compareCreatedAt(article1))
@@ -56,11 +57,11 @@ public class ArticleRepository {
             .collect(Collectors.toList());
     }
 
-    public void delete(String slug, User.Id userId) {
+    public void delete(String slug, Id userId) {
         articles.remove(findBySlugAndUserId(slug, userId));
     }
 
-    public List<Article> findByUserIds(List<User.Id> followUsers, int offset, int limit) {
+    public List<Article> findByUserIds(List<Id> followUsers, int offset, int limit) {
         return articles.stream()
             .sorted((article1, article2) -> article2.compareCreatedAt(article1))
             .filter(article -> followUsers.contains(article.authorId()))
@@ -71,10 +72,10 @@ public class ArticleRepository {
 
     static class Conditional {
         private final String tag;
-        private final User.Id authorId;
-        private final User.Id favoriteUserId;
+        private final Id authorId;
+        private final Id favoriteUserId;
 
-        public Conditional(String tag, User.Id authorId, User.Id favoriteUserId) {
+        public Conditional(String tag, Id authorId, Id favoriteUserId) {
             this.tag = tag;
             this.authorId = authorId;
             this.favoriteUserId = favoriteUserId;

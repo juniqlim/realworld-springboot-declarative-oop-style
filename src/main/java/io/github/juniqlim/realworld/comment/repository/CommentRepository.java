@@ -29,7 +29,7 @@ public class CommentRepository {
         return new LongId(commentSequence.getAndIncrement());
     }
 
-    public void deleteComment(Id commentId, User.Id loginUserId) {
+    public void deleteComment(Id commentId, Id loginUserId) {
         comments.removeIf(comment -> comment.id().equals(commentId)
             && comment.userId().equals(loginUserId));
     }

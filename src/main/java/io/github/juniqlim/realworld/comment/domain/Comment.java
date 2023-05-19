@@ -1,18 +1,17 @@
 package io.github.juniqlim.realworld.comment.domain;
 
 import io.github.juniqlim.realworld.Id;
-import io.github.juniqlim.realworld.user.domain.User;
 import java.time.LocalDateTime;
 
 public class Comment {
     private final Id id;
     private final Id articleId;
     private final String body;
-    private final User.Id userId;
+    private final Id userId;
     private final LocalDateTime createdAt;
     private final LocalDateTime updatedAt;
 
-    public Comment(Id id, Id articleId, String body, User.Id userId) {
+    public Comment(Id id, Id articleId, String body, Id userId) {
         this.id = id;
         this.articleId = articleId;
         this.body = body;
@@ -33,7 +32,7 @@ public class Comment {
         return body;
     }
 
-    public User.Id userId() {
+    public Id userId() {
         return userId;
     }
 

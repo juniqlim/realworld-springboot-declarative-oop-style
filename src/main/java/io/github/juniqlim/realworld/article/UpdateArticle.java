@@ -1,5 +1,6 @@
 package io.github.juniqlim.realworld.article;
 
+import io.github.juniqlim.realworld.Id;
 import io.github.juniqlim.realworld.article.domain.Article;
 import io.github.juniqlim.realworld.article.repository.ArticleRepository;
 import io.github.juniqlim.realworld.user.domain.User;
@@ -30,13 +31,13 @@ public class UpdateArticle {
     }
 
     public static class Request {
-        private final User.Id userId;
+        private final Id userId;
         private final String slug;
         private final String title;
         private final String description;
         private final String body;
 
-        public Request(User.Id userId, String slug, String title, String description, String body) {
+        public Request(Id userId, String slug, String title, String description, String body) {
             this.userId = userId;
             this.slug = slug;
             this.title = title;
@@ -53,13 +54,13 @@ public class UpdateArticle {
         }
 
         public static class Builder {
-            public User.Id userId;
+            public Id userId;
             public String slug;
             private String title;
             private String description;
             private String body;
 
-            public Builder userId(User.Id userId) {
+            public Builder userId(Id userId) {
                 this.userId = userId;
                 return this;
             }
@@ -89,7 +90,7 @@ public class UpdateArticle {
             }
         }
 
-        public User.Id getUserId() {
+        public Id getUserId() {
             return userId;
         }
 

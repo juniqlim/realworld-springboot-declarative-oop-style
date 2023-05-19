@@ -30,10 +30,6 @@ public class Fixture {
         }
     }
 
-    public static final User USER = new User(1, Jwt.FAKE.token(), "123", "Jacob", "jake@jake.jake");
-    public static final Article ARTICLE = new Article("How to train your dragon", "Ever wonder how?", "It takes a Jacob", USER.id(),
-        Arrays.asList(new Tag("dragons"), new Tag("training")));
-
     public static final User JAKE = new User(1, new Jws(privateKey).token(), "jakejake", "Jacob", "jake@jake.jake");
     public static final User JUNIQ = new User(2, new Jws(privateKey).token(), "juniqjuniq", "juniq", "juniq@juniq.juniq");
     public static final User MINK = new User(3, new Jws(privateKey).token(), "minkmink", "mink", "mink@mink.mink");
@@ -53,6 +49,9 @@ public class Fixture {
     public static final UserRepository USER_REPOSITORY = new UserRepository.Collection();
     public static final ArticleRepository ARTICLE_REPOSITORY = new ArticleRepository();
     public static final CommentRepository COMMENT_REPOSITORY = new CommentRepository();
+
+    public static final Id LONG_ID_ONE = new LongId(1);
+    public static final Id LONG_ID_TWO = new LongId(2);
 
     static {
         USER_REPOSITORY.save(Fixture.JAKE);

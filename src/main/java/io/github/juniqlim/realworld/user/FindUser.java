@@ -1,7 +1,7 @@
 package io.github.juniqlim.realworld.user;
 
+import io.github.juniqlim.realworld.Id;
 import io.github.juniqlim.realworld.user.domain.User;
-import io.github.juniqlim.realworld.user.domain.User.Id;
 import io.github.juniqlim.realworld.user.repository.UserRepository;
 import io.github.juniqlim.realworld.user.web.Token;
 import java.util.List;
@@ -27,7 +27,7 @@ public class FindUser {
         return userRepository.findByUsername(username);
     }
 
-    public User find(User.Id id) {
+    public User find(Id id) {
         return userRepository.findById(id);
     }
 

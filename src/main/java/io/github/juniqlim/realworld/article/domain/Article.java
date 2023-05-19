@@ -1,7 +1,6 @@
 package io.github.juniqlim.realworld.article.domain;
 
-import io.github.juniqlim.realworld.user.domain.User;
-import io.github.juniqlim.realworld.user.domain.User.Id;
+import io.github.juniqlim.realworld.Id;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
@@ -16,19 +15,19 @@ public class Article {
     private final List<Tag> tags;
     private final LocalDateTime createdAt;
     private final LocalDateTime updatedAt;
-    private final List<User.Id> favoriteUserIds;
-    private final User.Id authorId;
+    private final List<Id> favoriteUserIds;
+    private final Id authorId;
 
-    public Article(Long id, String title, String description, String body, User.Id authorId, List<Tag> tags) {
+    public Article(Long id, String title, String description, String body, Id authorId, List<Tag> tags) {
         this(id, title, description, body, authorId, tags, new ArrayList<>());
     }
 
-    public Article(String title, String description, String body, User.Id authorId, List<Tag> tags) {
+    public Article(String title, String description, String body, Id authorId, List<Tag> tags) {
         this(null, title, description, body, authorId, tags, new ArrayList<>());
     }
 
-    public Article(Long id, String title, String description, String body, User.Id authorId, List<Tag> tags,
-        List<User.Id> favoriteUserIds) {
+    public Article(Long id, String title, String description, String body, Id authorId, List<Tag> tags,
+        List<Id> favoriteUserIds) {
         this.id = id;
         this.slug = new Slug(title);
         this.title = title;
@@ -89,11 +88,11 @@ public class Article {
         return tags.contains(new Tag(tag));
     }
 
-    public boolean equalsAuthorId(User.Id authorId) {
+    public boolean equalsAuthorId(Id authorId) {
         return this.authorId.equals(authorId);
     }
 
-    public boolean equalsSlugAndAuthorId(String slug, User.Id authorId) {
+    public boolean equalsSlugAndAuthorId(String slug, Id authorId) {
         return equalsSlug(slug) && equalsAuthorId(authorId);
     }
 
@@ -101,19 +100,19 @@ public class Article {
         return createdAt.compareTo(article.createdAt());
     }
 
-    public void favorite(User.Id userId) {
+    public void favorite(Id userId) {
         favoriteUserIds.add(userId);
     }
 
-    public void unFavorite(User.Id userId) {
+    public void unFavorite(Id userId) {
         favoriteUserIds.remove(userId);
     }
 
-    public boolean isFavorite(User.Id userId) {
+    public boolean isFavorite(Id userId) {
         return favoriteUserIds.contains(userId);
     }
 
-    public User.Id authorId() {
+    public Id authorId() {
         return authorId;
     }
 

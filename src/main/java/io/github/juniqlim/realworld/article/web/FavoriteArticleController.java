@@ -1,5 +1,6 @@
 package io.github.juniqlim.realworld.article.web;
 
+import io.github.juniqlim.realworld.Id;
 import io.github.juniqlim.realworld.article.FavoriteArticle;
 import io.github.juniqlim.realworld.user.FindUser;
 import io.github.juniqlim.realworld.user.domain.User;
@@ -25,13 +26,13 @@ public class FavoriteArticleController {
 
     @PostMapping("/api/articles/{slug}/favorite")
     public Response favoriteArticle(@RequestHeader("Authorization") String token, @PathVariable String slug) {
-        User.Id loginUserId = findUser.find(new Token.Jws(publicKey, token).value()).id();
+        Id loginUserId = findUser.find(new Token.Jws(publicKey, token).value()).id();
         return new Response(new RappingArticle(findUser).value(favoriteArticle.favorite(slug, loginUserId), loginUserId));
     }
 
     @DeleteMapping("/api/articles/{slug}/favorite")
     public Response unfavoriteArticle(@RequestHeader("Authorization") String token, @PathVariable String slug) {
-        User.Id loginUserId = findUser.find(new Token.Jws(publicKey, token).value()).id();
+        Id loginUserId = findUser.find(new Token.Jws(publicKey, token).value()).id();
         return new Response(new RappingArticle(findUser).value(favoriteArticle.unFavorite(slug, loginUserId), loginUserId));
     }
 

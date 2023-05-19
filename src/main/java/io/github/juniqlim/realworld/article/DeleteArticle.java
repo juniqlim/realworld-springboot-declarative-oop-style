@@ -1,7 +1,7 @@
 package io.github.juniqlim.realworld.article;
 
+import io.github.juniqlim.realworld.Id;
 import io.github.juniqlim.realworld.article.repository.ArticleRepository;
-import io.github.juniqlim.realworld.user.domain.User;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -12,7 +12,7 @@ public class DeleteArticle {
         this.articleRepository = articleRepository;
     }
 
-    public void delete(String slug, User.Id userId) {
+    public void delete(String slug, Id userId) {
         articleRepository.delete(slug, userId);
     }
 }

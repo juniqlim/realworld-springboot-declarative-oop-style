@@ -1,5 +1,6 @@
 package io.github.juniqlim.realworld.article.web;
 
+import io.github.juniqlim.realworld.Id;
 import io.github.juniqlim.realworld.article.domain.Article;
 import io.github.juniqlim.realworld.user.domain.Profile;
 import io.github.juniqlim.realworld.user.domain.User;
@@ -26,7 +27,7 @@ public class ArticleResponse {
         this(article, profile, loginUser.isExist() ? article.favorited(loginUser.id()): false);
     }
 
-    public ArticleResponse(Article article, Profile profile, User.Id loginUserId) {
+    public ArticleResponse(Article article, Profile profile, Id loginUserId) {
         this(article, profile, loginUserId != null ? article.favorited(loginUserId): false);
     }
 

@@ -5,6 +5,7 @@ import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import autoparams.AutoSource;
+import io.github.juniqlim.realworld.Fixture;
 import io.github.juniqlim.realworld.article.CreateArticle.Request;
 import io.github.juniqlim.realworld.article.domain.Article;
 import io.github.juniqlim.realworld.article.repository.ArticleRepository;
@@ -27,12 +28,12 @@ class FavoriteArticleTest {
             new Request("How to train your dragon", "Ever wonder how?", "You have to believe", user.token(),
                 Arrays.asList("reactjs", "angularjs", "dragons")));
 
-        Article favoritedArticle = new FavoriteArticle(articleRepository).favorite(article.slug(), new User.Id(2));
-        assertTrue(favoritedArticle.isFavorite(new User.Id(2)));
+        Article favoritedArticle = new FavoriteArticle(articleRepository).favorite(article.slug(), Fixture.LONG_ID_TWO);
+        assertTrue(favoritedArticle.isFavorite(Fixture.LONG_ID_TWO));
         assertEquals(1, favoritedArticle.favoritesCount());
 
-        favoritedArticle.unFavorite(new User.Id(2));
-        assertFalse(favoritedArticle.isFavorite(new User.Id(2)));
+        favoritedArticle.unFavorite(Fixture.LONG_ID_TWO);
+        assertFalse(favoritedArticle.isFavorite(Fixture.LONG_ID_TWO));
         assertEquals(0, favoritedArticle.favoritesCount());
     }
 }

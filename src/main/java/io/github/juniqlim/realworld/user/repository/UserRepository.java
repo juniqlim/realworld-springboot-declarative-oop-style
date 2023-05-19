@@ -1,7 +1,7 @@
 package io.github.juniqlim.realworld.user.repository;
 
+import io.github.juniqlim.realworld.Id;
 import io.github.juniqlim.realworld.user.domain.User;
-import io.github.juniqlim.realworld.user.domain.User.Id;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.atomic.AtomicLong;
@@ -16,7 +16,7 @@ public interface UserRepository {
     User findByToken(String token);
     void update(User user);
     long findSequence();
-    List<User> findByIds(List<User.Id> userIds);
+    List<User> findByIds(List<Id> userIds);
 
 
     @Repository

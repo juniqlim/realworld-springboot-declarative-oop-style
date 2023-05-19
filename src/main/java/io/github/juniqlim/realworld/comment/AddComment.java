@@ -24,9 +24,9 @@ public class AddComment {
     public static class Request {
         private final Id articleId;
         private final String comment;
-        private final User.Id userId;
+        private final Id userId;
 
-        public Request(Id articleId, String comment, User.Id userId) {
+        public Request(Id articleId, String comment, Id userId) {
             this.articleId = articleId;
             this.comment = comment;
             this.userId = userId;

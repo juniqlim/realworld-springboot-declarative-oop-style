@@ -3,6 +3,8 @@ package io.github.juniqlim.realworld.article;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import io.github.juniqlim.object.jwt.Jwt;
+import io.github.juniqlim.realworld.Fixture;
+import io.github.juniqlim.realworld.article.FindArticle.Request;
 import io.github.juniqlim.realworld.article.domain.Article;
 import io.github.juniqlim.realworld.article.domain.Tag;
 import io.github.juniqlim.realworld.article.repository.ArticleRepository;
@@ -20,7 +22,7 @@ class FindArticleTest {
     @BeforeEach
     void setUp() {
         articleRepository.save(new Article("How to train your dragon", "Ever wonder how?", "You have to believe",
-            new User.Id(1), Arrays.asList(new Tag("reactjs"), new Tag("angularjs"), new Tag("dragons"))));
+            Fixture.LONG_ID_ONE, Arrays.asList(new Tag("reactjs"), new Tag("angularjs"), new Tag("dragons"))));
 
         UserRepository userRepository = new UserRepository.Collection();
         userRepository.save(new User(1, Jwt.FAKE.token(), "123", "Jacob", "jake@jake.jake"));
@@ -43,11 +45,12 @@ class FindArticleTest {
     @Test
     void findByFavoriteUserName() {
         Article article = articleRepository.findBySlug("how-to-train-your-dragon");
-        article.favorite(new User.Id(1));
+        article.favorite(Fixture.LONG_ID_ONE);
         articleRepository.update(article.slug(), article);
 
         assertEquals("How to train your dragon",
-            new FindArticle(articleRepository, findUser).find(new FindArticle.Request(null, null, "Jacob", 0, 100))
+            new FindArticle(articleRepository, findUser).find(
+                    new Request(null, null, "Jacob", 0, 100))
                 .get(0).title());
     }
 }

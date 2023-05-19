@@ -1,9 +1,10 @@
 package io.github.juniqlim.realworld.user;
 
+import io.github.juniqlim.realworld.Id;
 import io.github.juniqlim.realworld.user.web.Token;
 
 public interface User {
-    io.github.juniqlim.realworld.user.domain.User.Id id();
+    Id id();
     boolean isExist();
     boolean isNull();
 
@@ -16,7 +17,7 @@ public interface User {
             this.name = userName;
         }
 
-        public io.github.juniqlim.realworld.user.domain.User.Id id() {
+        public Id id() {
             try {
                 return findUser.findByUsername(name).id();
             } catch (IllegalArgumentException e) {
@@ -47,7 +48,7 @@ public interface User {
             this.token = token;
         }
 
-        public io.github.juniqlim.realworld.user.domain.User.Id id() {
+        public Id id() {
             if (!token.isExist()) {
                 return null;
             }
@@ -75,7 +76,7 @@ public interface User {
     }
 
     class NoUser implements User {
-        public io.github.juniqlim.realworld.user.domain.User.Id id() {
+        public Id id() {
             return null;
         }
         public boolean isExist() {

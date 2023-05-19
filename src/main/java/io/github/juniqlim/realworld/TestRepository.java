@@ -3,11 +3,9 @@ package io.github.juniqlim.realworld;
 import io.github.juniqlim.object.jwt.Jwt.Jws;
 import io.github.juniqlim.realworld.Id.LongId;
 import io.github.juniqlim.realworld.article.domain.Article;
-import io.github.juniqlim.realworld.comment.domain.Comment;
 import io.github.juniqlim.realworld.article.repository.ArticleRepository;
 import io.github.juniqlim.realworld.comment.repository.CommentRepository;
 import io.github.juniqlim.realworld.user.domain.User;
-import io.github.juniqlim.realworld.user.domain.User.Id;
 import io.github.juniqlim.realworld.user.repository.UserRepository;
 import java.security.KeyFactory;
 import java.security.NoSuchAlgorithmException;
@@ -47,11 +45,23 @@ public class TestRepository {
         Article jakeArticle = new Article("How to train your dragon", "Ever wonder how?", "You have to believe",
             jake.id(), new ArrayList<>());
         Article juniqArticle = new Article("Good day", "So toothless", "You have to believe",
-            new Id(2), new ArrayList<>());
+            new LongId(2), new ArrayList<>());
         Article minkArticle = new Article("Learn Elm", "learn", "It's like a functional language",
-            new Id(3), new ArrayList<>());
+            new LongId(3), new ArrayList<>());
         articleRepository.save(jakeArticle);
         articleRepository.save(juniqArticle);
         articleRepository.save(minkArticle);
+    }
+
+    UserRepository userRepository() {
+        return userRepository;
+    }
+
+    ArticleRepository articleRepository() {
+        return articleRepository;
+    }
+
+    CommentRepository commentRepository() {
+        return commentRepository;
     }
 }

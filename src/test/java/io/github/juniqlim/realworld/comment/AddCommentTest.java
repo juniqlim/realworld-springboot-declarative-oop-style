@@ -13,7 +13,7 @@ import org.junit.jupiter.api.Test;
 class AddCommentTest {
     @Test
     void test() {
-        Comment comment = new AddComment(new CommentRepository()).add(new Request(new LongId(Fixture.JAKE_ARTICLE.id()), "This is a comment", new User.Id(1)));
+        Comment comment = new AddComment(new CommentRepository()).add(new Request(new LongId(Fixture.JAKE_ARTICLE.id()), "This is a comment", Fixture.LONG_ID_ONE));
         assertEquals("This is a comment", comment.body());
     }
 }

@@ -1,5 +1,7 @@
 package io.github.juniqlim.realworld.user.domain;
 
+import io.github.juniqlim.realworld.Id;
+import io.github.juniqlim.realworld.Id.LongId;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Objects;
@@ -12,11 +14,11 @@ public class User {
     private final String email;
     private final String bio;
     private final String image;
-    private final Collection<User.Id> follows;
-    private final Collection<User.Id> followers;
+    private final Collection<Id> follows;
+    private final Collection<Id> followers;
 
     public User(long id, String token, String password, String username, String email) {
-        this(new Id(id), token, password, username, email, null, null);
+        this(new LongId(id), token, password, username, email, null, null);
     }
 
     public User(Id id, String token, String password, String username, String email, String bio, String image) {
@@ -55,7 +57,7 @@ public class User {
         return image;
     }
 
-    public boolean equalsId(User.Id id) {
+    public boolean equalsId(Id id) {
         return this.id.equals(id);
     }
 
@@ -92,7 +94,7 @@ public class User {
         follows.remove(userId);
     }
 
-    public Collection<User.Id> follows() {
+    public Collection<Id> follows() {
         return follows;
     }
 
@@ -104,7 +106,7 @@ public class User {
         followers.remove(userId);
     }
 
-    public Collection<User.Id> followers() {
+    public Collection<Id> followers() {
         return followers;
     }
 
@@ -112,37 +114,8 @@ public class User {
         return new Profile(id, username, bio, image, false);
     }
 
-    public Profile profile(User.Id selecterId) {
+    public Profile profile(Id selecterId) {
         return new Profile(id, username, bio, image, followers.contains(selecterId));
-    }
-
-    public static class Id {
-        private final long value;
-
-        public Id(long value) {
-            this.value = value;
-        }
-
-        public long value() {
-            return value;
-        }
-
-        @Override
-        public boolean equals(Object o) {
-            if (this == o) {
-                return true;
-            }
-            if (o == null || getClass() != o.getClass()) {
-                return false;
-            }
-            Id id = (Id) o;
-            return value == id.value;
-        }
-
-        @Override
-        public int hashCode() {
-            return Objects.hash(value);
-        }
     }
 
     public interface UpdateRequest {

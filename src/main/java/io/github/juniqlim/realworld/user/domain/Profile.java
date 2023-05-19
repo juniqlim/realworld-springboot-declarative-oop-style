@@ -1,9 +1,9 @@
 package io.github.juniqlim.realworld.user.domain;
 
-import io.github.juniqlim.realworld.user.domain.User.Id;
+import io.github.juniqlim.realworld.Id;
 
 public class Profile {
-    private final User.Id userId;
+    private final Id userId;
     private final String username;
     private final String bio;
     private final String image;
@@ -21,7 +21,7 @@ public class Profile {
         this.following = following;
     }
 
-    public boolean equalsUserId(User.Id userId) {
+    public boolean equalsUserId(Id userId) {
         return this.userId.equals(userId);
     }
 

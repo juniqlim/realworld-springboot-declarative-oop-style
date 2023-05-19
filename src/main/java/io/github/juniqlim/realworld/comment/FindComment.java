@@ -1,6 +1,7 @@
 package io.github.juniqlim.realworld.comment;
 
 import io.github.juniqlim.realworld.Id;
+import io.github.juniqlim.realworld.Id.LongId;
 import io.github.juniqlim.realworld.comment.domain.Comment;
 import io.github.juniqlim.realworld.comment.repository.CommentRepository;
 import io.github.juniqlim.realworld.comment.web.CommentResponse;
@@ -36,7 +37,7 @@ public class FindComment {
         return comments(comments, profiles);
     }
 
-    private static List<User.Id> userIds(List<Comment> comments) {
+    private static List<Id> userIds(List<Comment> comments) {
         return comments.stream()
             .map(Comment::userId)
             .collect(Collectors.toList());
@@ -46,7 +47,7 @@ public class FindComment {
     private static List<CommentResponse> comments(List<Comment> comments, List<Profile> profiles) {
         return comments.stream().map(comment -> {
             Profile matchedProfile = profiles.stream().filter(profile -> profile.equalsUserId(comment.userId()))
-                .findFirst().orElse(new Profile(new User.Id(0L), "", "", "", false));
+                .findFirst().orElse(new Profile(new LongId(0L), "", "", "", false));
             return new CommentResponse(comment, matchedProfile);
         }).collect(Collectors.toList());
     }

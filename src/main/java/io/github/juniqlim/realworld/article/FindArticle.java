@@ -1,5 +1,6 @@
 package io.github.juniqlim.realworld.article;
 
+import io.github.juniqlim.realworld.Id;
 import io.github.juniqlim.realworld.article.domain.Article;
 import io.github.juniqlim.realworld.article.repository.ArticleRepository;
 import io.github.juniqlim.realworld.user.FindUser;
@@ -53,14 +54,14 @@ public class FindArticle {
             return limit;
         }
 
-        public User.Id authorId(FindUser findUser) {
+        public Id authorId(FindUser findUser) {
             if (authorName == null) {
                 return null;
             }
             return findUser.findByUsername(authorName).id();
         }
 
-        public User.Id favoriteUserId(FindUser findUser) {
+        public Id favoriteUserId(FindUser findUser) {
             if (FavoriteUserName == null) {
                 return null;
             }

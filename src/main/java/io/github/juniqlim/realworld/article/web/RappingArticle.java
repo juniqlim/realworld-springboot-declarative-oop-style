@@ -1,5 +1,6 @@
 package io.github.juniqlim.realworld.article.web;
 
+import io.github.juniqlim.realworld.Id;
 import io.github.juniqlim.realworld.article.domain.Article;
 import io.github.juniqlim.realworld.user.FindUser;
 import io.github.juniqlim.realworld.user.domain.User;
@@ -24,7 +25,7 @@ class RappingArticle {
         return value(article, findUser.find(loginUserJwsToken).id());
     }
 
-    ArticleResponse value(Article article, User.Id loginUserId) {
+    ArticleResponse value(Article article, Id loginUserId) {
         return new ArticleResponse(
             article,
             findUser.find(article.authorId()).profile(),
