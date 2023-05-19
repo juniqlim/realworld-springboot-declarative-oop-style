@@ -7,6 +7,7 @@ import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import io.github.juniqlim.realworld.Fixture;
+import io.github.juniqlim.realworld.Id;
 import io.github.juniqlim.realworld.Id.LongId;
 import io.github.juniqlim.realworld.article.domain.Article;
 import io.github.juniqlim.realworld.article.domain.Tag;
@@ -35,7 +36,7 @@ class ArticleRepositoryTest {
             sleep(10);
         }
 
-        List<Article> articles = articleRepository.findByTagAuthorIdFavoriteUserIdOrderByRegdate("reactjs1", null, null, 1, 3);
+        List<Article> articles = articleRepository.findByTagAuthorIdFavoriteUserIdOrderByRegdate("reactjs1", new Id.EmptyId(), new Id.EmptyId(), 1, 3);
 
         System.out.println("articles.size() = " + articles.size());
         articles.forEach(a -> System.out.println("a.getSlug() = " + a.slug() + ", a.getCreateAt = " + a.createdAt()));
@@ -45,14 +46,14 @@ class ArticleRepositoryTest {
         assertEquals("88", articles.get(1).slug());
         assertEquals("85", articles.get(2).slug());
 
-        List<Article> articles2 = articleRepository.findByTagAuthorIdFavoriteUserIdOrderByRegdate(null, Fixture.LONG_ID_ONE, null, 0, 100);
+        List<Article> articles2 = articleRepository.findByTagAuthorIdFavoriteUserIdOrderByRegdate(null, Fixture.LONG_ID_ONE, new Id.EmptyId(), 0, 100);
 
         assertEquals(50, articles2.size());
     }
 
     @Test
     void condition1() {
-        Conditional conditional = new Conditional(null, Fixture.LONG_ID_ONE, null);
+        Conditional conditional = new Conditional(null, Fixture.LONG_ID_ONE, new Id.EmptyId());
         Article article = new Article("How to train your dragon", "Ever wonder how?",
             "You have to believe", Fixture.LONG_ID_ONE, Arrays.asList(new Tag("reactjs"), new Tag("angularjs"), new Tag("dragons")));
 
@@ -61,7 +62,7 @@ class ArticleRepositoryTest {
 
     @Test
     void condition2() {
-        Conditional conditional = new Conditional("re", Fixture.LONG_ID_ONE, null);
+        Conditional conditional = new Conditional("re", Fixture.LONG_ID_ONE, new Id.EmptyId());
         Article article = new Article("How to train your dragon", "Ever wonder how?",
             "You have to believe", Fixture.LONG_ID_ONE, Arrays.asList(new Tag("reactjs"), new Tag("angularjs"), new Tag("dragons")));
 
@@ -70,7 +71,7 @@ class ArticleRepositoryTest {
 
     @Test
     void condition3() {
-        Conditional conditional = new Conditional(null, null, null);
+        Conditional conditional = new Conditional(null, new Id.EmptyId(), new Id.EmptyId());
         Article article = new Article("How to train your dragon", "Ever wonder how?",
             "You have to believe", Fixture.LONG_ID_ONE, Arrays.asList(new Tag("reactjs"), new Tag("angularjs"), new Tag("dragons")));
 
@@ -79,7 +80,7 @@ class ArticleRepositoryTest {
 
     @Test
     void condition4() {
-        Conditional conditional = new Conditional("reactjs", Fixture.LONG_ID_ONE, null);
+        Conditional conditional = new Conditional("reactjs", Fixture.LONG_ID_ONE, new Id.EmptyId());
         Article article = new Article("How to train your dragon", "Ever wonder how?",
             "You have to believe", Fixture.LONG_ID_ONE, Arrays.asList(new Tag("reactjs"), new Tag("angularjs"), new Tag("dragons")));
 
@@ -98,7 +99,7 @@ class ArticleRepositoryTest {
 
     @Test
     void condition6() {
-        Conditional conditional = new Conditional(null, null, null);
+        Conditional conditional = new Conditional(null, new Id.EmptyId(), new Id.EmptyId());
         Article article = new Article("How to train your dragon", "Ever wonder how?",
             "You have to believe", Fixture.LONG_ID_ONE, Arrays.asList(new Tag("reactjs"), new Tag("angularjs"), new Tag("dragons")));
 

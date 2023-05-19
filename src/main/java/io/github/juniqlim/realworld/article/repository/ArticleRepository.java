@@ -85,10 +85,10 @@ public class ArticleRepository {
             if (tag == null || article.equalsTag(tag)) {
                 isEqualsTag = true;
             }
-            if (authorId == null || article.equalsAuthorId(authorId)) {
+            if (authorId instanceof Id.EmptyId || article.equalsAuthorId(authorId)) {
                 isEqualsAuthorId = true;
             }
-            if (favoriteUserId == null || article.isFavorite(favoriteUserId)) {
+            if (favoriteUserId instanceof Id.EmptyId || article.isFavorite(favoriteUserId)) {
                 isEqualsFavoriteUserId = true;
             }
             return isEqualsTag && isEqualsAuthorId && isEqualsFavoriteUserId;
