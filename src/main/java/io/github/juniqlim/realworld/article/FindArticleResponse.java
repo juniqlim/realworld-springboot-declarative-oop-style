@@ -2,6 +2,7 @@ package io.github.juniqlim.realworld.article;
 
 import static java.util.stream.Collectors.toList;
 
+import io.github.juniqlim.realworld.Id;
 import io.github.juniqlim.realworld.article.domain.Article;
 import io.github.juniqlim.realworld.article.repository.ArticleRepository;
 import io.github.juniqlim.realworld.article.web.ArticleResponse;
@@ -25,21 +26,21 @@ public class FindArticleResponse {
     }
 
     public List<ArticleResponse> find(Request request) {
-        List<Article> articles = articleRepository.findByTagAuthorFavoriteUserOrderByRegdate(
-            request.tag(), request.author(), request.favoriteUser(),
-            request.offset(), request.limit());
+        List<Article> articles = articleRepository.findByTagAuthorIdFavoriteUserIdOrderByRegdate(
+            request.tag, request.authorUserId, request.favoriteUserId,
+            request.offset, request.limit);
 
         return articles.stream()
-            .map(article -> new ArticleResponse(article, profile(request, article), request.user))
+            .map(article -> new ArticleResponse(article, profile(request, article), request.loginUserId))
             .collect(toList());
     }
 
     private Profile profile(Request request, Article article) {
         try {
-            if (request.user().isExist()) {
-                return findUser.find(article.authorId()).profile(request.user().id());
+            if (request.loginUserId instanceof Id.EmptyId) {
+                return findUser.find(article.authorId()).profile();
             }
-            return findUser.find(article.authorId()).profile();
+            return findUser.find(article.authorId()).profile(request.loginUserId);
         } catch (IllegalArgumentException e) {
             if (e.getMessage().equals("User not found")) {
                 return null;
@@ -49,60 +50,32 @@ public class FindArticleResponse {
     }
 
     public static class Request {
-        private final io.github.juniqlim.realworld.user.User user;
+        private final Id loginUserId;
         private final String tag;
-        private final io.github.juniqlim.realworld.user.User author;
-        private final io.github.juniqlim.realworld.user.User favoriteUser;
+        private final Id authorUserId;
+        private final Id favoriteUserId;
         private final int offset;
         private final int limit;
 
-        public Request(io.github.juniqlim.realworld.user.User user, String tag,
-            io.github.juniqlim.realworld.user.User author, io.github.juniqlim.realworld.user.User favoriteUser,
-            int offset, int limit) {
-            this.user = user;
+        public Request(Id loginUserId, String tag, Id authorUserId, Id favoriteUserId, int offset, int limit) {
+            this.loginUserId = loginUserId;
             this.tag = tag;
-            this.author = author;
-            this.favoriteUser = favoriteUser;
+            this.authorUserId = authorUserId;
+            this.favoriteUserId = favoriteUserId;
             this.offset = offset;
             this.limit = limit;
         }
 
-
-
-        io.github.juniqlim.realworld.user.User user() {
-            return user;
-        }
-
-        String tag() {
-            return tag;
-        }
-
-        int offset() {
-            return offset;
-        }
-
-        int limit() {
-            return limit;
-        }
-
-        io.github.juniqlim.realworld.user.User author() {
-            return author;
-        }
-
-        io.github.juniqlim.realworld.user.User favoriteUser() {
-            return favoriteUser;
-        }
-
         public static class Builder {
-            private io.github.juniqlim.realworld.user.User user;
+            private Id loginUserId;
             private String tag;
-            private io.github.juniqlim.realworld.user.User author;
-            private io.github.juniqlim.realworld.user.User favoriteUser;
+            private Id authorUserId;
+            private Id favoriteUserId;
             private int offset;
             private int limit;
 
-            public Builder user(io.github.juniqlim.realworld.user.User user) {
-                this.user = user;
+            public Builder loginUserId(Id loginUserId) {
+                this.loginUserId = loginUserId;
                 return this;
             }
 
@@ -111,13 +84,13 @@ public class FindArticleResponse {
                 return this;
             }
 
-            public Builder author(io.github.juniqlim.realworld.user.User authorName) {
-                this.author = authorName;
+            public Builder authorUserId(Id authorUserId) {
+                this.authorUserId = authorUserId;
                 return this;
             }
 
-            public Builder favoriteUser(io.github.juniqlim.realworld.user.User favoriteUserName) {
-                this.favoriteUser = favoriteUserName;
+            public Builder favoriteUserId(Id favoriteUserId) {
+                this.favoriteUserId = favoriteUserId;
                 return this;
             }
 
@@ -132,7 +105,7 @@ public class FindArticleResponse {
             }
 
             public Request build() {
-                return new Request(user, tag, author, favoriteUser, offset, limit);
+                return new Request(loginUserId, tag, authorUserId, favoriteUserId, offset, limit);
             }
         }
     }

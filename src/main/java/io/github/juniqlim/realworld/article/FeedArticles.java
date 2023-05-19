@@ -22,21 +22,21 @@ public class FeedArticles {
     }
 
     public List<ArticleResponse> articles(Request request) {
-        return articleRepository.findByUserIds(followUsers(request.loginUser()), request.offset(), request.limit()).stream()
-            .map(article -> new ArticleResponse(article, profile(request.loginUser(), article), request.loginUser()))
+        return articleRepository.findByUserIds(followUsers(request.loginUserId), request.offset, request.limit).stream()
+            .map(article -> new ArticleResponse(article, profile(request.loginUserId, article), request.loginUserId))
             .collect(toList());
     }
 
-    private List<Id> followUsers(io.github.juniqlim.realworld.user.User loginUser) {
-        return (List<Id>) findUser.find(loginUser.id()).follows();
+    private List<Id> followUsers(Id loginUserId) {
+        return (List<Id>) findUser.find(loginUserId).follows();
     }
 
-    private Profile profile(io.github.juniqlim.realworld.user.User loginUser, Article article) {
+    private Profile profile(Id loginUserId, Article article) {
         try {
-            if (loginUser.isExist()) {
-                return findUser.find(article.authorId()).profile(loginUser.id());
+            if (loginUserId instanceof Id.EmptyId) {
+                return findUser.find(article.authorId()).profile();
             }
-            return findUser.find(article.authorId()).profile();
+            return findUser.find(article.authorId()).profile(loginUserId);
         } catch (IllegalArgumentException e) {
             if (e.getMessage().equals("User not found")) {
                 return null;
@@ -46,26 +46,14 @@ public class FeedArticles {
     }
 
     public static class Request {
-        private final io.github.juniqlim.realworld.user.User loginUser;
+        private final Id loginUserId;
         private final int offset;
         private final int limit;
 
-        public Request(io.github.juniqlim.realworld.user.User loginUser, int offset, int limit) {
-            this.loginUser = loginUser;
+        public Request(Id loginUserId, int offset, int limit) {
+            this.loginUserId = loginUserId;
             this.offset = offset;
             this.limit = limit;
-        }
-
-        public io.github.juniqlim.realworld.user.User loginUser() {
-            return loginUser;
-        }
-
-        public int offset() {
-            return offset;
-        }
-
-        public int limit() {
-            return limit;
         }
     }
 }

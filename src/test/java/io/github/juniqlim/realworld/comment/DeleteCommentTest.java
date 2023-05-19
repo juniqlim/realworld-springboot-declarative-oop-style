@@ -8,10 +8,7 @@ import io.github.juniqlim.realworld.comment.DeleteComment.Request;
 import io.github.juniqlim.realworld.comment.repository.CommentRepository;
 import io.github.juniqlim.realworld.comment.web.CommentResponse;
 import io.github.juniqlim.realworld.user.FindUser;
-import io.github.juniqlim.realworld.user.User;
-import io.github.juniqlim.realworld.user.repository.UserRepository;
 import java.util.List;
-import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
 class DeleteCommentTest {

@@ -34,4 +34,28 @@ public class FindUser {
     public List<User> findList(List<Id> ids) {
         return userRepository.findByIds(ids);
     }
+
+    public Id findIdByToken(String jwsToken) {
+        try {
+            return find(jwsToken).id();
+        } catch (IllegalArgumentException e) {
+            return new Id.EmptyId();
+        }
+    }
+
+    public Id findIdByToken(Token token) {
+        try {
+            return find(token.value()).id();
+        } catch (IllegalArgumentException e) {
+            return new Id.EmptyId();
+        }
+    }
+
+    public Id findIdByUsername(String username) {
+        try {
+            return findByUsername(username).id();
+        } catch (IllegalArgumentException e) {
+            return new Id.EmptyId();
+        }
+    }
 }

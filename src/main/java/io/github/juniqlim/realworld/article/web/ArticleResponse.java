@@ -23,12 +23,8 @@ public class ArticleResponse {
         this(article, profile, false);
     }
 
-    public ArticleResponse(Article article, Profile profile, io.github.juniqlim.realworld.user.User loginUser) {
-        this(article, profile, loginUser.isExist() ? article.favorited(loginUser.id()): false);
-    }
-
     public ArticleResponse(Article article, Profile profile, Id loginUserId) {
-        this(article, profile, loginUserId != null ? article.favorited(loginUserId): false);
+        this(article, profile, !(loginUserId instanceof Id.EmptyId) ? article.favorited(loginUserId): false);
     }
 
     private ArticleResponse(Article article, Profile profile, boolean favorited) {
