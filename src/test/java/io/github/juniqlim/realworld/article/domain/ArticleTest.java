@@ -8,16 +8,12 @@ import org.junit.jupiter.api.Test;
 class ArticleTest {
     @Test
     void equalsAuthorId() {
-        Article article = new Article("How to train your dragon", "Ever wonder how?", "You have to believe",
-                Fixture.LONG_ID_ONE, null);
-
-        assertTrue(article.equalsAuthorId(Fixture.LONG_ID_ONE));
+        assertTrue(Fixture.JAKE_ARTICLE.equalsAuthorId(Fixture.LONG_ID_ONE));
     }
 
     @Test
     void isFavorite() {
-        Article article = new Article("How to train your dragon", "Ever wonder how?", "You have to believe",
-            Fixture.LONG_ID_ONE, null);
+        Article article = Fixture.JAKE_ARTICLE;
 
         article.favorite(Fixture.LONG_ID_ONE);
 

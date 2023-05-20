@@ -22,7 +22,7 @@ public class Article {
         this(id, title, description, body, authorId, tags, new ArrayList<>());
     }
 
-    public Article(Id id, String title, String description, String body, Id authorId, List<Tag> tags,
+    private Article(Id id, String title, String description, String body, Id authorId, List<Tag> tags,
         List<Id> favoriteUserIds) {
         this(id, new Slug(title), title, description, body, tags, LocalDateTime.now(), LocalDateTime.now(),
             favoriteUserIds, authorId);

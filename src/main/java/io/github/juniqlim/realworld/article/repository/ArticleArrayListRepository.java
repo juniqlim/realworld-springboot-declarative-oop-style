@@ -1,13 +1,16 @@
 package io.github.juniqlim.realworld.article.repository;
 
 import io.github.juniqlim.realworld.Id;
+import io.github.juniqlim.realworld.Id.LongId;
 import io.github.juniqlim.realworld.article.domain.Article;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.atomic.AtomicLong;
 import java.util.stream.Collectors;
 
 public class ArticleArrayListRepository implements ArticleRepository {
     private final List<Article> articles = new ArrayList<>();
+    private final AtomicLong articleSequence = new AtomicLong(1);
 
     public void save(Article article) {
         articles.add(article);
@@ -53,6 +56,11 @@ public class ArticleArrayListRepository implements ArticleRepository {
             .skip((long) offset * limit)
             .limit(limit)
             .collect(Collectors.toList());
+    }
+
+    @Override
+    public Id createId() {
+        return new LongId(articleSequence.getAndIncrement());
     }
 
     static class Conditional {

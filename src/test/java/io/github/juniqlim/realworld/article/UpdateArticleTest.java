@@ -17,7 +17,7 @@ class UpdateArticleTest {
 
     @BeforeEach
     void setUp() {
-        articleRepository.save(new Article("How to train your dragon", "Ever wonder how?", "You have to believe",
+        articleRepository.save(new Article(Fixture.LONG_ID_ONE, "How to train your dragon", "Ever wonder how?", "You have to believe",
                 Fixture.LONG_ID_ONE, Arrays.asList(new Tag("reactjs"), new Tag("angularjs"), new Tag("dragons"))));
     }
 

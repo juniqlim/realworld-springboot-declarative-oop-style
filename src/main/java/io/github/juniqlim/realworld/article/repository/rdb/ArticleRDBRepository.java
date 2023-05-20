@@ -1,6 +1,7 @@
 package io.github.juniqlim.realworld.article.repository.rdb;
 
 import io.github.juniqlim.realworld.Id;
+import io.github.juniqlim.realworld.Id.LongId;
 import io.github.juniqlim.realworld.article.domain.Article;
 import io.github.juniqlim.realworld.article.repository.ArticleRepository;
 import java.util.List;
@@ -64,5 +65,10 @@ class ArticleRDBRepository implements ArticleRepository {
                 new OffsetToPage(offset, limit, Sort.by(Direction.DESC, "createdAt")).pageable()
             )
         );
+    }
+
+    @Override
+    public Id createId() {
+        return new LongId(articleJpaRepository.sequence());
     }
 }

@@ -25,7 +25,7 @@ public class CreateArticle {
     public Article create(Request request) {
         User authorUser = findUser.find(request.jwsToken());
         tagUseCase.merges(request.tags());
-        Article article = new Article(request.title(), request.description(), request.body(), authorUser.id(),
+        Article article = new Article(articleRepository.createId(), request.title(), request.description(), request.body(), authorUser.id(),
             request.tags().stream()
                 .map(Tag::new)
                 .collect(Collectors.toList()));

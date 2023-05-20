@@ -16,8 +16,21 @@ class ArticleJpaRepositoryTest {
     @Test
     void create() {
         ArticleEntity entity = new ArticleToArticleEntity().articleEntity(Fixture.JAKE_ARTICLE);
+        ArticleEntity entity2 = new ArticleToArticleEntity().articleEntity(Fixture.JUNIQ_ARTICLE);
         articleJpaRepository.save(entity);
+        articleJpaRepository.save(entity2);
         ArticleEntity articleEntity = articleJpaRepository.findBySlug(Fixture.JAKE_ARTICLE.slug());
-        assertEquals(articleEntity.getId(), entity.getId());
+        assertEquals(entity.getId(), articleEntity.getId());
+        assertEquals(1, articleEntity.getId());
+        assertEquals(2, articleJpaRepository.findBySlug(Fixture.JUNIQ_ARTICLE.slug()).getId());
+    }
+
+    @Test
+    void sequence() {
+        assertEquals(1, articleJpaRepository.sequence());
+        assertEquals(2, articleJpaRepository.sequence());
+        assertEquals(3, articleJpaRepository.sequence());
+        assertEquals(4, articleJpaRepository.sequence());
+        assertEquals(5, articleJpaRepository.sequence());
     }
 }

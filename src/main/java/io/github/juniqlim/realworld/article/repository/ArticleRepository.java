@@ -12,4 +12,5 @@ public interface ArticleRepository {
     List<Article> findByTagAndAuthorUserIdAndFavoriteUserIdOrderByRegdate(String tag, Id authorId, Id favoriteUserId, int offset, int limit);
     void delete(String slug, Id userId);
     List<Article> findByUserIds(List<Id> followUsers, int offset, int limit);
+    Id createId();
 }

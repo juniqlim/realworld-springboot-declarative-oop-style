@@ -20,7 +20,7 @@ class ArticleArrayListRepositoryTest {
     @Test
     void save() {
         ArticleRepository articleRepository = new ArticleArrayListRepository();
-        Article article = new Article("How to train your dragon", "Ever wonder how?",
+        Article article = new Article(Fixture.LONG_ID_ONE, "How to train your dragon", "Ever wonder how?",
                 "You have to believe", Fixture.LONG_ID_ONE, Arrays.asList(new Tag("reactjs"), new Tag("angularjs"), new Tag("dragons")));
 
         assertDoesNotThrow(() -> articleRepository.save(article));
@@ -31,7 +31,7 @@ class ArticleArrayListRepositoryTest {
         ArticleRepository articleRepository = new ArticleArrayListRepository();
 
         for (int i = 1; i < 101; i++) {
-            articleRepository.save(new Article(i + "", i + "", i + "", new LongId(i % 2),
+            articleRepository.save(new Article(Fixture.LONG_ID_ONE, i + "", i + "", i + "", new LongId(i % 2),
                 Arrays.asList(new Tag("reactjs" + (i % 3)), new Tag("angularjs" + i), new Tag("dragons" + i))));
             sleep(10);
         }
@@ -54,7 +54,7 @@ class ArticleArrayListRepositoryTest {
     @Test
     void condition1() {
         Conditional conditional = new Conditional(null, Fixture.LONG_ID_ONE, new Id.EmptyId());
-        Article article = new Article("How to train your dragon", "Ever wonder how?",
+        Article article = new Article(Fixture.LONG_ID_ONE, "How to train your dragon", "Ever wonder how?",
             "You have to believe", Fixture.LONG_ID_ONE, Arrays.asList(new Tag("reactjs"), new Tag("angularjs"), new Tag("dragons")));
 
         assertTrue(conditional.value(article));
@@ -63,7 +63,7 @@ class ArticleArrayListRepositoryTest {
     @Test
     void condition2() {
         Conditional conditional = new Conditional("re", Fixture.LONG_ID_ONE, new Id.EmptyId());
-        Article article = new Article("How to train your dragon", "Ever wonder how?",
+        Article article = new Article(Fixture.LONG_ID_ONE, "How to train your dragon", "Ever wonder how?",
             "You have to believe", Fixture.LONG_ID_ONE, Arrays.asList(new Tag("reactjs"), new Tag("angularjs"), new Tag("dragons")));
 
         assertFalse(conditional.value(article));
@@ -72,7 +72,7 @@ class ArticleArrayListRepositoryTest {
     @Test
     void condition3() {
         Conditional conditional = new Conditional(null, new Id.EmptyId(), new Id.EmptyId());
-        Article article = new Article("How to train your dragon", "Ever wonder how?",
+        Article article = new Article(Fixture.LONG_ID_ONE, "How to train your dragon", "Ever wonder how?",
             "You have to believe", Fixture.LONG_ID_ONE, Arrays.asList(new Tag("reactjs"), new Tag("angularjs"), new Tag("dragons")));
 
         assertTrue(conditional.value(article));
@@ -81,7 +81,7 @@ class ArticleArrayListRepositoryTest {
     @Test
     void condition4() {
         Conditional conditional = new Conditional("reactjs", Fixture.LONG_ID_ONE, new Id.EmptyId());
-        Article article = new Article("How to train your dragon", "Ever wonder how?",
+        Article article = new Article(Fixture.LONG_ID_ONE, "How to train your dragon", "Ever wonder how?",
             "You have to believe", Fixture.LONG_ID_ONE, Arrays.asList(new Tag("reactjs"), new Tag("angularjs"), new Tag("dragons")));
 
         assertTrue(conditional.value(article));
@@ -90,7 +90,7 @@ class ArticleArrayListRepositoryTest {
     @Test
     void condition5() {
         Conditional conditional = new Conditional("reactjs", Fixture.LONG_ID_ONE, Fixture.LONG_ID_TWO);
-        Article article = new Article("How to train your dragon", "Ever wonder how?",
+        Article article = new Article(Fixture.LONG_ID_ONE, "How to train your dragon", "Ever wonder how?",
             "You have to believe", Fixture.LONG_ID_ONE, Arrays.asList(new Tag("reactjs"), new Tag("angularjs"), new Tag("dragons")));
         article.favorite(Fixture.LONG_ID_TWO);
 
@@ -100,7 +100,7 @@ class ArticleArrayListRepositoryTest {
     @Test
     void condition6() {
         Conditional conditional = new Conditional(null, new Id.EmptyId(), new Id.EmptyId());
-        Article article = new Article("How to train your dragon", "Ever wonder how?",
+        Article article = new Article(Fixture.LONG_ID_ONE, "How to train your dragon", "Ever wonder how?",
             "You have to believe", Fixture.LONG_ID_ONE, Arrays.asList(new Tag("reactjs"), new Tag("angularjs"), new Tag("dragons")));
 
         assertTrue(conditional.value(article));
