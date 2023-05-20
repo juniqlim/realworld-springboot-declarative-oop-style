@@ -3,7 +3,6 @@ package io.github.juniqlim.realworld.comment.repository;
 import io.github.juniqlim.realworld.Id;
 import io.github.juniqlim.realworld.Id.LongId;
 import io.github.juniqlim.realworld.comment.domain.Comment;
-import io.github.juniqlim.realworld.user.domain.User;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.atomic.AtomicLong;

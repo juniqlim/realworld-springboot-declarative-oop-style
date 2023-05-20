@@ -3,7 +3,6 @@ package io.github.juniqlim.realworld.article.web;
 import io.github.juniqlim.realworld.Id;
 import io.github.juniqlim.realworld.article.domain.Article;
 import io.github.juniqlim.realworld.user.FindUser;
-import io.github.juniqlim.realworld.user.domain.User;
 import org.springframework.stereotype.Service;
 
 @Service

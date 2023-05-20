@@ -3,7 +3,6 @@ package io.github.juniqlim.realworld.article.web;
 import io.github.juniqlim.realworld.Id;
 import io.github.juniqlim.realworld.article.FavoriteArticle;
 import io.github.juniqlim.realworld.user.FindUser;
-import io.github.juniqlim.realworld.user.domain.User;
 import io.github.juniqlim.realworld.user.web.Token;
 import java.security.PublicKey;
 import org.springframework.web.bind.annotation.DeleteMapping;

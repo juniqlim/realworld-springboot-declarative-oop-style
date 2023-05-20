@@ -35,14 +35,6 @@ public class FindUser {
         return userRepository.findByIds(ids);
     }
 
-    public Id findIdByToken(String jwsToken) {
-        try {
-            return find(jwsToken).id();
-        } catch (IllegalArgumentException e) {
-            return new Id.EmptyId();
-        }
-    }
-
     public Id findIdByToken(Token token) {
         try {
             return find(token.value()).id();

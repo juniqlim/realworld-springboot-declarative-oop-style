@@ -1,10 +1,10 @@
 package io.github.juniqlim.realworld.user.repository;
 
+import static org.assertj.core.api.Assertions.assertThat;
+
 import io.github.juniqlim.object.jwt.Jwt;
 import io.github.juniqlim.realworld.user.domain.User;
 import org.junit.jupiter.api.Test;
-
-import static org.assertj.core.api.Assertions.assertThat;
 
 public class UserRepositoryTest {
     @Test

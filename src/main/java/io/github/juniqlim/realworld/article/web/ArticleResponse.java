@@ -3,7 +3,6 @@ package io.github.juniqlim.realworld.article.web;
 import io.github.juniqlim.realworld.Id;
 import io.github.juniqlim.realworld.article.domain.Article;
 import io.github.juniqlim.realworld.user.domain.Profile;
-import io.github.juniqlim.realworld.user.domain.User;
 import java.time.LocalDateTime;
 import java.util.List;
 
@@ -24,7 +23,7 @@ public class ArticleResponse {
     }
 
     public ArticleResponse(Article article, Profile profile, Id loginUserId) {
-        this(article, profile, !loginUserId.isEmpty() ? article.favorited(loginUserId): false);
+        this(article, profile, !loginUserId.isEmpty() && article.favorited(loginUserId));
     }
 
     private ArticleResponse(Article article, Profile profile, boolean favorited) {

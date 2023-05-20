@@ -40,8 +40,7 @@ public class FindArticle {
         if (favoriteUserName == null) {
             return new Id.EmptyId();
         }
-        Id id = findUser.findByUsername(favoriteUserName).id();
-        return id;
+        return findUser.findByUsername(favoriteUserName).id();
     }
 
     static class Request {

@@ -1,7 +1,6 @@
 package io.github.juniqlim.realworld.comment;
 
 import io.github.juniqlim.realworld.Id;
-import io.github.juniqlim.realworld.Id.EmptyId;
 import io.github.juniqlim.realworld.Id.LongId;
 import io.github.juniqlim.realworld.comment.domain.Comment;
 import io.github.juniqlim.realworld.comment.repository.CommentRepository;
