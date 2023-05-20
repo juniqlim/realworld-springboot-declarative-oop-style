@@ -6,13 +6,14 @@ import io.github.juniqlim.realworld.Fixture;
 import io.github.juniqlim.realworld.article.UpdateArticle.Request.Builder;
 import io.github.juniqlim.realworld.article.domain.Article;
 import io.github.juniqlim.realworld.article.domain.Tag;
+import io.github.juniqlim.realworld.article.repository.ArticleArrayListRepository;
 import io.github.juniqlim.realworld.article.repository.ArticleRepository;
 import java.util.Arrays;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 class UpdateArticleTest {
-    ArticleRepository articleRepository = new ArticleRepository();
+    ArticleRepository articleRepository = new ArticleArrayListRepository();
 
     @BeforeEach
     void setUp() {

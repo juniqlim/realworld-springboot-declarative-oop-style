@@ -29,14 +29,20 @@ public class Article {
 
     public Article(Id id, String title, String description, String body, Id authorId, List<Tag> tags,
         List<Id> favoriteUserIds) {
+        this(id, new Slug(title), title, description, body, tags, LocalDateTime.now(), LocalDateTime.now(),
+            favoriteUserIds, authorId);
+    }
+
+    public Article(Id id, Slug slug, String title, String description, String body, List<Tag> tags, LocalDateTime createdAt,
+        LocalDateTime updatedAt, List<Id> favoriteUserIds, Id authorId) {
         this.id = id;
-        this.slug = new Slug(title);
+        this.slug = slug;
         this.title = title;
         this.description = description;
         this.body = body;
         this.tags = tags;
-        this.createdAt = LocalDateTime.now();
-        this.updatedAt = LocalDateTime.now();
+        this.createdAt = createdAt;
+        this.updatedAt = updatedAt;
         this.favoriteUserIds = favoriteUserIds;
         this.authorId = authorId;
     }

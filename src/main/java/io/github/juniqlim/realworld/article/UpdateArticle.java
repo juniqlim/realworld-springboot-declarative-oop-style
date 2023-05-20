@@ -15,7 +15,7 @@ public class UpdateArticle {
 
     public Article update(Request request) {
         String slug = request.getSlug();
-        Article article = articleRepository.findBySlugAndUserId(slug, request.getUserId());
+        Article article = articleRepository.findBySlugAndAuthorUserId(slug, request.getUserId());
         if (request.getTitle() != null) {
             article = article.updateTitle(request.getTitle());
         }

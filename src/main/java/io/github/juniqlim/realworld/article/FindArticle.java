@@ -22,7 +22,7 @@ public class FindArticle {
     }
 
     public List<Article> find(Request request) {
-        return articleRepository.findByTagAuthorIdFavoriteUserIdOrderByRegdate(
+        return articleRepository.findByTagAndAuthorUserIdAndFavoriteUserIdOrderByRegdate(
             request.tag,
             authorUserId(request.authorName),
             favoriteUserId(request.FavoriteUserName),

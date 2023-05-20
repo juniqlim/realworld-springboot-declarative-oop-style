@@ -2,10 +2,10 @@ package io.github.juniqlim.realworld.article.domain;
 
 import java.util.Objects;
 
-class Slug {
+public class Slug {
     private final String raw;
 
-    Slug(String raw) {
+    public Slug(String raw) {
         this.raw = raw;
     }
 

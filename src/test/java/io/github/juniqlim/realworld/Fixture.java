@@ -3,7 +3,7 @@ package io.github.juniqlim.realworld;
 import io.github.juniqlim.object.jwt.Jwt.Jws;
 import io.github.juniqlim.realworld.Id.LongId;
 import io.github.juniqlim.realworld.article.domain.Article;
-import io.github.juniqlim.realworld.article.repository.ArticleRepository;
+import io.github.juniqlim.realworld.article.repository.ArticleArrayListRepository;
 import io.github.juniqlim.realworld.comment.domain.Comment;
 import io.github.juniqlim.realworld.comment.repository.CommentRepository;
 import io.github.juniqlim.realworld.user.domain.User;
@@ -49,7 +49,7 @@ public class Fixture {
     public static final Comment MINK_ARTICLE_COMMENT2 = new Comment(LONG_ID_FOUR, MINK_ARTICLE.id(), "It's easy", Fixture.JUNIQ.id());
 
     public static final UserRepository USER_REPOSITORY = new UserRepository.Collection();
-    public static final ArticleRepository ARTICLE_REPOSITORY = new ArticleRepository();
+    public static final ArticleArrayListRepository ARTICLE_REPOSITORY = new ArticleArrayListRepository();
     public static final CommentRepository COMMENT_REPOSITORY = new CommentRepository();
 
     static {

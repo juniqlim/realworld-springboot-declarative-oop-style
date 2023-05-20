@@ -3,7 +3,7 @@ package io.github.juniqlim.realworld;
 import io.github.juniqlim.object.jwt.Jwt.Jws;
 import io.github.juniqlim.realworld.Id.LongId;
 import io.github.juniqlim.realworld.article.domain.Article;
-import io.github.juniqlim.realworld.article.repository.ArticleRepository;
+import io.github.juniqlim.realworld.article.repository.ArticleArrayListRepository;
 import io.github.juniqlim.realworld.comment.repository.CommentRepository;
 import io.github.juniqlim.realworld.user.domain.User;
 import io.github.juniqlim.realworld.user.repository.UserRepository;
@@ -19,13 +19,13 @@ import org.springframework.stereotype.Component;
 @Component
 public class TestRepository {
     private final UserRepository userRepository;
-    private final ArticleRepository articleRepository;
+    private final ArticleArrayListRepository articleRepository;
     private final CommentRepository commentRepository;
 
 
     public TestRepository() throws InvalidKeySpecException, NoSuchAlgorithmException {
         this.userRepository = new UserRepository.Collection();
-        this.articleRepository = new ArticleRepository();
+        this.articleRepository = new ArticleArrayListRepository();
         this.commentRepository = new CommentRepository();
         setData();
     }
@@ -57,7 +57,7 @@ public class TestRepository {
         return userRepository;
     }
 
-    ArticleRepository articleRepository() {
+    ArticleArrayListRepository articleRepository() {
         return articleRepository;
     }
 

@@ -5,6 +5,7 @@ import java.util.Objects;
 public interface Id {
     boolean equals(Id id);
     boolean isEmpty();
+    <T>T value();
 
     class LongId implements Id {
         private final long value;
@@ -26,7 +27,7 @@ public interface Id {
             return false;
         }
 
-        public long value() {
+        public Long value() {
             return value;
         }
 
@@ -57,6 +58,11 @@ public interface Id {
         @Override
         public boolean isEmpty() {
             return true;
+        }
+
+        @Override
+        public Object value() {
+            return null;
         }
     }
 }

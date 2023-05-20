@@ -26,7 +26,7 @@ public class FindArticleResponse {
     }
 
     public List<ArticleResponse> find(Request request) {
-        List<Article> articles = articleRepository.findByTagAuthorIdFavoriteUserIdOrderByRegdate(
+        List<Article> articles = articleRepository.findByTagAndAuthorUserIdAndFavoriteUserIdOrderByRegdate(
             request.tag, request.authorUserId, request.favoriteUserId,
             request.offset, request.limit);
 
