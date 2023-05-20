@@ -42,11 +42,11 @@ public class TestRepository {
         userRepository.save(juniq);
         userRepository.save(mink);
 
-        Article jakeArticle = new Article("How to train your dragon", "Ever wonder how?", "You have to believe",
+        Article jakeArticle = new Article(new LongId(1), "How to train your dragon", "Ever wonder how?", "You have to believe",
             jake.id(), new ArrayList<>());
-        Article juniqArticle = new Article("Good day", "So toothless", "You have to believe",
+        Article juniqArticle = new Article(new LongId(1), "Good day", "So toothless", "You have to believe",
             new LongId(2), new ArrayList<>());
-        Article minkArticle = new Article("Learn Elm", "learn", "It's like a functional language",
+        Article minkArticle = new Article(new LongId(1), "Learn Elm", "learn", "It's like a functional language",
             new LongId(3), new ArrayList<>());
         articleRepository.save(jakeArticle);
         articleRepository.save(juniqArticle);
