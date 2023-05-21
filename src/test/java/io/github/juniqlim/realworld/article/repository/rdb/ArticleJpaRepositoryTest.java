@@ -2,7 +2,6 @@ package io.github.juniqlim.realworld.article.repository.rdb;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
-import io.github.juniqlim.realworld.Fixture;
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,14 +14,14 @@ class ArticleJpaRepositoryTest {
 
     @Test
     void create() {
-        ArticleEntity entity = new ArticleToArticleEntity().articleEntity(Fixture.JAKE_ARTICLE);
-        ArticleEntity entity2 = new ArticleToArticleEntity().articleEntity(Fixture.JUNIQ_ARTICLE);
-        articleJpaRepository.save(entity);
-        articleJpaRepository.save(entity2);
-        ArticleEntity articleEntity = articleJpaRepository.findBySlug(Fixture.JAKE_ARTICLE.slug());
-        assertEquals(entity.getId(), articleEntity.getId());
-        assertEquals(1, articleEntity.getId());
-        assertEquals(2, articleJpaRepository.findBySlug(Fixture.JUNIQ_ARTICLE.slug()).getId());
+        articleJpaRepository.save(RDBFixture.JAKE_ARTICLE_ENTITY);
+        articleJpaRepository.save(RDBFixture.JUNIQ_ARTICLE_ENTITY);
+
+        assertEquals(RDBFixture.JAKE_ARTICLE_ENTITY.getId(), articleJpaRepository.findBySlug(RDBFixture.JAKE_ARTICLE_ENTITY.getSlug()).getId());
+        assertEquals(RDBFixture.JUNIQ_ARTICLE_ENTITY.getId(), articleJpaRepository.findBySlug(RDBFixture.JUNIQ_ARTICLE_ENTITY.getSlug()).getId());
+        assertEquals("1,3", articleJpaRepository.findBySlug(RDBFixture.JAKE_ARTICLE_ENTITY.getSlug()).getFavoriteUserIds());
+        assertEquals(RDBFixture.JAKE_ARTICLE_ENTITY.getFavoriteUserIds(), articleJpaRepository.findBySlug(RDBFixture.JAKE_ARTICLE_ENTITY.getSlug()).getFavoriteUserIds());
+        assertEquals(RDBFixture.JUNIQ_ARTICLE_ENTITY.getFavoriteUserIds(), articleJpaRepository.findBySlug(RDBFixture.JUNIQ_ARTICLE_ENTITY.getSlug()).getFavoriteUserIds());
     }
 
     @Test

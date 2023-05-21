@@ -3,6 +3,7 @@ package io.github.juniqlim.realworld;
 import io.github.juniqlim.object.jwt.Jwt.Jws;
 import io.github.juniqlim.realworld.Id.LongId;
 import io.github.juniqlim.realworld.article.domain.Article;
+import io.github.juniqlim.realworld.article.domain.Slug;
 import io.github.juniqlim.realworld.article.repository.ArticleArrayListRepository;
 import io.github.juniqlim.realworld.comment.domain.Comment;
 import io.github.juniqlim.realworld.comment.repository.CommentRepository;
@@ -11,7 +12,9 @@ import io.github.juniqlim.realworld.user.repository.UserRepository;
 import java.security.KeyFactory;
 import java.security.PrivateKey;
 import java.security.spec.PKCS8EncodedKeySpec;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Base64;
 
 public class Fixture {
@@ -36,8 +39,8 @@ public class Fixture {
     public static final User JUNIQ = new User(2, new Jws(privateKey).token(), "juniqjuniq", "juniq", "juniq@juniq.juniq");
     public static final User MINK = new User(3, new Jws(privateKey).token(), "minkmink", "mink", "mink@mink.mink");
 
-    public static final Article JAKE_ARTICLE = new Article(LONG_ID_ONE, "How to train your dragon", "Ever wonder how?", "You have to believe",
-        JAKE.id(), new ArrayList<>());
+    public static final Article JAKE_ARTICLE = new Article(LONG_ID_ONE, new Slug("How to train your dragon"), "How to train your dragon", "Ever wonder how?", "You have to believe",
+        new ArrayList<>(), LocalDateTime.now(), LocalDateTime.now(), Arrays.asList(new LongId(1), new LongId(3)), JAKE.id());
     public static final Article JUNIQ_ARTICLE = new Article(LONG_ID_TWO, "Good day", "So toothless", "You have to believe",
         JUNIQ.id(), new ArrayList<>());
     public static final Article MINK_ARTICLE = new Article(LONG_ID_THREE, "Learn Elm", "learn", "It's like a functional language",

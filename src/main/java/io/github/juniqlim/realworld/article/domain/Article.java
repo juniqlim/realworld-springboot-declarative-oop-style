@@ -4,6 +4,7 @@ import io.github.juniqlim.realworld.Id;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 import java.util.stream.Collectors;
 
 public class Article {
@@ -64,6 +65,10 @@ public class Article {
 
     public LocalDateTime createdAt() {
         return createdAt;
+    }
+
+    public List<Id> favoriteUserIds() {
+        return favoriteUserIds;
     }
 
     public int favoritesCount() {
@@ -130,5 +135,27 @@ public class Article {
 
     public boolean favorited(Id userId) {
         return favoriteUserIds.contains(userId);
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) {
+            return true;
+        }
+        if (o == null || getClass() != o.getClass()) {
+            return false;
+        }
+        Article article = (Article) o;
+        return Objects.equals(id, article.id) && Objects.equals(slug, article.slug)
+            && Objects.equals(title, article.title) && Objects.equals(description, article.description)
+            && Objects.equals(body, article.body) && Objects.equals(tags, article.tags)
+            && Objects.equals(createdAt, article.createdAt) && Objects.equals(updatedAt,
+            article.updatedAt) && Objects.equals(favoriteUserIds, article.favoriteUserIds)
+            && Objects.equals(authorId, article.authorId);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, slug, title, description, body, tags, createdAt, updatedAt, favoriteUserIds, authorId);
     }
 }

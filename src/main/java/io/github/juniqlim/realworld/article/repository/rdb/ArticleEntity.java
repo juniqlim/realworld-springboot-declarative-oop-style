@@ -40,13 +40,16 @@ public class ArticleEntity {
     private LocalDateTime updatedAt;
 
     @Column(nullable = false)
+    private String favoriteUserIds;
+
+    @Column(nullable = false)
     private long authorUserId;
 
     protected ArticleEntity() {
     }
 
     ArticleEntity(Long id, String slug, String title, String description, String body, LocalDateTime createdAt,
-        LocalDateTime updatedAt, long authorUserId) {
+        LocalDateTime updatedAt, String favoriteUserIds, long authorUserId) {
         this.id = id;
         this.slug = slug;
         this.title = title;
@@ -54,6 +57,7 @@ public class ArticleEntity {
         this.body = body;
         this.createdAt = createdAt;
         this.updatedAt = updatedAt;
+        this.favoriteUserIds = favoriteUserIds;
         this.authorUserId = authorUserId;
     }
 
@@ -83,6 +87,10 @@ public class ArticleEntity {
 
     LocalDateTime getUpdatedAt() {
         return updatedAt;
+    }
+
+    String getFavoriteUserIds() {
+        return favoriteUserIds;
     }
 
     long getAuthorUserId() {
