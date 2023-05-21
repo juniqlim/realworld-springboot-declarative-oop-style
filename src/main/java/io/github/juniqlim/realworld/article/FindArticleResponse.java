@@ -1,15 +1,16 @@
 package io.github.juniqlim.realworld.article;
 
-import static java.util.stream.Collectors.toList;
-
 import io.github.juniqlim.realworld.Id;
 import io.github.juniqlim.realworld.article.domain.Article;
 import io.github.juniqlim.realworld.article.repository.ArticleRepository;
 import io.github.juniqlim.realworld.article.web.ArticleResponse;
 import io.github.juniqlim.realworld.user.FindUser;
 import io.github.juniqlim.realworld.user.domain.Profile;
-import java.util.List;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
+
+import static java.util.stream.Collectors.toList;
 
 @Service
 public class FindArticleResponse {
@@ -26,9 +27,8 @@ public class FindArticleResponse {
     }
 
     public List<ArticleResponse> find(Request request) {
-        List<Article> articles = articleRepository.findByTagAndAuthorUserIdAndFavoriteUserIdOrderByRegdate(
-            request.tag, request.authorUserId, request.favoriteUserId,
-            request.offset, request.limit);
+        List<Article> articles = articleRepository.findAuthorUserIdAndFavoriteUserIdOrderByRegdate(
+            request.authorUserId, request.favoriteUserId, request.offset, request.limit);
 
         return articles.stream()
             .map(article -> new ArticleResponse(article, profile(request, article), request.loginUserId))

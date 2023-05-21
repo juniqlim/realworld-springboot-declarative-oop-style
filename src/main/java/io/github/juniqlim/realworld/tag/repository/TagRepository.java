@@ -1,7 +1,7 @@
-package io.github.juniqlim.realworld.article.repository;
+package io.github.juniqlim.realworld.tag.repository;
 
 import io.github.juniqlim.realworld.Id;
-import io.github.juniqlim.realworld.article.domain.Tag;
+import io.github.juniqlim.realworld.tag.domain.Tag;
 import org.springframework.stereotype.Repository;
 
 import java.util.ArrayList;

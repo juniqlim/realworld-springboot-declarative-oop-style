@@ -1,9 +1,9 @@
-package io.github.juniqlim.realworld.article;
+package io.github.juniqlim.realworld.tag;
 
 import io.github.juniqlim.realworld.Fixture;
-import io.github.juniqlim.realworld.article.TagUseCase.Request;
-import io.github.juniqlim.realworld.article.domain.Tag;
-import io.github.juniqlim.realworld.article.repository.TagRepository;
+import io.github.juniqlim.realworld.tag.TagUseCase.Request;
+import io.github.juniqlim.realworld.tag.domain.Tag;
+import io.github.juniqlim.realworld.tag.repository.TagRepository;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 

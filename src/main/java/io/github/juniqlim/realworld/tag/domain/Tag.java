@@ -1,4 +1,4 @@
-package io.github.juniqlim.realworld.article.domain;
+package io.github.juniqlim.realworld.tag.domain;
 
 import io.github.juniqlim.realworld.Id;
 

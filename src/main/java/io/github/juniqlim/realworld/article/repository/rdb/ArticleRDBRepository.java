@@ -4,11 +4,12 @@ import io.github.juniqlim.realworld.Id;
 import io.github.juniqlim.realworld.Id.LongId;
 import io.github.juniqlim.realworld.article.domain.Article;
 import io.github.juniqlim.realworld.article.repository.ArticleRepository;
-import java.util.List;
-import java.util.stream.Collectors;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.domain.Sort.Direction;
 import org.springframework.stereotype.Repository;
+
+import java.util.List;
+import java.util.stream.Collectors;
 
 @Repository
 class ArticleRDBRepository implements ArticleRepository {
@@ -42,8 +43,8 @@ class ArticleRDBRepository implements ArticleRepository {
     }
 
     @Override
-    public List<Article> findByTagAndAuthorUserIdAndFavoriteUserIdOrderByRegdate(String tag, Id authorUserId, Id favoriteUserId,
-        int offset, int limit) {
+    public List<Article> findAuthorUserIdAndFavoriteUserIdOrderByRegdate(Id authorUserId, Id favoriteUserId,
+                                                                            int offset, int limit) {
         return articleEntityToArticle.articles(
             articleJpaRepository.findByAuthorUserIdOrderByCreatedAt(
                 authorUserId.value(),

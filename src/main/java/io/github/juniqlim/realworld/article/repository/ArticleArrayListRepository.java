@@ -36,7 +36,7 @@ public class ArticleArrayListRepository implements ArticleRepository {
         articles.add(article);
     }
 
-    public List<Article> findByTagAndAuthorUserIdAndFavoriteUserIdOrderByRegdate(String tag, Id authorId, Id favoriteUserId, int offset, int limit) {
+    public List<Article> findAuthorUserIdAndFavoriteUserIdOrderByRegdate(Id authorId, Id favoriteUserId, int offset, int limit) {
         Conditional conditional = new Conditional(authorId, favoriteUserId);
         return articles.stream()
             .sorted((article1, article2) -> article2.compareCreatedAt(article1))

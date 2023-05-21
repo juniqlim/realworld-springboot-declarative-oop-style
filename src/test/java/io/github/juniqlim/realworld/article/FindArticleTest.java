@@ -34,7 +34,7 @@ class FindArticleTest {
     @Test
     void findByAuthorName() {
         assertEquals("How to train your dragon",
-            new FindArticle(articleRepository, findUser).find(new FindArticle.Request(null, "Jacob", null, 0, 100))
+            new FindArticle(articleRepository, findUser).find(new FindArticle.Request("Jacob", null, 0, 100))
                 .get(0).title());
     }
 
@@ -45,7 +45,7 @@ class FindArticleTest {
 
         assertEquals("How to train your dragon",
             new FindArticle(articleRepository, findUser).find(
-                    new Request(null, null, Fixture.JAKE.username(), 0, 100))
+                    new Request(null, Fixture.JAKE.username(), 0, 100))
                 .get(0).title());
     }
 }
