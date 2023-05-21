@@ -1,9 +1,9 @@
 package io.github.juniqlim.realworld.article.domain;
 
-import static org.junit.jupiter.api.Assertions.assertTrue;
-
 import io.github.juniqlim.realworld.Fixture;
 import org.junit.jupiter.api.Test;
+
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 class ArticleTest {
     @Test
@@ -15,8 +15,8 @@ class ArticleTest {
     void isFavorite() {
         Article article = Fixture.JAKE_ARTICLE;
 
-        article.favorite(Fixture.LONG_ID_ONE);
+        Article favoritedArticle = article.favorite(Fixture.LONG_ID_ONE);
 
-        assertTrue(article.isFavorite(Fixture.LONG_ID_ONE));
+        assertTrue(favoritedArticle.isFavorite(Fixture.LONG_ID_ONE));
     }
 }

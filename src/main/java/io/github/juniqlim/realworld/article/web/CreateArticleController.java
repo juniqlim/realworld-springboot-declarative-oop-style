@@ -4,12 +4,13 @@ import io.github.juniqlim.realworld.article.CreateArticle;
 import io.github.juniqlim.realworld.user.FindUser;
 import io.github.juniqlim.realworld.user.domain.User;
 import io.github.juniqlim.realworld.user.web.Token;
-import java.security.PublicKey;
-import java.util.List;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RestController;
+
+import java.security.PublicKey;
+import java.util.List;
 
 @RestController
 public class CreateArticleController {
@@ -41,7 +42,7 @@ public class CreateArticleController {
         }
 
         private CreateArticle.Request createArticleRequest(String jwsToken) {
-            return new CreateArticle.Request(article.getTitle(), article.getDescription(), article.getBody(), jwsToken, article.getTagList());
+            return new CreateArticle.Request(article.getTitle(), article.getDescription(), article.getBody(), jwsToken);
         }
 
         private static class Article {

@@ -3,6 +3,7 @@ package io.github.juniqlim.realworld.article.repository;
 import io.github.juniqlim.realworld.Id;
 import io.github.juniqlim.realworld.Id.LongId;
 import io.github.juniqlim.realworld.article.domain.Article;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.atomic.AtomicLong;
@@ -36,7 +37,7 @@ public class ArticleArrayListRepository implements ArticleRepository {
     }
 
     public List<Article> findByTagAndAuthorUserIdAndFavoriteUserIdOrderByRegdate(String tag, Id authorId, Id favoriteUserId, int offset, int limit) {
-        Conditional conditional = new Conditional(tag, authorId, favoriteUserId);
+        Conditional conditional = new Conditional(authorId, favoriteUserId);
         return articles.stream()
             .sorted((article1, article2) -> article2.compareCreatedAt(article1))
             .filter(conditional::value)
@@ -64,28 +65,23 @@ public class ArticleArrayListRepository implements ArticleRepository {
     }
 
     static class Conditional {
-        private final String tag;
         private final Id authorId;
         private final Id favoriteUserId;
 
-        public Conditional(String tag, Id authorId, Id favoriteUserId) {
-            this.tag = tag;
+        public Conditional(Id authorId, Id favoriteUserId) {
             this.authorId = authorId;
             this.favoriteUserId = favoriteUserId;
         }
 
         public boolean value(Article article) {
-            boolean isEqualsTag = false, isEqualsAuthorId = false, isEqualsFavoriteUserId = false;
-            if (tag == null || article.equalsTag(tag)) {
-                isEqualsTag = true;
-            }
+            boolean isEqualsAuthorId = false, isEqualsFavoriteUserId = false;
             if (authorId.isEmpty() || article.equalsAuthorId(authorId)) {
                 isEqualsAuthorId = true;
             }
             if (favoriteUserId.isEmpty() || article.isFavorite(favoriteUserId)) {
                 isEqualsFavoriteUserId = true;
             }
-            return isEqualsTag && isEqualsAuthorId && isEqualsFavoriteUserId;
+            return isEqualsAuthorId && isEqualsFavoriteUserId;
         }
     }
 }

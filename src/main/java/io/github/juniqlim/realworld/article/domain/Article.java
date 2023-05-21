@@ -1,11 +1,11 @@
 package io.github.juniqlim.realworld.article.domain;
 
 import io.github.juniqlim.realworld.Id;
+
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
-import java.util.stream.Collectors;
 
 public class Article {
     private final Id id;
@@ -13,30 +13,29 @@ public class Article {
     private final String title;
     private final String description;
     private final String body;
-    private final List<Tag> tags;
     private final LocalDateTime createdAt;
     private final LocalDateTime updatedAt;
     private final List<Id> favoriteUserIds;
     private final Id authorId;
 
-    public Article(Id id, String title, String description, String body, Id authorId, List<Tag> tags) {
-        this(id, title, description, body, authorId, tags, new ArrayList<>());
+
+    public Article(Id id, String title, String description, String body, Id authorId) {
+        this(id, title, description, body, authorId, new ArrayList<>());
     }
 
-    private Article(Id id, String title, String description, String body, Id authorId, List<Tag> tags,
-        List<Id> favoriteUserIds) {
-        this(id, new Slug(title), title, description, body, tags, LocalDateTime.now(), LocalDateTime.now(),
+    public Article(Id id, String title, String description, String body, Id authorId,
+                   List<Id> favoriteUserIds) {
+        this(id, new Slug(title), title, description, body, LocalDateTime.now(), LocalDateTime.now(),
             favoriteUserIds, authorId);
     }
 
-    public Article(Id id, Slug slug, String title, String description, String body, List<Tag> tags, LocalDateTime createdAt,
+    public Article(Id id, Slug slug, String title, String description, String body, LocalDateTime createdAt,
         LocalDateTime updatedAt, List<Id> favoriteUserIds, Id authorId) {
         this.id = id;
         this.slug = slug;
         this.title = title;
         this.description = description;
         this.body = body;
-        this.tags = tags;
         this.createdAt = createdAt;
         this.updatedAt = updatedAt;
         this.favoriteUserIds = favoriteUserIds;
@@ -80,19 +79,15 @@ public class Article {
     }
 
     public Article updateTitle(String title) {
-        return new Article(id, title, description, body, authorId, tags, favoriteUserIds);
+        return new Article(id, title, description, body, authorId, favoriteUserIds);
     }
 
     public Article updateDescription(String description) {
-        return new Article(id, title, description, body, authorId, tags, favoriteUserIds);
+        return new Article(id, title, description, body, authorId, favoriteUserIds);
     }
 
     public Article updateBody(String body) {
-        return new Article(id, title, description, body, authorId, tags, favoriteUserIds);
-    }
-
-    public boolean equalsTag(String tag) {
-        return tags.contains(new Tag(tag));
+        return new Article(id, title, description, body, authorId, favoriteUserIds);
     }
 
     public boolean equalsAuthorId(Id authorId) {
@@ -107,12 +102,16 @@ public class Article {
         return createdAt.compareTo(article.createdAt());
     }
 
-    public void favorite(Id userId) {
+    public Article favorite(Id userId) {
+        List<Id> favoriteUserIds = new ArrayList<>(this.favoriteUserIds);
         favoriteUserIds.add(userId);
+        return new Article(id, new Slug(title), title, description, body, createdAt, updatedAt, favoriteUserIds, authorId);
     }
 
-    public void unFavorite(Id userId) {
+    public Article unFavorite(Id userId) {
+        List<Id> favoriteUserIds = new ArrayList<>(this.favoriteUserIds);
         favoriteUserIds.remove(userId);
+        return new Article(id, new Slug(title), title, description, body, createdAt, updatedAt, favoriteUserIds, authorId);
     }
 
     public boolean isFavorite(Id userId) {
@@ -121,12 +120,6 @@ public class Article {
 
     public Id authorId() {
         return authorId;
-    }
-
-    public List<String> tagList() {
-        return tags.stream()
-            .map(Tag::value)
-            .collect(Collectors.toList());
     }
 
     public LocalDateTime updatedAt() {
@@ -139,23 +132,14 @@ public class Article {
 
     @Override
     public boolean equals(Object o) {
-        if (this == o) {
-            return true;
-        }
-        if (o == null || getClass() != o.getClass()) {
-            return false;
-        }
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
         Article article = (Article) o;
-        return Objects.equals(id, article.id) && Objects.equals(slug, article.slug)
-            && Objects.equals(title, article.title) && Objects.equals(description, article.description)
-            && Objects.equals(body, article.body) && Objects.equals(tags, article.tags)
-            && Objects.equals(createdAt, article.createdAt) && Objects.equals(updatedAt,
-            article.updatedAt) && Objects.equals(favoriteUserIds, article.favoriteUserIds)
-            && Objects.equals(authorId, article.authorId);
+        return Objects.equals(id, article.id) && Objects.equals(slug, article.slug) && Objects.equals(title, article.title) && Objects.equals(description, article.description) && Objects.equals(body, article.body) && Objects.equals(createdAt, article.createdAt) && Objects.equals(updatedAt, article.updatedAt) && Objects.equals(favoriteUserIds, article.favoriteUserIds) && Objects.equals(authorId, article.authorId);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, slug, title, description, body, tags, createdAt, updatedAt, favoriteUserIds, authorId);
+        return Objects.hash(id, slug, title, description, body, createdAt, updatedAt, favoriteUserIds, authorId);
     }
 }

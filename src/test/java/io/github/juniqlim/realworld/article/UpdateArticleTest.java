@@ -1,16 +1,14 @@
 package io.github.juniqlim.realworld.article;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-
 import io.github.juniqlim.realworld.Fixture;
 import io.github.juniqlim.realworld.article.UpdateArticle.Request.Builder;
 import io.github.juniqlim.realworld.article.domain.Article;
-import io.github.juniqlim.realworld.article.domain.Tag;
 import io.github.juniqlim.realworld.article.repository.ArticleArrayListRepository;
 import io.github.juniqlim.realworld.article.repository.ArticleRepository;
-import java.util.Arrays;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 class UpdateArticleTest {
     ArticleRepository articleRepository = new ArticleArrayListRepository();
@@ -18,7 +16,7 @@ class UpdateArticleTest {
     @BeforeEach
     void setUp() {
         articleRepository.save(new Article(Fixture.LONG_ID_ONE, "How to train your dragon", "Ever wonder how?", "You have to believe",
-                Fixture.LONG_ID_ONE, Arrays.asList(new Tag("reactjs"), new Tag("angularjs"), new Tag("dragons"))));
+                Fixture.LONG_ID_ONE));
     }
 
     @Test

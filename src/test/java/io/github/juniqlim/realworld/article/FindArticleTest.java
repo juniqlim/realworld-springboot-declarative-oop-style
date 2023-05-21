@@ -1,20 +1,16 @@
 package io.github.juniqlim.realworld.article;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-
-import io.github.juniqlim.object.jwt.Jwt;
 import io.github.juniqlim.realworld.Fixture;
 import io.github.juniqlim.realworld.article.FindArticle.Request;
 import io.github.juniqlim.realworld.article.domain.Article;
-import io.github.juniqlim.realworld.article.domain.Tag;
 import io.github.juniqlim.realworld.article.repository.ArticleArrayListRepository;
 import io.github.juniqlim.realworld.article.repository.ArticleRepository;
 import io.github.juniqlim.realworld.user.FindUser;
-import io.github.juniqlim.realworld.user.domain.User;
 import io.github.juniqlim.realworld.user.repository.UserRepository;
-import java.util.Arrays;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 class FindArticleTest {
     ArticleRepository articleRepository = new ArticleArrayListRepository();
@@ -22,11 +18,10 @@ class FindArticleTest {
 
     @BeforeEach
     void setUp() {
-        articleRepository.save(new Article(Fixture.LONG_ID_ONE, "How to train your dragon", "Ever wonder how?", "You have to believe",
-            Fixture.LONG_ID_ONE, Arrays.asList(new Tag("reactjs"), new Tag("angularjs"), new Tag("dragons"))));
+        articleRepository.save(Fixture.JAKE_ARTICLE);
 
         UserRepository userRepository = new UserRepository.Collection();
-        userRepository.save(new User(1, Jwt.FAKE.token(), "123", "Jacob", "jake@jake.jake"));
+        userRepository.save(Fixture.JAKE);
         findUser = new FindUser(userRepository);
     }
 
@@ -45,13 +40,12 @@ class FindArticleTest {
 
     @Test
     void findByFavoriteUserName() {
-        Article article = articleRepository.findBySlug("how-to-train-your-dragon");
-        article.favorite(Fixture.LONG_ID_ONE);
-        articleRepository.update(article.slug(), article);
+        Article favoritedArticle = articleRepository.findBySlug("how-to-train-your-dragon").favorite(Fixture.JAKE.id());
+        articleRepository.update(favoritedArticle.slug(), favoritedArticle);
 
         assertEquals("How to train your dragon",
             new FindArticle(articleRepository, findUser).find(
-                    new Request(null, null, "Jacob", 0, 100))
+                    new Request(null, null, Fixture.JAKE.username(), 0, 100))
                 .get(0).title());
     }
 }

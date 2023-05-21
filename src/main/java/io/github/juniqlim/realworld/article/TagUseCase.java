@@ -1,10 +1,12 @@
 package io.github.juniqlim.realworld.article;
 
+import io.github.juniqlim.realworld.Id;
 import io.github.juniqlim.realworld.article.domain.Tag;
 import io.github.juniqlim.realworld.article.repository.TagRepository;
+import org.springframework.stereotype.Service;
+
 import java.util.List;
 import java.util.stream.Collectors;
-import org.springframework.stereotype.Service;
 
 @Service
 public class TagUseCase {
@@ -14,21 +16,38 @@ public class TagUseCase {
         this.tagRepository = tagRepository;
     }
 
-    public void merge(String tag) {
-        tagRepository.merge(new Tag(tag));
-    }
+    public void merges(List<Request> requests) {
+        List<Tag> tags = requests.stream()
+            .collect(Collectors.groupingBy(
+                r -> r.tag,
+                Collectors.mapping(r -> r.articleId, Collectors.toList())
+            ))
+            .entrySet().stream()
+            .map(entry -> new Tag(entry.getKey(), entry.getValue()))
+            .collect(Collectors.toList());
 
-    public void merges(List<String> tags) {
-        tagRepository.merges(tags.stream()
-            .map(Tag::new)
-            .collect(Collectors.toList()));
+        tagRepository.merges(tags);
     }
 
     public List<Tag> findAll() {
         return tagRepository.findAll();
     }
 
-    public void delete(String tag) {
-        tagRepository.delete(new Tag(tag));
+    public void deleteByTagString(String tag) {
+        tagRepository.deleteByTagString(tag);
+    }
+
+    List<Id> findArticleIdsByTag(String tag) {
+        return tagRepository.findArticleIdsByTagString(tag);
+    }
+
+    public static class Request {
+        private final Id articleId;
+        private final String tag;
+
+        Request(Id articleId, String tag) {
+            this.articleId = articleId;
+            this.tag = tag;
+        }
     }
 }

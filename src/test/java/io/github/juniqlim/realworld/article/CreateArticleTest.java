@@ -1,28 +1,26 @@
 package io.github.juniqlim.realworld.article;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-
-import autoparams.AutoSource;
+import io.github.juniqlim.realworld.Fixture;
 import io.github.juniqlim.realworld.article.CreateArticle.Request;
 import io.github.juniqlim.realworld.article.domain.Article;
 import io.github.juniqlim.realworld.article.repository.ArticleArrayListRepository;
-import io.github.juniqlim.realworld.article.repository.TagRepository;
 import io.github.juniqlim.realworld.user.FindUser;
-import io.github.juniqlim.realworld.user.domain.User;
 import io.github.juniqlim.realworld.user.repository.UserRepository.Collection;
-import java.util.Arrays;
-import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.api.Test;
+
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 class CreateArticleTest {
-    @ParameterizedTest
-    @AutoSource
-    void test(User user) {
+    @Test
+    void test() {
         Collection userRepository = new Collection();
-        userRepository.save(user);
+        userRepository.save(Fixture.JAKE);
 
-        Article article = new CreateArticle(new ArticleArrayListRepository(), new FindUser(userRepository), new TagUseCase(new TagRepository())).create(
+        Article article = new CreateArticle(new ArticleArrayListRepository(), new FindUser(userRepository))
+            .create(
                 new Request("How to train your dragon", "Ever wonder how?", "You have to believe",
-                    user.token(), Arrays.asList("reactjs", "angularjs", "dragons")));
+                    Fixture.JAKE.token())
+            );
         assertEquals("how-to-train-your-dragon", article.slug());
     }
 }

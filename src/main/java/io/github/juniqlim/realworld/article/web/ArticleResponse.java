@@ -3,7 +3,9 @@ package io.github.juniqlim.realworld.article.web;
 import io.github.juniqlim.realworld.Id;
 import io.github.juniqlim.realworld.article.domain.Article;
 import io.github.juniqlim.realworld.user.domain.Profile;
+
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 
 public class ArticleResponse {
@@ -27,7 +29,7 @@ public class ArticleResponse {
     }
 
     private ArticleResponse(Article article, Profile profile, boolean favorited) {
-        this(article.slug(), article.title(), article.description(), article.body(), article.tagList(),
+        this(article.slug(), article.title(), article.description(), article.body(), new ArrayList<>(),
             article.createdAt(), article.updatedAt(), favorited, article.favoritesCount(),
             new Author(profile));
     }

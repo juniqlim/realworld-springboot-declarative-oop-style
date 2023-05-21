@@ -14,15 +14,13 @@ public class FavoriteArticle {
     }
 
     public Article favorite(String slug, Id userId) {
-        Article article = articleRepository.findBySlug(slug);
-        article.favorite(userId);
-        articleRepository.update(article.slug(), article);
-        return article;
+        Article favoritedArticle = articleRepository.findBySlug(slug).favorite(userId);
+        articleRepository.update(favoritedArticle.slug(), favoritedArticle);
+        return favoritedArticle;
     }
     public Article unFavorite(String slug, Id userId) {
-        Article article = articleRepository.findBySlug(slug);
-        article.unFavorite(userId);
-        articleRepository.update(article.slug(), article);
-        return article;
+        Article unFavoritedArticle = articleRepository.findBySlug(slug).unFavorite(userId);
+        articleRepository.update(unFavoritedArticle.slug(), unFavoritedArticle);
+        return unFavoritedArticle;
     }
 }
