@@ -1,6 +1,7 @@
 package io.github.juniqlim.realworld.article.domain;
 
 import io.github.juniqlim.realworld.Id;
+import io.github.juniqlim.realworld.tag.domain.Tag;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
@@ -17,7 +18,7 @@ public class Article {
     private final LocalDateTime updatedAt;
     private final List<Id> favoriteUserIds;
     private final Id authorId;
-
+    private List<Tag> tags;
 
     public Article(Id id, String title, String description, String body, Id authorId) {
         this(id, title, description, body, authorId, new ArrayList<>());

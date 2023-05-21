@@ -50,4 +50,10 @@ public class TagRepository {
                 .map(Tag::articleIds)
                 .orElse(new ArrayList<>());
     }
+
+    public List<Tag> findByArticleId(Id articleId) {
+        return tags.stream()
+            .filter(t -> t.articleIds().contains(articleId))
+            .collect(Collectors.toList());
+    }
 }

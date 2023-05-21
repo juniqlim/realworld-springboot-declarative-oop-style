@@ -33,8 +33,12 @@ public class TagUseCase {
         tagRepository.deleteByTagString(tag);
     }
 
-    List<Id> findArticleIdsByTag(String tag) {
+    public List<Id> findArticleIdsByTag(String tag) {
         return tagRepository.findArticleIdsByTagString(tag);
+    }
+
+    public List<Tag> findByArticleId(Id articleId) {
+        return tagRepository.findByArticleId(articleId);
     }
 
     public static class Request {

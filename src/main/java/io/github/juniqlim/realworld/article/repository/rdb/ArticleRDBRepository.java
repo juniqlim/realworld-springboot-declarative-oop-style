@@ -43,11 +43,10 @@ class ArticleRDBRepository implements ArticleRepository {
     }
 
     @Override
-    public List<Article> findAuthorUserIdAndFavoriteUserIdOrderByRegdate(Id authorUserId, Id favoriteUserId,
-                                                                            int offset, int limit) {
+    public List<Article> findByIdInAuthorUserIdAndFavoriteUserIdOrderByRegdate(List<Id> ids, Id authorUserId,
+                                                                             Id favoriteUserId, int offset, int limit) {
         return articleEntityToArticle.articles(
-            articleJpaRepository.findByAuthorUserIdOrderByCreatedAt(
-                authorUserId.value(),
+            articleJpaRepository.findByIdInAuthorUserIdOrderByCreatedAt(ids, authorUserId.value(),
                 new OffsetToPage(offset, limit, Sort.by(Direction.DESC, "createdAt")).pageable()
             )
         );

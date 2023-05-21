@@ -2,8 +2,8 @@ package io.github.juniqlim.realworld.article;
 
 import io.github.juniqlim.realworld.Id;
 import io.github.juniqlim.realworld.article.domain.Article;
-import io.github.juniqlim.realworld.article.repository.ArticleRepository;
 import io.github.juniqlim.realworld.article.web.ArticleResponse;
+import io.github.juniqlim.realworld.tag.TagUseCase;
 import io.github.juniqlim.realworld.user.FindUser;
 import io.github.juniqlim.realworld.user.domain.Profile;
 import org.springframework.stereotype.Service;
@@ -15,21 +15,23 @@ import static java.util.stream.Collectors.toList;
 
 @Service
 public class FindArticleResponse {
-    private final ArticleRepository articleRepository;
+    private final FindArticle findArticle;
+    private final TagUseCase tagUseCase;
     private final FindUser findUser;
 
-    public FindArticleResponse(ArticleRepository articleRepository, FindUser findUser) {
-        this.articleRepository = articleRepository;
+    public FindArticleResponse(FindArticle findArticle, TagUseCase tagUseCase, FindUser findUser) {
+        this.findArticle = findArticle;
+        this.tagUseCase = tagUseCase;
         this.findUser = findUser;
     }
 
-    public Article find(String slug) {
-        return articleRepository.findBySlug(slug);
-    }
-
     public List<ArticleResponse> find(Request request) {
-        List<Article> articles = articleRepository.findAuthorUserIdAndFavoriteUserIdOrderByRegdate(
-            request.authorUserId, request.favoriteUserId, request.offset, request.limit);
+        List<Id> articleIds = new ArrayList<>();
+        if (request.tag != null && !request.tag.isEmpty()) {
+            articleIds.addAll(tagUseCase.findArticleIdsByTag(request.tag));
+        }
+
+        List<Article> articles = findArticle.find(new FindArticle.Request(articleIds, request.authorUserId, request.favoriteUserId, request.offset, request.limit));
 
         return articles.stream()
             .map(article -> new ArticleResponse(article, new ArrayList<>(), profile(request, article), request.loginUserId))
@@ -106,7 +108,14 @@ public class FindArticleResponse {
             }
 
             public Request build() {
-                return new Request(loginUserId, tag, authorUserId, favoriteUserId, offset, limit);
+                return new Request(nullIsEmptyId(loginUserId), tag, nullIsEmptyId(authorUserId), nullIsEmptyId(favoriteUserId), offset, limit);
+            }
+
+            private Id nullIsEmptyId(Id id) {
+                if (id == null) {
+                    return new Id.EmptyId();
+                }
+                return id;
             }
         }
     }

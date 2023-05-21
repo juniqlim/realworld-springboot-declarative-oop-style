@@ -36,8 +36,8 @@ public class ArticleArrayListRepository implements ArticleRepository {
         articles.add(article);
     }
 
-    public List<Article> findAuthorUserIdAndFavoriteUserIdOrderByRegdate(Id authorId, Id favoriteUserId, int offset, int limit) {
-        Conditional conditional = new Conditional(authorId, favoriteUserId);
+    public List<Article> findByIdInAuthorUserIdAndFavoriteUserIdOrderByRegdate(List<Id> ids, Id authorId, Id favoriteUserId, int offset, int limit) {
+        Conditional conditional = new Conditional(ids, authorId, favoriteUserId);
         return articles.stream()
             .sorted((article1, article2) -> article2.compareCreatedAt(article1))
             .filter(conditional::value)
@@ -65,23 +65,28 @@ public class ArticleArrayListRepository implements ArticleRepository {
     }
 
     static class Conditional {
+        private final List<Id> ids;
         private final Id authorId;
         private final Id favoriteUserId;
 
-        public Conditional(Id authorId, Id favoriteUserId) {
+        public Conditional(List<Id> ids, Id authorId, Id favoriteUserId) {
+            this.ids = ids;
             this.authorId = authorId;
             this.favoriteUserId = favoriteUserId;
         }
 
         public boolean value(Article article) {
-            boolean isEqualsAuthorId = false, isEqualsFavoriteUserId = false;
+            boolean containIds = false, isEqualsAuthorId = false, isEqualsFavoriteUserId = false;
+            if (ids == null || ids.isEmpty() || ids.contains(article.id())) {
+                containIds = true;
+            }
             if (authorId.isEmpty() || article.equalsAuthorId(authorId)) {
                 isEqualsAuthorId = true;
             }
             if (favoriteUserId.isEmpty() || article.isFavorite(favoriteUserId)) {
                 isEqualsFavoriteUserId = true;
             }
-            return isEqualsAuthorId && isEqualsFavoriteUserId;
+            return containIds && isEqualsAuthorId && isEqualsFavoriteUserId;
         }
     }
 }

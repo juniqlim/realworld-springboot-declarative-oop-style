@@ -7,6 +7,13 @@ public interface Id {
     boolean isEmpty();
     <T>T value();
 
+    default Id nullIsEmptyId() {
+        if (this == null) {
+            return new EmptyId();
+        }
+        return this;
+    }
+
     class LongId implements Id {
         private final long value;
 
