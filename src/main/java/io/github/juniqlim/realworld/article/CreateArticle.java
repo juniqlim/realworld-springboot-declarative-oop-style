@@ -1,5 +1,6 @@
 package io.github.juniqlim.realworld.article;
 
+import io.github.juniqlim.realworld.Id;
 import io.github.juniqlim.realworld.article.domain.Article;
 import io.github.juniqlim.realworld.article.repository.ArticleRepository;
 import io.github.juniqlim.realworld.user.FindUser;
@@ -19,7 +20,7 @@ public class CreateArticle {
     }
 
     public Article create(Request request) {
-        User authorUser = findUser.find(request.jwsToken);
+        User authorUser = findUser.find(request.authorUserId);
         Article article = new Article(articleRepository.createId(), request.title, request.description, request.body, authorUser.id(),
             new ArrayList<>());
         articleRepository.save(article);
@@ -30,13 +31,13 @@ public class CreateArticle {
         private final String title;
         private final String description;
         private final String body;
-        private final String jwsToken;
+        private final Id authorUserId;
 
-        public Request(String title, String description, String body, String jwsToken) {
+        public Request(String title, String description, String body, Id authorUserId) {
             this.title = title;
             this.description = description;
             this.body = body;
-            this.jwsToken = jwsToken;
+            this.authorUserId = authorUserId;
         }
     }
 }

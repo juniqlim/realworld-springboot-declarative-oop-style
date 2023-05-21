@@ -5,6 +5,8 @@ import io.github.juniqlim.realworld.article.domain.Article;
 import io.github.juniqlim.realworld.user.FindUser;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
+
 @Service
 class RappingArticle {
     private final FindUser findUser;
@@ -13,20 +15,10 @@ class RappingArticle {
         this.findUser = findUser;
     }
 
-    ArticleResponse value(Article article) {
-        return new ArticleResponse(
-            article,
-            findUser.find(article.authorId()).profile()
-        );
-    }
-
-    ArticleResponse value(Article article, String loginUserJwsToken) {
-        return value(article, findUser.find(loginUserJwsToken).id());
-    }
-
     ArticleResponse value(Article article, Id loginUserId) {
         return new ArticleResponse(
             article,
+            new ArrayList<>(),
             findUser.find(article.authorId()).profile(),
             loginUserId
         );

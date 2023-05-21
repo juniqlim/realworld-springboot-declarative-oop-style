@@ -19,7 +19,7 @@ class CreateArticleTest {
         Article article = new CreateArticle(new ArticleArrayListRepository(), new FindUser(userRepository))
             .create(
                 new Request("How to train your dragon", "Ever wonder how?", "You have to believe",
-                    Fixture.JAKE.token())
+                    Fixture.JAKE.id())
             );
         assertEquals("how-to-train-your-dragon", article.slug());
     }

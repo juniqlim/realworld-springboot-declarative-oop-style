@@ -5,7 +5,6 @@ import io.github.juniqlim.realworld.article.domain.Article;
 import io.github.juniqlim.realworld.user.domain.Profile;
 
 import java.time.LocalDateTime;
-import java.util.ArrayList;
 import java.util.List;
 
 public class ArticleResponse {
@@ -20,16 +19,16 @@ public class ArticleResponse {
     private final int favoritesCount;
     private final Author author;
 
-    public ArticleResponse(Article article, Profile profile) {
-        this(article, profile, false);
+    public ArticleResponse(Article article, List<String> tags, Profile profile) {
+        this(article, tags, profile, false);
     }
 
-    public ArticleResponse(Article article, Profile profile, Id loginUserId) {
-        this(article, profile, !loginUserId.isEmpty() && article.favorited(loginUserId));
+    public ArticleResponse(Article article, List<String> tags, Profile profile, Id loginUserId) {
+        this(article, tags, profile, !loginUserId.isEmpty() && article.favorited(loginUserId));
     }
 
-    private ArticleResponse(Article article, Profile profile, boolean favorited) {
-        this(article.slug(), article.title(), article.description(), article.body(), new ArrayList<>(),
+    private ArticleResponse(Article article, List<String> tags, Profile profile, boolean favorited) {
+        this(article.slug(), article.title(), article.description(), article.body(), tags,
             article.createdAt(), article.updatedAt(), favorited, article.favoritesCount(),
             new Author(profile));
     }

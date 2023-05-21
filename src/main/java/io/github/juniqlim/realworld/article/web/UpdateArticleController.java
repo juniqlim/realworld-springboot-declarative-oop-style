@@ -2,24 +2,26 @@ package io.github.juniqlim.realworld.article.web;
 
 import io.github.juniqlim.realworld.article.UpdateArticle;
 import io.github.juniqlim.realworld.article.UpdateArticle.Request.Builder;
+import io.github.juniqlim.realworld.tag.TagUseCase;
 import io.github.juniqlim.realworld.user.FindUser;
 import io.github.juniqlim.realworld.user.domain.User;
 import io.github.juniqlim.realworld.user.web.Token;
+import org.springframework.web.bind.annotation.*;
+
 import java.security.PublicKey;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestHeader;
-import org.springframework.web.bind.annotation.RestController;
+import java.util.ArrayList;
 
 @RestController
 public class UpdateArticleController {
     private final UpdateArticle updateArticle;
+    private final TagUseCase tagUseCase;
     private final FindUser findUser;
     private final PublicKey publicKey;
 
-    UpdateArticleController(UpdateArticle updateArticle, FindUser findUser, PublicKey publicKey) {
+    public UpdateArticleController(UpdateArticle updateArticle, TagUseCase tagUseCase, FindUser findUser,
+        PublicKey publicKey) {
         this.updateArticle = updateArticle;
+        this.tagUseCase = tagUseCase;
         this.findUser = findUser;
         this.publicKey = publicKey;
     }
@@ -36,7 +38,7 @@ public class UpdateArticleController {
             .body(request.getArticle().getBody())
             .build();
         return new Response(
-            new ArticleResponse(updateArticle.update(updateRequest), loginUser.profile(), loginUser.id())
+            new ArticleResponse(updateArticle.update(updateRequest), new ArrayList<>(), loginUser.profile(), loginUser.id())
         );
     }
 

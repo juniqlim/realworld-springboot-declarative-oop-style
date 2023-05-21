@@ -1,6 +1,7 @@
 package io.github.juniqlim.realworld.article.web;
 
-import io.github.juniqlim.realworld.article.CreateArticle;
+import io.github.juniqlim.realworld.article.CreateArticleAndTag;
+import io.github.juniqlim.realworld.tag.domain.Tag;
 import io.github.juniqlim.realworld.user.FindUser;
 import io.github.juniqlim.realworld.user.domain.User;
 import io.github.juniqlim.realworld.user.web.Token;
@@ -11,27 +12,37 @@ import org.springframework.web.bind.annotation.RestController;
 
 import java.security.PublicKey;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @RestController
 public class CreateArticleController {
-    private final CreateArticle createArticle;
+    private final CreateArticleAndTag createArticleAndTag;
     private final FindUser findUser;
     private final PublicKey publicKey;
 
-    CreateArticleController(CreateArticle createArticle, FindUser findUser, PublicKey publicKey) {
-        this.createArticle = createArticle;
+    public CreateArticleController(CreateArticleAndTag createArticleAndTag, FindUser findUser, PublicKey publicKey) {
+        this.createArticleAndTag = createArticleAndTag;
         this.findUser = findUser;
         this.publicKey = publicKey;
     }
 
     @PostMapping("/api/articles")
     public Response articles(@RequestHeader("Authorization") String token, @RequestBody Request request) {
-        String jwsToken = new Token.Jws(publicKey, token).value();
-        User loginUser = findUser.find(jwsToken);
-        return new Response(new ArticleResponse(
-            createArticle.create(request.createArticleRequest(jwsToken)),
-            loginUser.profile(),
-            loginUser.id()));
+        User loginUser = findUser.find(new Token.Jws(publicKey, token).value());
+        Request.Article a = request.article;
+        CreateArticleAndTag.Response response = createArticleAndTag.create(
+            new CreateArticleAndTag.Request(a.title, a.description, a.body, loginUser.id(), a.tagList)
+        );
+        return new Response(
+            new ArticleResponse(
+                response.article(),
+                response.tags().stream()
+                    .map(Tag::value)
+                    .collect(Collectors.toList()),
+                loginUser.profile(),
+                loginUser.id()
+            )
+        );
     }
 
     private static class Request {
@@ -39,10 +50,6 @@ public class CreateArticleController {
 
         public Article getArticle() {
             return article;
-        }
-
-        private CreateArticle.Request createArticleRequest(String jwsToken) {
-            return new CreateArticle.Request(article.getTitle(), article.getDescription(), article.getBody(), jwsToken);
         }
 
         private static class Article {

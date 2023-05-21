@@ -5,6 +5,7 @@ import io.github.juniqlim.realworld.tag.domain.Tag;
 import io.github.juniqlim.realworld.tag.repository.TagRepository;
 import org.springframework.stereotype.Service;
 
+import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -16,17 +17,12 @@ public class TagUseCase {
         this.tagRepository = tagRepository;
     }
 
-    public void merges(List<Request> requests) {
-        List<Tag> tags = requests.stream()
-            .collect(Collectors.groupingBy(
-                r -> r.tag,
-                Collectors.mapping(r -> r.articleId, Collectors.toList())
-            ))
-            .entrySet().stream()
-            .map(entry -> new Tag(entry.getKey(), entry.getValue()))
+    public List<Tag> merge(Request request) {
+        List<Tag> tags = request.tags.stream()
+            .map(tag -> new Tag(tag, Collections.singletonList(request.articleId)))
             .collect(Collectors.toList());
-
         tagRepository.merges(tags);
+        return tags;
     }
 
     public List<Tag> findAll() {
@@ -43,11 +39,11 @@ public class TagUseCase {
 
     public static class Request {
         private final Id articleId;
-        private final String tag;
+        private final List<String> tags;
 
-        Request(Id articleId, String tag) {
+        public Request(Id articleId, List<String> tags) {
             this.articleId = articleId;
-            this.tag = tag;
+            this.tags = tags;
         }
     }
 }

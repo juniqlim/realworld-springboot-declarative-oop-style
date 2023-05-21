@@ -7,6 +7,8 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.ArrayList;
+
 @RestController
 public class FindArticleController {
     private final FindArticle findArticle;
@@ -22,6 +24,7 @@ public class FindArticleController {
         Article article = findArticle.find(slug);
         return new Response(new ArticleResponse(
             article,
+            new ArrayList<>(),
             findUser.find(article.authorId()).profile())
         );
     }

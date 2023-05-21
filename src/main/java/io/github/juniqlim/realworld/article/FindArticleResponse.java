@@ -8,6 +8,7 @@ import io.github.juniqlim.realworld.user.FindUser;
 import io.github.juniqlim.realworld.user.domain.Profile;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import static java.util.stream.Collectors.toList;
@@ -31,7 +32,7 @@ public class FindArticleResponse {
             request.authorUserId, request.favoriteUserId, request.offset, request.limit);
 
         return articles.stream()
-            .map(article -> new ArticleResponse(article, profile(request, article), request.loginUserId))
+            .map(article -> new ArticleResponse(article, new ArrayList<>(), profile(request, article), request.loginUserId))
             .collect(toList());
     }
 

@@ -6,12 +6,23 @@ import org.springframework.stereotype.Repository;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 @Repository
 public class TagRepository {
     private final List<Tag> tags = new ArrayList<>();
 
     public void merge(Tag tag) {
+        tags.stream()
+            .filter(t -> t.value().equals(tag.value()))
+            .findFirst()
+            .ifPresent(
+                t -> new Tag(
+                    tag.value(),
+                    Stream.concat(t.articleIds().stream(), tag.articleIds().stream()).distinct().collect(Collectors.toList())
+                )
+            );
         if (!tags.contains(tag)) {
             tags.add(tag);
         }
@@ -27,16 +38,16 @@ public class TagRepository {
 
     public void deleteByTagString(String tag) {
         tags.stream()
-            .filter(t -> t.value().equals(tag))
-            .findFirst()
-            .ifPresent(tags::remove);
+                .filter(t -> t.value().equals(tag))
+                .findFirst()
+                .ifPresent(tags::remove);
     }
 
     public List<Id> findArticleIdsByTagString(String tag) {
         return tags.stream()
-            .filter(t -> t.value().equals(tag))
-            .findFirst()
-            .map(Tag::articleIds)
-            .orElse(new ArrayList<>());
+                .filter(t -> t.value().equals(tag))
+                .findFirst()
+                .map(Tag::articleIds)
+                .orElse(new ArrayList<>());
     }
 }
