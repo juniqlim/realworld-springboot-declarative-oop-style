@@ -5,6 +5,7 @@ import io.github.juniqlim.realworld.article.domain.Article;
 import io.github.juniqlim.realworld.user.domain.Profile;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 
 public class ArticleResponse {
@@ -19,8 +20,8 @@ public class ArticleResponse {
     private final int favoritesCount;
     private final Author author;
 
-    public ArticleResponse(Article article, List<String> tags, Profile profile) {
-        this(article, tags, profile, false);
+    public ArticleResponse(Article article, Profile profile) {
+        this(article, new ArrayList<>(), profile, false);
     }
 
     public ArticleResponse(Article article, List<String> tags, Profile profile, Id loginUserId) {
@@ -33,7 +34,7 @@ public class ArticleResponse {
             new Author(profile));
     }
 
-    ArticleResponse(String slug, String title, String description, String body, List<String> tagList,
+    private ArticleResponse(String slug, String title, String description, String body, List<String> tagList,
         LocalDateTime createdAt, LocalDateTime updatedAt, boolean favorited, int favoritesCount, Author author) {
         this.slug = slug;
         this.title = title;

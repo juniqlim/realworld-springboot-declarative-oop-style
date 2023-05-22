@@ -25,6 +25,14 @@ public class FindArticleResponse {
         this.findUser = findUser;
     }
 
+    public ArticleResponse find(String slug) {
+        Article article = findArticle.find(slug);
+        return new ArticleResponse(
+            article,
+            findUser.find(article.authorId()).profile()
+        );
+    }
+
     public List<ArticleResponse> find(Request request) {
         List<Id> articleIds = new ArrayList<>();
         if (request.tag != null && !request.tag.isEmpty()) {
