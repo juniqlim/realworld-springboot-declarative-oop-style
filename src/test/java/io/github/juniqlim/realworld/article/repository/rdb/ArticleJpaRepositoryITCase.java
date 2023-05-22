@@ -2,11 +2,11 @@ package io.github.juniqlim.realworld.article.repository.rdb;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
-@SpringBootTest
+@DataJpaTest
 class ArticleJpaRepositoryITCase {
     @Autowired ArticleJpaRepository articleJpaRepository;
 

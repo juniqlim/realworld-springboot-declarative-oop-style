@@ -14,19 +14,19 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 class ArticleITCase extends HttpApiConfig {
     @Test
     void create() {
-        String token = new CreateUser().createUserGetToken(ITFixture.JAKE2);
-        ExtractableResponse<Response> response = new CreateArticle().create(token, ITFixture.JAKE2_ARTICLE);
+        String token = new CreateUser().createUserGetToken(ITFixture.JAKE);
+        ExtractableResponse<Response> response = new CreateArticle().create(token, ITFixture.JAKE_ARTICLE);
 
-        assertEquals("How to train your dragon2", response.jsonPath().getString("article.title"));
+        assertEquals("How to train your dragon", response.jsonPath().getString("article.title"));
 
         ExtractableResponse<Response> findResponse = RestAssured.given().log().all()
             .contentType(MediaType.APPLICATION_JSON_VALUE)
             .header("Authorization", "Token " + token)
-            .body(ITFixture.JAKE2_ARTICLE)
+            .body(ITFixture.JAKE_ARTICLE)
             .when()
-            .get("/api/articles/{slug}", "how-to-train-your-dragon2")
+            .get("/api/articles/{slug}", "how-to-train-your-dragon")
             .then()
             .log().all().extract();
-        assertEquals("How to train your dragon2", findResponse.jsonPath().getString("article.title"));
+        assertEquals("How to train your dragon", findResponse.jsonPath().getString("article.title"));
     }
 }

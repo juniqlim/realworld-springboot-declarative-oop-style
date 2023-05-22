@@ -1,40 +1,40 @@
 package io.github.juniqlim.realworld.integrationtest;
 
 public class ITFixture {
-    public static final String JAKE2 =
+    public static final String JAKE =
         "{\n" +
         "  \"user\":{\n" +
-        "    \"username\": \"Jacob2\",\n" +
-        "    \"email\": \"jake2@jake.jake\",\n" +
+        "    \"username\": \"Jacob\",\n" +
+        "    \"email\": \"jake@jake.jake\",\n" +
         "    \"password\": \"jakejake\"\n" +
         "  }\n" +
         "}";
-    public static final String JUNIQ2 =
+    public static final String JUNIQ =
         "{\n" +
         "  \"user\":{\n" +
-        "    \"username\": \"juniq2\",\n" +
-        "    \"email\": \"juniq2@juniq.juniq\",\n" +
+        "    \"username\": \"juniq\",\n" +
+        "    \"email\": \"juniq@juniq.juniq\",\n" +
         "    \"password\": \"juniqjuniq\"\n" +
         "  }\n" +
         "}";
 
 
-    public static final String JAKE2_ARTICLE =
+    public static final String JAKE_ARTICLE =
         "{\n" +
         "  \"article\": {\n" +
-        "    \"title\": \"How to train your dragon2\",\n" +
+        "    \"title\": \"How to train your dragon\",\n" +
         "    \"description\": \"Ever wonder how?\",\n" +
-        "    \"body\": \"You have to believe2\",\n" +
+        "    \"body\": \"You have to believe\",\n" +
         "    \"tagList\": [\"reactjs\", \"angularjs\", \"dragons\"]\n" +
         "  }\n" +
         "}";
 
-    public static final String JUNIQ2_ARTICLE =
+    public static final String JUNIQ_ARTICLE =
         "{\n" +
         "  \"article\": {\n" +
-        "    \"title\": \"Good day2\",\n" +
+        "    \"title\": \"Good day\",\n" +
         "    \"description\": \"So toothless?\",\n" +
-        "    \"body\": \"You have to believe2\",\n" +
+        "    \"body\": \"You have to believe\",\n" +
         "    \"tagList\": []\n" +
         "  }\n" +
         "}";
