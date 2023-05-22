@@ -1,15 +1,13 @@
 package io.github.juniqlim.realworld.article.repository.rdb;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-
-import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
+
 @SpringBootTest
-@Disabled
-class ArticleJpaRepositoryTest {
+class ArticleJpaRepositoryITCase {
     @Autowired ArticleJpaRepository articleJpaRepository;
 
     @Test
@@ -26,10 +24,10 @@ class ArticleJpaRepositoryTest {
 
     @Test
     void sequence() {
-        assertEquals(1, articleJpaRepository.sequence());
-        assertEquals(2, articleJpaRepository.sequence());
-        assertEquals(3, articleJpaRepository.sequence());
-        assertEquals(4, articleJpaRepository.sequence());
-        assertEquals(5, articleJpaRepository.sequence());
+        long sequence = articleJpaRepository.sequence();
+        assertEquals(sequence + 1, articleJpaRepository.sequence());
+        assertEquals(sequence + 2, articleJpaRepository.sequence());
+        assertEquals(sequence + 3, articleJpaRepository.sequence());
+        assertEquals(sequence + 4, articleJpaRepository.sequence());
     }
 }

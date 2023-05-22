@@ -19,10 +19,30 @@ dependencies {
 	implementation 'com.h2database:h2'
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'
 	implementation 'com.github.juniqlim.objects:jwt:6ffcb1146e'
-	testImplementation 'io.github.autoparams:autoparams:1.1.1'
+}
 
+def integrationTest = tasks.register("integrationTest", Test) {
+	useJUnitPlatform {
+		filter {
+			includeTestsMatching '*IT'
+			includeTestsMatching 'IT*'
+			includeTestsMatching '*ITCase'
+			excludeTestsMatching "*Test"
+		}
+	}
+}
+
+tasks.named('check') {
+	dependsOn integrationTest
 }
 
 tasks.named('test') {
-	useJUnitPlatform()
+	useJUnitPlatform {
+		filter {
+			includeTestsMatching "*Test"
+			excludeTestsMatching "*IT"
+			excludeTestsMatching 'IT*'
+			excludeTestsMatching '*ITCase'
+		}
+	}
 }

@@ -46,8 +46,13 @@ class ArticleRDBRepository implements ArticleRepository {
     public List<Article> findByIdInAuthorUserIdAndFavoriteUserIdOrderByRegdate(List<Id> ids, Id authorUserId,
                                                                              Id favoriteUserId, int offset, int limit) {
         return articleEntityToArticle.articles(
-            articleJpaRepository.findByIdInAuthorUserIdOrderByCreatedAt(ids, authorUserId.value(),
-                new OffsetToPage(offset, limit, Sort.by(Direction.DESC, "createdAt")).pageable()
+            articleJpaRepository.findByIdInAndAuthorUserIdOrderByCreatedAt(
+                ids.stream()
+                    .map(id -> ((LongId)id).value())
+                    .collect(Collectors.toList()),
+                authorUserId.value(),
+                new OffsetToPage(offset, limit, Sort.by(Direction.DESC, "createdAt"))
+                    .pageable()
             )
         );
     }
@@ -61,8 +66,11 @@ class ArticleRDBRepository implements ArticleRepository {
     public List<Article> findByUserIds(List<Id> followUsers, int offset, int limit) {
         return articleEntityToArticle.articles(
             articleJpaRepository.findByAuthorUserIdIn(
-                followUsers.stream().map(id -> String.valueOf(id.value())).collect(Collectors.toList()),
-                new OffsetToPage(offset, limit, Sort.by(Direction.DESC, "createdAt")).pageable()
+                followUsers.stream()
+                    .map(id -> ((LongId)id).value())
+                    .collect(Collectors.toList()),
+                new OffsetToPage(offset, limit, Sort.by(Direction.DESC, "createdAt"))
+                    .pageable()
             )
         );
     }
