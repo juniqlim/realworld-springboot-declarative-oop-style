@@ -5,6 +5,7 @@ import io.github.juniqlim.realworld.Id.LongId;
 import io.github.juniqlim.realworld.article.domain.Article;
 import io.github.juniqlim.realworld.article.domain.Slug;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -24,6 +25,11 @@ public class ArticleEntityToArticle {
     }
 
     private static List<Id> favoriteUserIds(String favoriteUserIds) {
-        return Arrays.stream(favoriteUserIds.split(",")).map(id -> new LongId(Long.parseLong(id))).collect(Collectors.toList());
+        if (favoriteUserIds == null || favoriteUserIds.isEmpty()) {
+            return new ArrayList<>();
+        }
+        return Arrays.stream(favoriteUserIds.split(","))
+            .map(id -> new LongId(Long.parseLong(id)))
+            .collect(Collectors.toList());
     }
 }

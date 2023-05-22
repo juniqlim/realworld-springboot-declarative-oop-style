@@ -48,7 +48,7 @@ public class CreateUserController {
         }
     }
 
-    private static class Response {
+    public static class Response {
         private final User user;
 
         private Response(io.github.juniqlim.realworld.user.domain.User user) {
@@ -63,7 +63,7 @@ public class CreateUserController {
             return user;
         }
 
-        private static class User {
+        public static class User {
             private final String email;
             private final String token;
             private final String username;
