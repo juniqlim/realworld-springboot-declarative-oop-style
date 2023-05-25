@@ -59,7 +59,7 @@ class ArticleITCase extends HttpApiConfig {
     @Test
     void findAricles() {
         String token = new CreateUser().createUserGetToken(ITFixture.JAKE);
-        new CreateArticle().create(token, ITFixture.JAKE);
+        new CreateArticle().create(token, ITFixture.JAKE_ARTICLE);
         new CreateArticle().create(new CreateUser().createUserGetToken(ITFixture.JUNIQ), ITFixture.JUNIQ_ARTICLE);
 
         ExtractableResponse<Response> findResponse = RestAssured.given().log().all()
