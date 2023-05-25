@@ -10,8 +10,44 @@ public interface ArticleRepository {
     Article findBySlug(String slug);
     Article findBySlugAndAuthorUserId(String slug, Id userId);
     void update(String slug, Article article);
-    List<Article> findByIdInAuthorUserIdAndFavoriteUserIdOrderByRegdate(List<Id> ids, Id authorId, Id favoriteUserId, int offset, int limit);
+    List<Article> findByRequest(Conditions conditions);
     void delete(String slug, Id userId);
     List<Article> findByUserIds(List<Id> followUsers, int offset, int limit);
     Id createId();
+
+    class Conditions {
+        private final List<Id> ids;
+        private final Id authorUserId;
+        private final Id favoriteUserId;
+        private final int offset;
+        private final int limit;
+
+        public Conditions(List<Id> ids, Id authorUserId, Id favoriteUserId, int offset, int limit) {
+            this.ids = ids;
+            this.authorUserId = authorUserId;
+            this.favoriteUserId = favoriteUserId;
+            this.offset = offset;
+            this.limit = limit;
+        }
+
+        public List<Id> ids() {
+            return ids;
+        }
+
+        public Id authorUserId() {
+            return authorUserId;
+        }
+
+        public Id favoriteUserId() {
+            return favoriteUserId;
+        }
+
+        public int offset() {
+            return offset;
+        }
+
+        public int limit() {
+            return limit;
+        }
+    }
 }

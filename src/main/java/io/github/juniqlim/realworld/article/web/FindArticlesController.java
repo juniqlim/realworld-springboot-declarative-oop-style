@@ -1,13 +1,15 @@
 package io.github.juniqlim.realworld.article.web;
 
+import io.github.juniqlim.realworld.Id;
 import io.github.juniqlim.realworld.article.FindArticleResponse;
 import io.github.juniqlim.realworld.user.FindUser;
 import io.github.juniqlim.realworld.user.web.Token.Jws;
-import java.security.PublicKey;
-import java.util.List;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RestController;
+
+import java.security.PublicKey;
+import java.util.List;
 
 @RestController
 public class FindArticlesController {
@@ -25,14 +27,28 @@ public class FindArticlesController {
     public Response articles(@RequestHeader(name = "Authorization", required = false) String token, Request request) {
         return new Response(findArticleResponse.find(
             new FindArticleResponse.Request.Builder()
-                .loginUserId(findUser.findIdByToken(new Jws(publicKey, token)))
+                .loginUserId(loginUserId(token))
                 .tag(request.tag)
-                .authorUserId(findUser.findIdByUsername(request.author))
-                .favoriteUserId(findUser.findIdByUsername(request.favorited))
+                .authorUserId(username(request.author))
+                .favoriteUserId(username(request.favorited))
                 .limit(request.limit)
                 .offset(request.offset)
                 .build())
         );
+    }
+
+    private Id username(String name) {
+        if (name == null || name.isEmpty()) {
+            return new Id.EmptyId();
+        }
+        return findUser.findIdByUsername(name);
+    }
+
+    private Id loginUserId(String token) {
+        if (token == null || token.isEmpty()) {
+            return new Id.EmptyId();
+        }
+        return findUser.findIdByToken(new Jws(publicKey, token));
     }
 
     private static class Request {

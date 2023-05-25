@@ -36,13 +36,13 @@ public class ArticleArrayListRepository implements ArticleRepository {
         articles.add(article);
     }
 
-    public List<Article> findByIdInAuthorUserIdAndFavoriteUserIdOrderByRegdate(List<Id> ids, Id authorId, Id favoriteUserId, int offset, int limit) {
-        Conditional conditional = new Conditional(ids, authorId, favoriteUserId);
+    public List<Article> findByRequest(Conditions conditions) {
+        Conditional conditional = new Conditional(conditions.ids(), conditions.authorUserId(), conditions.favoriteUserId());
         return articles.stream()
             .sorted((article1, article2) -> article2.compareCreatedAt(article1))
             .filter(conditional::value)
-            .skip((long) offset * limit)
-            .limit(limit)
+            .skip((long) conditions.offset() * conditions.limit())
+            .limit(conditions.limit())
             .collect(Collectors.toList());
     }
 

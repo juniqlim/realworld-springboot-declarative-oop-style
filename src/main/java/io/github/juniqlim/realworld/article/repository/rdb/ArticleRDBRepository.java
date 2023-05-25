@@ -43,15 +43,34 @@ class ArticleRDBRepository implements ArticleRepository {
     }
 
     @Override
-    public List<Article> findByIdInAuthorUserIdAndFavoriteUserIdOrderByRegdate(List<Id> ids, Id authorUserId,
-                                                                             Id favoriteUserId, int offset, int limit) {
+    public List<Article> findByRequest(Conditions c) {
+        if (!c.ids().isEmpty() && !c.authorUserId().isEmpty() && !c.favoriteUserId().isEmpty()) {
+            return articleEntityToArticle.articles(
+                articleJpaRepository.findByIdInAndAuthorUserIdOrderByCreatedAt(
+                    c.ids().stream()
+                        .map(id -> ((LongId) id).value())
+                        .collect(Collectors.toList()),
+                    c.authorUserId().value(),
+                    new OffsetToPage(c.offset(), c.limit(), Sort.by(Direction.DESC, "createdAt"))
+                        .pageable()
+                )
+            );
+        }
+        if (!c.ids().isEmpty() && c.authorUserId().isEmpty() && !c.favoriteUserId().isEmpty()) {
+            return articleEntityToArticle.articles(
+                articleJpaRepository.findByIdInOrderByCreatedAt(
+                    c.ids().stream()
+                        .map(id -> ((LongId) id).value())
+                        .collect(Collectors.toList()),
+                    new OffsetToPage(c.offset(), c.limit(), Sort.by(Direction.DESC, "createdAt"))
+                        .pageable()
+                )
+            );
+        }
         return articleEntityToArticle.articles(
-            articleJpaRepository.findByIdInAndAuthorUserIdOrderByCreatedAt(
-                ids.stream()
-                    .map(id -> ((LongId)id).value())
-                    .collect(Collectors.toList()),
-                authorUserId.value(),
-                new OffsetToPage(offset, limit, Sort.by(Direction.DESC, "createdAt"))
+            articleJpaRepository.findAuthorUserIdOrderByCreatedAt(
+                c.authorUserId().value(),
+                new OffsetToPage(c.offset(), c.limit(), Sort.by(Direction.DESC, "createdAt"))
                     .pageable()
             )
         );

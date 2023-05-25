@@ -55,4 +55,20 @@ class ArticleITCase extends HttpApiConfig {
         assertEquals("2Did you train your dragon?", updatedResponse.jsonPath().getString("article.description"));
         assertEquals("3Did you train your dragon?", updatedResponse.jsonPath().getString("article.body"));
     }
+
+    @Test
+    void findAricles() {
+        String token = new CreateUser().createUserGetToken(ITFixture.JAKE);
+        new CreateArticle().create(token, ITFixture.JAKE);
+        new CreateArticle().create(new CreateUser().createUserGetToken(ITFixture.JUNIQ), ITFixture.JUNIQ_ARTICLE);
+
+        ExtractableResponse<Response> findResponse = RestAssured.given().log().all()
+            .contentType(MediaType.APPLICATION_JSON_VALUE)
+            .header("Authorization", "Token " + token)
+            .when()
+            .get("/api/articles?tag=reactjs&offset=1&limit=20")
+            .then()
+            .log().all().extract();
+        assertEquals("How to train your dragon", findResponse.jsonPath().getString("article.title"));
+    }
 }

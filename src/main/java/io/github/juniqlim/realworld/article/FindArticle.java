@@ -20,12 +20,14 @@ public class FindArticle {
     }
 
     public List<Article> find(Request request) {
-        return articleRepository.findByIdInAuthorUserIdAndFavoriteUserIdOrderByRegdate(
-            request.articleIds,
-            request.authorUserId,
-            request.FavoriteUserId,
-            request.offset,
-            request.limit
+        return articleRepository.findByRequest(
+            new ArticleRepository.Conditions(
+                request.articleIds,
+                request.authorUserId,
+                request.FavoriteUserId,
+                request.offset,
+                request.limit
+            )
         );
     }
 
