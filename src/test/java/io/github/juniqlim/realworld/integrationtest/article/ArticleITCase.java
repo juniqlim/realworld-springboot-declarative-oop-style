@@ -29,4 +29,30 @@ class ArticleITCase extends HttpApiConfig {
             .log().all().extract();
         assertEquals("How to train your dragon", findResponse.jsonPath().getString("article.title"));
     }
+
+    @Test
+    void update() {
+        String token = new CreateUser().createUserGetToken(ITFixture.JAKE);
+        ExtractableResponse<Response> response = new CreateArticle().create(token, ITFixture.JAKE_ARTICLE);
+
+        ExtractableResponse<Response> updatedResponse = RestAssured.given().log().all()
+            .contentType(MediaType.APPLICATION_JSON_VALUE)
+            .header("Authorization", "Token " + token)
+            .body(
+                "{\n" +
+                "  \"article\": {\n" +
+                "    \"title\": \"Did you train your dragon?\",\n" +
+                "    \"description\": \"2Did you train your dragon?\",\n" +
+                "    \"body\": \"3Did you train your dragon?\"\n" +
+                "  }\n" +
+                "}"
+            )
+            .when()
+            .put("/api/articles/{slug}", response.jsonPath().getString("article.slug"))
+            .then()
+            .log().all().extract();
+        assertEquals("Did you train your dragon?", updatedResponse.jsonPath().getString("article.title"));
+        assertEquals("2Did you train your dragon?", updatedResponse.jsonPath().getString("article.description"));
+        assertEquals("3Did you train your dragon?", updatedResponse.jsonPath().getString("article.body"));
+    }
 }
