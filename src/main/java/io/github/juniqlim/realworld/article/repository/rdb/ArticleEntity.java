@@ -1,13 +1,7 @@
 package io.github.juniqlim.realworld.article.repository.rdb;
 
+import javax.persistence.*;
 import java.time.LocalDateTime;
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.SequenceGenerator;
-import javax.persistence.Table;
 
 @Entity
 @Table(name = "articles")
@@ -40,7 +34,7 @@ public class ArticleEntity {
     private LocalDateTime updatedAt;
 
     @Column(nullable = false)
-    private String favoriteUserIds;
+    private int favoritesCount;
 
     @Column(nullable = false)
     private long authorUserId;
@@ -49,7 +43,7 @@ public class ArticleEntity {
     }
 
     ArticleEntity(Long id, String slug, String title, String description, String body, LocalDateTime createdAt,
-        LocalDateTime updatedAt, String favoriteUserIds, long authorUserId) {
+                  LocalDateTime updatedAt, int favoritesCount, long authorUserId) {
         this.id = id;
         this.slug = slug;
         this.title = title;
@@ -57,7 +51,7 @@ public class ArticleEntity {
         this.body = body;
         this.createdAt = createdAt;
         this.updatedAt = updatedAt;
-        this.favoriteUserIds = favoriteUserIds;
+        this.favoritesCount = favoritesCount;
         this.authorUserId = authorUserId;
     }
 
@@ -89,8 +83,8 @@ public class ArticleEntity {
         return updatedAt;
     }
 
-    String getFavoriteUserIds() {
-        return favoriteUserIds;
+    int getFavoritesCount() {
+        return favoritesCount;
     }
 
     long getAuthorUserId() {

@@ -9,7 +9,13 @@ import java.util.List;
 public interface FavoriteArticleRepository {
     void save(FavoriteArticle favorite);
 
-    List<Id> findArticleIdsByUserId();
+    List<Id> findArticleIdsByUserId(Id favoriteUserId);
+
+    void delete(FavoriteArticle unFavoriteArticle);
+
+    boolean isExist(Id articleId, Id favoriteUserId);
+
+    void deleteByArticleId(Id articleId);
 
     class Fake implements FavoriteArticleRepository {
 
@@ -19,8 +25,23 @@ public interface FavoriteArticleRepository {
         }
 
         @Override
-        public List<Id> findArticleIdsByUserId() {
+        public List<Id> findArticleIdsByUserId(Id favoriteUserId) {
             return Arrays.asList(new Id.LongId(1), new Id.LongId(3));
+        }
+
+        @Override
+        public void delete(FavoriteArticle unFavoriteArticle) {
+
+        }
+
+        @Override
+        public boolean isExist(Id articleId, Id favoriteUserId) {
+            return true;
+        }
+
+        @Override
+        public void deleteByArticleId(Id articleId) {
+
         }
     }
 }

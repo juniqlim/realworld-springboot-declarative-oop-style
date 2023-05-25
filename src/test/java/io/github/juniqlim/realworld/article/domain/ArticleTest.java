@@ -10,13 +10,4 @@ class ArticleTest {
     void equalsAuthorId() {
         assertTrue(Fixture.JAKE_ARTICLE.equalsAuthorId(Fixture.LONG_ID_ONE));
     }
-
-    @Test
-    void isFavorite() {
-        Article article = Fixture.JAKE_ARTICLE;
-
-        Article favoritedArticle = article.favorite(Fixture.LONG_ID_ONE);
-
-        assertTrue(favoritedArticle.isFavorite(Fixture.LONG_ID_ONE));
-    }
 }

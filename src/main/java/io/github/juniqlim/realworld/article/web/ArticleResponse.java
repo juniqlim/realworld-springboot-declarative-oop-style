@@ -25,7 +25,7 @@ public class ArticleResponse {
     }
 
     public ArticleResponse(Article article, List<String> tags, Profile profile, Id loginUserId) {
-        this(article, tags, profile, !loginUserId.isEmpty() && article.favorited(loginUserId));
+        this(article, tags, profile, false);
     }
 
     private ArticleResponse(Article article, List<String> tags, Profile profile, boolean favorited) {

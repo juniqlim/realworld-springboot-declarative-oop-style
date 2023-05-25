@@ -15,7 +15,7 @@ class FavoriteArticleUseCaseTest {
 
     @BeforeEach
     void setUp() {
-        favoriteUseCase = new FavoriteArticleUseCase(new FavoriteArticleRepository.Fake());
+        favoriteUseCase = new FavoriteArticleUseCase.FavoriteArticleService(new FavoriteArticleRepository.Fake());
     }
 
     @Test

@@ -14,8 +14,6 @@ import java.security.KeyFactory;
 import java.security.PrivateKey;
 import java.security.spec.PKCS8EncodedKeySpec;
 import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Base64;
 
 public class Fixture {
@@ -41,11 +39,11 @@ public class Fixture {
     public static final User MINK = new User(3, new Jws(privateKey).token(), "minkmink", "mink", "mink@mink.mink");
 
     public static final Article JAKE_ARTICLE = new Article(LONG_ID_ONE, new Slug("How to train your dragon"), "How to train your dragon", "Ever wonder how?", "You have to believe",
-        LocalDateTime.now(), LocalDateTime.now(), Arrays.asList(new LongId(1), new LongId(3)), JAKE.id());
+        LocalDateTime.now(), LocalDateTime.now(), 1, JAKE.id());
     public static final Article JUNIQ_ARTICLE = new Article(LONG_ID_TWO, "Good day", "So toothless", "You have to believe",
-        JUNIQ.id(), new ArrayList<>());
+        JUNIQ.id());
     public static final Article MINK_ARTICLE = new Article(LONG_ID_THREE, "Learn Elm", "learn", "It's like a functional language",
-        MINK.id(), new ArrayList<>());
+        MINK.id());
 
     public static final Comment JAKE_ARTICLE_COMMENT = new Comment(LONG_ID_ONE, JAKE_ARTICLE.id(), "It's easy", Fixture.JUNIQ.id());
     public static final Comment JUNIQ_ARTICLE_COMMENT = new Comment(LONG_ID_TWO, JUNIQ_ARTICLE.id(), "It's good", Fixture.MINK.id());

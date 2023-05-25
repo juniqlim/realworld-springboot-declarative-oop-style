@@ -7,8 +7,6 @@ import io.github.juniqlim.realworld.user.FindUser;
 import io.github.juniqlim.realworld.user.domain.User;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
-
 @Service
 public class CreateArticle {
     private final ArticleRepository articleRepository;
@@ -21,8 +19,7 @@ public class CreateArticle {
 
     public Article create(Request request) {
         User authorUser = findUser.find(request.authorUserId);
-        Article article = new Article(articleRepository.createId(), request.title, request.description, request.body, authorUser.id(),
-            new ArrayList<>());
+        Article article = new Article(articleRepository.createId(), request.title, request.description, request.body, authorUser.id());
         articleRepository.save(article);
         return article;
     }

@@ -7,14 +7,14 @@ import io.github.juniqlim.realworld.article.repository.ArticleArrayListRepositor
 import io.github.juniqlim.realworld.comment.repository.CommentRepository;
 import io.github.juniqlim.realworld.user.domain.User;
 import io.github.juniqlim.realworld.user.repository.UserRepository;
+import org.springframework.stereotype.Component;
+
 import java.security.KeyFactory;
 import java.security.NoSuchAlgorithmException;
 import java.security.PrivateKey;
 import java.security.spec.InvalidKeySpecException;
 import java.security.spec.PKCS8EncodedKeySpec;
-import java.util.ArrayList;
 import java.util.Base64;
-import org.springframework.stereotype.Component;
 
 @Component
 public class TestRepository {
@@ -43,11 +43,11 @@ public class TestRepository {
         userRepository.save(mink);
 
         Article jakeArticle = new Article(new LongId(1), "How to train your dragon", "Ever wonder how?", "You have to believe",
-            jake.id(), new ArrayList<>());
+            jake.id());
         Article juniqArticle = new Article(new LongId(1), "Good day", "So toothless", "You have to believe",
-            new LongId(2), new ArrayList<>());
+            new LongId(2));
         Article minkArticle = new Article(new LongId(1), "Learn Elm", "learn", "It's like a functional language",
-            new LongId(3), new ArrayList<>());
+            new LongId(3));
         articleRepository.save(jakeArticle);
         articleRepository.save(juniqArticle);
         articleRepository.save(minkArticle);

@@ -17,9 +17,9 @@ class ArticleJpaRepositoryITCase {
 
         assertEquals(RDBFixture.JAKE_ARTICLE_ENTITY.getSlug(), articleJpaRepository.findBySlug(RDBFixture.JAKE_ARTICLE_ENTITY.getSlug()).getSlug());
         assertEquals(RDBFixture.JUNIQ_ARTICLE_ENTITY.getSlug(), articleJpaRepository.findBySlug(RDBFixture.JUNIQ_ARTICLE_ENTITY.getSlug()).getSlug());
-        assertEquals("1,3", articleJpaRepository.findBySlug(RDBFixture.JAKE_ARTICLE_ENTITY.getSlug()).getFavoriteUserIds());
-        assertEquals(RDBFixture.JAKE_ARTICLE_ENTITY.getFavoriteUserIds(), articleJpaRepository.findBySlug(RDBFixture.JAKE_ARTICLE_ENTITY.getSlug()).getFavoriteUserIds());
-        assertEquals(RDBFixture.JUNIQ_ARTICLE_ENTITY.getFavoriteUserIds(), articleJpaRepository.findBySlug(RDBFixture.JUNIQ_ARTICLE_ENTITY.getSlug()).getFavoriteUserIds());
+        assertEquals("1,3", articleJpaRepository.findBySlug(RDBFixture.JAKE_ARTICLE_ENTITY.getSlug()).getFavoritesCount());
+        assertEquals(RDBFixture.JAKE_ARTICLE_ENTITY.getFavoritesCount(), articleJpaRepository.findBySlug(RDBFixture.JAKE_ARTICLE_ENTITY.getSlug()).getFavoritesCount());
+        assertEquals(RDBFixture.JUNIQ_ARTICLE_ENTITY.getFavoritesCount(), articleJpaRepository.findBySlug(RDBFixture.JUNIQ_ARTICLE_ENTITY.getSlug()).getFavoritesCount());
     }
 
     @Test

@@ -36,7 +36,7 @@ class FindArticleTest {
 
     @Test
     void findByFavoriteUserName() {
-        Article favoritedArticle = articleRepository.findBySlug("how-to-train-your-dragon").favorite(Fixture.JAKE.id());
+        Article favoritedArticle = articleRepository.findBySlug("how-to-train-your-dragon");
         articleRepository.update(favoritedArticle.slug(), favoritedArticle);
 
         assertEquals("How to train your dragon",
