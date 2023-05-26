@@ -21,8 +21,8 @@ class TagRDBRepository implements TagRepository {
 
     @Override
     public List<String> merges(Tags tags) {
-        List<TagEntity> findedTagEntities = tagJpaRepository.findByTagIn(tags.tags());
-        List<String> newTagStrings = distinctTags(tags, findedTagEntities);
+        List<TagEntity> foundTagEntities = tagJpaRepository.findByTagIn(tags.tags());
+        List<String> newTagStrings = distinctTags(tags, foundTagEntities);
 
         List<TagEntity> newTagEntities = tagJpaRepository.saveAll(
             newTagStrings.stream()
@@ -30,14 +30,14 @@ class TagRDBRepository implements TagRepository {
                 .collect(Collectors.toList())
         );
 
-        Stream<TagEntity> tagEntityStream = Stream.concat(findedTagEntities.stream(), newTagEntities.stream());
-
         tagArticleJpaRepository.saveAll(
-            tagEntityStream
+            Stream.concat(foundTagEntities.stream(), newTagEntities.stream())
                 .map(tagEntity -> new TagArticleEntity(new TagArticleEntity.TagArticleId(tags.articleId().value(), tagEntity.id())))
                 .collect(Collectors.toList())
         );
-        return tagEntityStream.map(TagEntity::tag).collect(Collectors.toList());
+        return Stream.concat(foundTagEntities.stream(), newTagEntities.stream())
+            .map(TagEntity::tag)
+            .collect(Collectors.toList());
     }
 
     private List<String> distinctTags(Tags tags, List<TagEntity> savedTags) {
