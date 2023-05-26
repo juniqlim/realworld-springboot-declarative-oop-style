@@ -3,11 +3,9 @@ package io.github.juniqlim.realworld.comment;
 import io.github.juniqlim.realworld.Fixture;
 import io.github.juniqlim.realworld.Id.LongId;
 import io.github.juniqlim.realworld.comment.DeleteComment.Request;
+import io.github.juniqlim.realworld.comment.domain.Comment;
 import io.github.juniqlim.realworld.comment.repository.CommentRepository;
-import io.github.juniqlim.realworld.comment.web.CommentResponse;
-import io.github.juniqlim.realworld.user.FindProfile;
 import io.github.juniqlim.realworld.user.FindUser;
-import io.github.juniqlim.realworld.user.FollowUser;
 import org.junit.jupiter.api.Test;
 
 import java.util.List;
@@ -25,8 +23,8 @@ class DeleteCommentTest {
         new DeleteComment(commentRepository, findUser)
             .delete(new Request(new LongId(4), Fixture.JUNIQ.token()));
 
-        List<CommentResponse> comments = new FindComment(commentRepository, new FindProfile(findUser, new FollowUser(Fixture.USER_REPOSITORY)))
-            .comments(Fixture.MINK_ARTICLE.id(), Fixture.JUNIQ.id());
+        List<Comment> comments = new FindComment(commentRepository)
+            .comments(Fixture.MINK_ARTICLE.id());
 
         assertEquals(0, comments.size());
     }

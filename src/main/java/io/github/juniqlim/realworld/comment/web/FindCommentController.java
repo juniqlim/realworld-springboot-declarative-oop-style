@@ -1,25 +1,26 @@
 package io.github.juniqlim.realworld.comment.web;
 
 import io.github.juniqlim.realworld.article.repository.ArticleRepository;
-import io.github.juniqlim.realworld.comment.FindComment;
+import io.github.juniqlim.realworld.comment.FindCommentResponse;
 import io.github.juniqlim.realworld.user.FindUser;
 import io.github.juniqlim.realworld.user.web.Token;
-import java.security.PublicKey;
-import java.util.List;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.security.PublicKey;
+import java.util.List;
+
 @RestController
 class FindCommentController {
-    private final FindComment findComment;
+    private final FindCommentResponse findCommentResponse;
     private final FindUser findUser;
     private final PublicKey publicKey;
     private final ArticleRepository articleRepository;
 
-    FindCommentController(FindComment findComment, FindUser findUser, PublicKey publicKey, ArticleRepository articleRepository) {
-        this.findComment = findComment;
+    public FindCommentController(FindCommentResponse findCommentResponse, FindUser findUser, PublicKey publicKey, ArticleRepository articleRepository) {
+        this.findCommentResponse = findCommentResponse;
         this.findUser = findUser;
         this.publicKey = publicKey;
         this.articleRepository = articleRepository;
@@ -28,7 +29,7 @@ class FindCommentController {
     @GetMapping("/api/articles/{slug}/comments")
     public Response articles(@RequestHeader(name = "Authorization", required = false) String token, @PathVariable("slug") String slug) {
         return new Response(
-            findComment.comments(
+            findCommentResponse.comments(
                 articleRepository.findBySlug(slug).id(),
                 findUser.find(new Token.Jws(publicKey, token)).id()
             )
