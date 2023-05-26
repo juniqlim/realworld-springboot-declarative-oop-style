@@ -17,6 +17,7 @@ public interface TagRepository {
     List<String> findAll();
     List<Id> findArticleIdsByTagString(String tag);
     List<String> findByArticleId(Id articleId);
+    List<Tags> findByArticleIds(List<Id> articleIds);
 
     class TagArrayListRepository implements TagRepository {
         private final List<Tag> tags = new ArrayList<>();
@@ -60,6 +61,13 @@ public interface TagRepository {
             return tags.stream()
                 .filter(t -> t.articleIds().contains(articleId))
                 .map(Tag::value)
+                .collect(Collectors.toList());
+        }
+
+        @Override
+        public List<Tags> findByArticleIds(List<Id> articleIds) {
+            return articleIds.stream()
+                .map(articleId -> new Tags(articleId, findByArticleId(articleId)))
                 .collect(Collectors.toList());
         }
     }

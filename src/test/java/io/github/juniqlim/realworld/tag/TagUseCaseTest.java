@@ -1,7 +1,7 @@
 package io.github.juniqlim.realworld.tag;
 
 import io.github.juniqlim.realworld.Fixture;
-import io.github.juniqlim.realworld.tag.domain.Tag;
+import io.github.juniqlim.realworld.tag.domain.Tags;
 import io.github.juniqlim.realworld.tag.repository.TagRepository;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -24,8 +24,8 @@ class TagUseCaseTest {
     void findAll() {
         assertEquals(
             Arrays.asList(
-                new Tag("java", Collections.singletonList(Fixture.LONG_ID_ONE)),
-                new Tag("kotlin", Collections.singletonList(Fixture.LONG_ID_THREE))
+                "java",
+                "kotlin"
             ),
             tagUseCase.findAll()
         );
@@ -36,6 +36,17 @@ class TagUseCaseTest {
         assertEquals(
             Collections.singletonList(Fixture.LONG_ID_ONE),
             tagUseCase.findArticleIdsByTag("java")
+        );
+    }
+
+    @Test
+    void findByArticleIds() {
+        assertEquals(
+            Arrays.asList(
+                new Tags(Fixture.LONG_ID_ONE, Arrays.asList("java")),
+                new Tags(Fixture.LONG_ID_THREE, Arrays.asList("kotlin"))
+            ),
+            tagUseCase.findByArticleIds(Arrays.asList(Fixture.LONG_ID_ONE, Fixture.LONG_ID_THREE))
         );
     }
 }

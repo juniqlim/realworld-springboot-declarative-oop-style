@@ -20,7 +20,7 @@ class RappingArticle {
             article,
             new ArrayList<>(),
             findUser.find(article.authorId()).profile(),
-            loginUserId
+            false
         );
     }
 }

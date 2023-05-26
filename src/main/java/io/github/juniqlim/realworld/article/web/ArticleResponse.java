@@ -1,6 +1,5 @@
 package io.github.juniqlim.realworld.article.web;
 
-import io.github.juniqlim.realworld.Id;
 import io.github.juniqlim.realworld.article.domain.Article;
 import io.github.juniqlim.realworld.user.domain.Profile;
 
@@ -24,11 +23,13 @@ public class ArticleResponse {
         this(article, new ArrayList<>(), profile, false);
     }
 
-    public ArticleResponse(Article article, List<String> tags, Profile profile, Id loginUserId) {
-        this(article, tags, profile, false);
+    public ArticleResponse(Article article, List<String> tags, Profile profile) {
+        this(article.slug(), article.title(), article.description(), article.body(), tags,
+            article.createdAt(), article.updatedAt(), false, article.favoritesCount(),
+            new Author(profile));
     }
 
-    private ArticleResponse(Article article, List<String> tags, Profile profile, boolean favorited) {
+    public ArticleResponse(Article article, List<String> tags, Profile profile, boolean favorited) {
         this(article.slug(), article.title(), article.description(), article.body(), tags,
             article.createdAt(), article.updatedAt(), favorited, article.favoritesCount(),
             new Author(profile));

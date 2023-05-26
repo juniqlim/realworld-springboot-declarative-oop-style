@@ -25,7 +25,7 @@ public class FeedArticles {
 
     public List<ArticleResponse> articles(Request request) {
         return articleRepository.findByUserIds(followUsers(request.loginUserId), request.offset, request.limit).stream()
-            .map(article -> new ArticleResponse(article, new ArrayList<>(), profile(request.loginUserId, article), request.loginUserId))
+            .map(article -> new ArticleResponse(article, new ArrayList<>(), profile(request.loginUserId, article), false))
             .collect(toList());
     }
 

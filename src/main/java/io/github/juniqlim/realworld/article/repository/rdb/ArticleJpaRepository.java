@@ -1,5 +1,6 @@
 package io.github.juniqlim.realworld.article.repository.rdb;
 
+import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
@@ -16,4 +17,5 @@ interface ArticleJpaRepository extends JpaRepository<ArticleEntity, Long> {
     List<ArticleEntity> findByAuthorUserIdIn(List<Long> authorUserIds, Pageable pageable);
     @Query(value = "call next value for article_sequence", nativeQuery = true)
     long sequence();
+    List<ArticleEntity> findByOrderByCreatedAt(PageRequest pageable);
 }

@@ -18,14 +18,12 @@ public interface ArticleRepository {
     class Conditions {
         private final List<Id> ids;
         private final Id authorUserId;
-        private final Id favoriteUserId;
         private final int offset;
         private final int limit;
 
-        public Conditions(List<Id> ids, Id authorUserId, Id favoriteUserId, int offset, int limit) {
+        public Conditions(List<Id> ids, Id authorUserId, int offset, int limit) {
             this.ids = ids;
             this.authorUserId = authorUserId;
-            this.favoriteUserId = favoriteUserId;
             this.offset = offset;
             this.limit = limit;
         }
@@ -36,10 +34,6 @@ public interface ArticleRepository {
 
         public Id authorUserId() {
             return authorUserId;
-        }
-
-        public Id favoriteUserId() {
-            return favoriteUserId;
         }
 
         public int offset() {

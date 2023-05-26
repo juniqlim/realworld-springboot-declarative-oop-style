@@ -1,18 +1,15 @@
 package io.github.juniqlim.realworld.article.repository.rdb;
 
-import javax.persistence.*;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.persistence.Table;
 import java.time.LocalDateTime;
 
 @Entity
 @Table(name = "articles")
-@SequenceGenerator(
-    name = "SEQ_GENERATOR",
-    sequenceName = "articleSequence",
-    allocationSize = 1
-)
 public class ArticleEntity {
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "SEQ_GENERATOR")
     private Long id;
 
     @Column(nullable = false)

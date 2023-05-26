@@ -6,6 +6,7 @@ import io.github.juniqlim.realworld.tag.repository.TagRepository;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
+import java.util.Objects;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
@@ -50,9 +51,10 @@ class TagRDBRepository implements TagRepository {
     }
 
     private <T> List<T> distinct(List<T> target, List<T> source) {
-        return target.stream().filter(o -> !source.contains(o))
+        List<T> collect = target.stream().filter(o -> !source.contains(o))
             .distinct()
             .collect(Collectors.toList());
+        return collect;
     }
 
     @Override
@@ -77,5 +79,44 @@ class TagRDBRepository implements TagRepository {
         return tagJpaRepository.findByIdIn(tagIds).stream()
             .map(TagEntity::tag)
             .collect(Collectors.toList());
+    }
+
+    @Override
+    public List<Tags> findByArticleIds(List<Id> articleIds) {
+        List<TagArticleEntity> tagArticleEntities = tagArticleJpaRepository.findByIdArticleIdIn(
+            articleIds.stream()
+                .map(id -> ((Id.LongId) id).value())
+                .collect(Collectors.toList())
+        );
+
+        List<TagEntity> tagEntities = tagJpaRepository.findByIdIn(
+            tagArticleEntities.stream()
+                .map(tagArticleEntity -> tagArticleEntity.id().tagId())
+                .distinct()
+                .collect(Collectors.toList())
+        );
+
+        return articleIds.stream()
+            .map(articleId -> tags(tagArticleEntities, tagEntities, articleId))
+            .collect(Collectors.toList());
+    }
+
+    private static Tags tags(List<TagArticleEntity> tagArticleEntities, List<TagEntity> tagEntities, Id articleId) {
+        return new Tags(
+            articleId,
+            tagArticleEntities.stream()
+                .filter(tagArticleEntity -> tagArticleEntity.id().articleId() == ((Id.LongId) articleId).value())
+                .map(tagArticleEntity -> tag(tagEntities, tagArticleEntity))
+                .filter(Objects::nonNull)
+                .collect(Collectors.toList())
+        );
+    }
+
+    private static String tag(List<TagEntity> tagEntities, TagArticleEntity tagArticleEntity) {
+        return tagEntities.stream()
+            .filter(tagEntity -> tagEntity.id() == tagArticleEntity.id().tagId())
+            .map(TagEntity::tag)
+            .findFirst()
+            .orElse(null);
     }
 }

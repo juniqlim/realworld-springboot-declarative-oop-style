@@ -12,8 +12,8 @@ public interface FavoriteArticleUseCase {
     boolean favoriteArticle(Id articleId, Id favoriteUserId);
     boolean unFavoriteArticle(Id articleId, Id unFavoriteUserId);
     List<Id> findArticleIdsByFavoriteUserId(Id favoriteUserId);
-
     void deleteArticle(Id articleId);
+    boolean isExist(Id articleId, Id favoriteUserId);
 
     @Service
     class FavoriteArticleService implements FavoriteArticleUseCase {
@@ -47,6 +47,11 @@ public interface FavoriteArticleUseCase {
         public void deleteArticle(Id articleId) {
             favoriteRepository.deleteByArticleId(articleId);
         }
+
+        @Override
+        public boolean isExist(Id articleId, Id favoriteUserId) {
+            return favoriteRepository.isExist(articleId, favoriteUserId);
+        }
     }
 
     class Fake implements FavoriteArticleUseCase {
@@ -68,6 +73,11 @@ public interface FavoriteArticleUseCase {
         @Override
         public void deleteArticle(Id articleId) {
 
+        }
+
+        @Override
+        public boolean isExist(Id articleId, Id favoriteUserId) {
+            return false;
         }
     }
 }

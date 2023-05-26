@@ -6,6 +6,7 @@ import io.github.juniqlim.realworld.favorite.repository.FavoriteArticleRepositor
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Repository
 public class FavoriteArticleRDBArticleRepository implements FavoriteArticleRepository {
@@ -27,7 +28,9 @@ public class FavoriteArticleRDBArticleRepository implements FavoriteArticleRepos
 
     @Override
     public List<Id> findArticleIdsByUserId(Id favoriteUserId) {
-        return null;
+        return favoriteArticleJpaRepository.findByIdFavoriteUserId(favoriteUserId.value()).stream()
+            .map(favoriteArticleEntity -> new Id.LongId(favoriteArticleEntity.id().articleId()))
+            .collect(Collectors.toList());
     }
 
     @Override

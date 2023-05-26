@@ -44,7 +44,7 @@ class ArticleRDBRepository implements ArticleRepository {
 
     @Override
     public List<Article> findByRequest(Conditions c) {
-        if (!c.ids().isEmpty() && !c.authorUserId().isEmpty() && !c.favoriteUserId().isEmpty()) {
+        if (!c.ids().isEmpty() && !c.authorUserId().isEmpty()) {
             return articleEntityToArticle.articles(
                 articleJpaRepository.findByIdInAndAuthorUserIdOrderByCreatedAt(
                     c.ids().stream()
@@ -56,7 +56,7 @@ class ArticleRDBRepository implements ArticleRepository {
                 )
             );
         }
-        if (!c.ids().isEmpty() && c.authorUserId().isEmpty() && !c.favoriteUserId().isEmpty()) {
+        if (!c.ids().isEmpty() && c.authorUserId().isEmpty()) {
             return articleEntityToArticle.articles(
                 articleJpaRepository.findByIdInOrderByCreatedAt(
                     c.ids().stream()
@@ -67,9 +67,17 @@ class ArticleRDBRepository implements ArticleRepository {
                 )
             );
         }
+        if (c.ids().isEmpty() && !c.authorUserId().isEmpty()) {
+            return articleEntityToArticle.articles(
+                articleJpaRepository.findAuthorUserIdOrderByCreatedAt(
+                    c.authorUserId().value(),
+                    new OffsetToPage(c.offset(), c.limit(), Sort.by(Direction.DESC, "createdAt"))
+                        .pageable()
+                )
+            );
+        }
         return articleEntityToArticle.articles(
-            articleJpaRepository.findAuthorUserIdOrderByCreatedAt(
-                c.authorUserId().value(),
+            articleJpaRepository.findByOrderByCreatedAt(
                 new OffsetToPage(c.offset(), c.limit(), Sort.by(Direction.DESC, "createdAt"))
                     .pageable()
             )

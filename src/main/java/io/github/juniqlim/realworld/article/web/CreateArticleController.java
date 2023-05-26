@@ -1,8 +1,9 @@
 package io.github.juniqlim.realworld.article.web;
 
+import io.github.juniqlim.realworld.Id;
 import io.github.juniqlim.realworld.article.CreateArticleAndTag;
+import io.github.juniqlim.realworld.article.FindArticleResponse;
 import io.github.juniqlim.realworld.user.FindUser;
-import io.github.juniqlim.realworld.user.domain.User;
 import io.github.juniqlim.realworld.user.web.Token;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -15,30 +16,25 @@ import java.util.List;
 @RestController
 public class CreateArticleController {
     private final CreateArticleAndTag createArticleAndTag;
+    private final FindArticleResponse findArticleResponse;
     private final FindUser findUser;
     private final PublicKey publicKey;
 
-    public CreateArticleController(CreateArticleAndTag createArticleAndTag, FindUser findUser, PublicKey publicKey) {
+    public CreateArticleController(CreateArticleAndTag createArticleAndTag, FindArticleResponse findArticleResponse, FindUser findUser, PublicKey publicKey) {
         this.createArticleAndTag = createArticleAndTag;
+        this.findArticleResponse = findArticleResponse;
         this.findUser = findUser;
         this.publicKey = publicKey;
     }
 
     @PostMapping("/api/articles")
     public Response articles(@RequestHeader("Authorization") String token, @RequestBody Request request) {
-        User loginUser = findUser.find(new Token.Jws(publicKey, token).value());
+        Id loginUserId = findUser.findIdByToken(new Token.Jws(publicKey, token));
         Request.Article a = request.article;
         CreateArticleAndTag.Response response = createArticleAndTag.create(
-            new CreateArticleAndTag.Request(a.title, a.description, a.body, loginUser.id(), a.tagList)
+            new CreateArticleAndTag.Request(a.title, a.description, a.body, loginUserId, a.tagList)
         );
-        return new Response(
-            new ArticleResponse(
-                response.article(),
-                response.tags(),
-                loginUser.profile(),
-                loginUser.id()
-            )
-        );
+        return new Response(findArticleResponse.find(response.article().slug(), loginUserId));
     }
 
     private static class Request {

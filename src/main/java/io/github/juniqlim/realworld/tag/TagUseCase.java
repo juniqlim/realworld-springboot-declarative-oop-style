@@ -27,6 +27,14 @@ public class TagUseCase {
         return tagRepository.findArticleIdsByTagString(tag);
     }
 
+    public List<String> findByArticleId(Id articleId) {
+        return tagRepository.findByArticleId(articleId);
+    }
+
+    public List<Tags> findByArticleIds(List<Id> articleIds) {
+        return tagRepository.findByArticleIds(articleIds);
+    }
+
     public static class Request {
         private final Id articleId;
         private final List<String> tags;

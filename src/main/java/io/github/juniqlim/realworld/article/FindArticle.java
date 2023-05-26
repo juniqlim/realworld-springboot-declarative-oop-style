@@ -24,7 +24,6 @@ public class FindArticle {
             new ArticleRepository.Conditions(
                 request.articleIds,
                 request.authorUserId,
-                request.FavoriteUserId,
                 request.offset,
                 request.limit
             )
@@ -34,14 +33,12 @@ public class FindArticle {
     static class Request {
         private final List<Id> articleIds;
         private final Id authorUserId;
-        private final Id FavoriteUserId;
         private final int offset;
         private final int limit;
 
-        Request(List<Id> articleIds, Id authorUserId, Id favoriteUserId, int offset, int limit) {
+        Request(List<Id> articleIds, Id authorUserId, int offset, int limit) {
             this.articleIds = articleIds;
             this.authorUserId = authorUserId;
-            FavoriteUserId = favoriteUserId;
             this.offset = offset;
             this.limit = limit;
         }
