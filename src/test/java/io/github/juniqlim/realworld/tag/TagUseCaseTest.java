@@ -12,7 +12,7 @@ import java.util.Collections;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 class TagUseCaseTest {
-    TagUseCase tagUseCase = new TagUseCase(new TagRepository());
+    TagUseCase tagUseCase = new TagUseCase(new TagRepository.TagArrayListRepository());
 
     @BeforeEach
     void setUp() {
@@ -36,18 +36,6 @@ class TagUseCaseTest {
         assertEquals(
             Collections.singletonList(Fixture.LONG_ID_ONE),
             tagUseCase.findArticleIdsByTag("java")
-        );
-    }
-
-    @Test
-    void delete() {
-        tagUseCase.deleteByTagString("java");
-
-        assertEquals(
-            Collections.singletonList(
-                new Tag("kotlin", Collections.singletonList(Fixture.LONG_ID_THREE))
-            ),
-            tagUseCase.findAll()
         );
     }
 }

@@ -3,7 +3,6 @@ package io.github.juniqlim.realworld.article;
 import io.github.juniqlim.realworld.Id;
 import io.github.juniqlim.realworld.article.domain.Article;
 import io.github.juniqlim.realworld.tag.TagUseCase;
-import io.github.juniqlim.realworld.tag.domain.Tag;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -23,10 +22,10 @@ class CreateArticleAndTag {
         Article article = createArticle.create(
             new CreateArticle.Request(request.title, request.description, request.body, request.authorUserId)
         );
-        List<Tag> tags = tagUseCase.merge(new TagUseCase.Request(article.id(), request.tags));
+
         return new Response(
             article,
-            tags
+            tagUseCase.merge(new TagUseCase.Request(article.id(), request.tags))
         );
     }
 
@@ -48,9 +47,9 @@ class CreateArticleAndTag {
 
     public static class Response {
         private final Article article;
-        private final List<Tag> tags;
+        private final List<String> tags;
 
-        public Response(Article article, List<Tag> tags) {
+        public Response(Article article, List<String> tags) {
             this.article = article;
             this.tags = tags;
         }
@@ -59,7 +58,7 @@ class CreateArticleAndTag {
             return article;
         }
 
-        public List<Tag> tags() {
+        public List<String> tags() {
             return tags;
         }
     }

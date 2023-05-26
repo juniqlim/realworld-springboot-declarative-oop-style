@@ -1,7 +1,6 @@
 package io.github.juniqlim.realworld.article.web;
 
 import io.github.juniqlim.realworld.article.CreateArticleAndTag;
-import io.github.juniqlim.realworld.tag.domain.Tag;
 import io.github.juniqlim.realworld.user.FindUser;
 import io.github.juniqlim.realworld.user.domain.User;
 import io.github.juniqlim.realworld.user.web.Token;
@@ -12,7 +11,6 @@ import org.springframework.web.bind.annotation.RestController;
 
 import java.security.PublicKey;
 import java.util.List;
-import java.util.stream.Collectors;
 
 @RestController
 public class CreateArticleController {
@@ -36,9 +34,7 @@ public class CreateArticleController {
         return new Response(
             new ArticleResponse(
                 response.article(),
-                response.tags().stream()
-                    .map(Tag::value)
-                    .collect(Collectors.toList()),
+                response.tags(),
                 loginUser.profile(),
                 loginUser.id()
             )

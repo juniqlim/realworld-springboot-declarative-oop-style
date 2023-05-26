@@ -20,7 +20,7 @@ class FindArticleResponseTest {
     void test() {
         ArticleRepository articleRepository = new ArticleArrayListRepository();
         articleRepository.save(Fixture.JAKE_ARTICLE);
-        TagUseCase tagUseCase = new TagUseCase(new TagRepository());
+        TagUseCase tagUseCase = new TagUseCase(new TagRepository.TagArrayListRepository());
         tagUseCase.merge(new TagUseCase.Request(Fixture.JAKE_ARTICLE.id(), Collections.singletonList("java")));
         UserRepository.Collection userRepository = new UserRepository.Collection();
         userRepository.save(Fixture.JAKE);
