@@ -39,7 +39,7 @@ class ArticleRDBRepository implements ArticleRepository {
 
     @Override
     public void update(String slug, Article article) {
-        articleToArticleEntity.articleEntity(article);
+        articleJpaRepository.save(articleToArticleEntity.articleEntity(article));
     }
 
     @Override
