@@ -2,6 +2,7 @@ package io.github.juniqlim.realworld.user.domain;
 
 import io.github.juniqlim.realworld.Id;
 import io.github.juniqlim.realworld.Id.LongId;
+
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Objects;
@@ -43,6 +44,10 @@ public class User {
 
     public String token() {
         return token;
+    }
+
+    public String password() {
+        return password;
     }
 
     public String username() {
