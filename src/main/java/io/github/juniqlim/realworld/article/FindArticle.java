@@ -30,6 +30,14 @@ public class FindArticle {
         );
     }
 
+    public List<Article> findFeed(FeedRequest request) {
+        return articleRepository.findByUserIds(
+            request.authorUserIds,
+            request.offset,
+            request.limit
+        );
+    }
+
     static class Request {
         private final List<Id> articleIds;
         private final Id authorUserId;
@@ -39,6 +47,18 @@ public class FindArticle {
         Request(List<Id> articleIds, Id authorUserId, int offset, int limit) {
             this.articleIds = articleIds;
             this.authorUserId = authorUserId;
+            this.offset = offset;
+            this.limit = limit;
+        }
+    }
+
+    static class FeedRequest {
+        private final List<Id> authorUserIds;
+        private final int offset;
+        private final int limit;
+
+        public FeedRequest(List<Id> authorUserIds, int offset, int limit) {
+            this.authorUserIds = authorUserIds;
             this.offset = offset;
             this.limit = limit;
         }

@@ -20,12 +20,12 @@ public class FollowUserTest {
     @Test
     void follow() {
         FollowUser followUser = new FollowUser(repository);
-        assertThatCode(() -> followUser.follow(Fixture.JAKE.token(), Fixture.JUNIQ.username())).doesNotThrowAnyException();
+        assertThatCode(() -> followUser.follow(Fixture.JAKE.id(), Fixture.JUNIQ.id())).doesNotThrowAnyException();
     }
 
     @Test
     void unFollow() {
         FollowUser followUser = new FollowUser(repository);
-        assertThatCode(() -> followUser.unFollow(Fixture.JAKE.token(), Fixture.JUNIQ.username())).doesNotThrowAnyException();
+        assertThatCode(() -> followUser.unFollow(Fixture.JAKE.id(), Fixture.JUNIQ.id())).doesNotThrowAnyException();
     }
 }

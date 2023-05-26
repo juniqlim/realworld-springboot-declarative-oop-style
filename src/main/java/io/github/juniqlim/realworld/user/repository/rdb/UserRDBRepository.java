@@ -7,6 +7,7 @@ import org.springframework.context.annotation.Primary;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Primary
 @Repository
@@ -81,5 +82,13 @@ class UserRDBRepository implements UserRepository {
     public boolean isFollowing(Id followerUserId, Id followeeUserId) {
         return userFollowJpaRepository.findById(new UserFollowEntity.Id(followerUserId.value(), followeeUserId.value()))
             .isPresent();
+    }
+
+    @Override
+    public List<Id> followingUserIds(Id followerUserId) {
+        return userFollowJpaRepository.findByIdFollowerUserId(followerUserId.value())
+            .stream()
+            .map(userFollowEntity -> new Id.LongId(userFollowEntity.id().followeeUserId()))
+            .collect(Collectors.toList());
     }
 }

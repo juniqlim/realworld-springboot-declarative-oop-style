@@ -1,5 +1,6 @@
 package io.github.juniqlim.realworld.integrationtest.article;
 
+import io.github.juniqlim.realworld.Fixture;
 import io.github.juniqlim.realworld.integrationtest.HttpApiConfig;
 import io.github.juniqlim.realworld.integrationtest.ITFixture;
 import io.github.juniqlim.realworld.integrationtest.user.CreateUser;
@@ -57,19 +58,11 @@ class ArticleITCase extends HttpApiConfig {
     }
 
     @Test
-    void findAricles() {
+    void findArticles() {
         String token = new CreateUser().createUserGetToken(ITFixture.JAKE);
 
         new CreateArticle().create(token, ITFixture.JAKE_ARTICLE);
         new CreateArticle().create(new CreateUser().createUserGetToken(ITFixture.JUNIQ), ITFixture.JUNIQ_ARTICLE);
-
-        ExtractableResponse<Response> findResponse2 = RestAssured.given().log().all()
-            .contentType(MediaType.APPLICATION_JSON_VALUE)
-            .header("Authorization", "Token " + token)
-            .when()
-            .get("/api/articles?offset=1&limit=20")
-            .then()
-            .log().all().extract();
 
         ExtractableResponse<Response> findResponse = RestAssured.given().log().all()
             .contentType(MediaType.APPLICATION_JSON_VALUE)
@@ -79,5 +72,30 @@ class ArticleITCase extends HttpApiConfig {
             .then()
             .log().all().extract();
         assertEquals("How to train your dragon", findResponse.jsonPath().getString("articles[0].title"));
+    }
+
+    @Test
+    void feedArticles() {
+        String token = new CreateUser().createUserGetToken(ITFixture.JAKE);
+
+        new CreateArticle().create(token, ITFixture.JAKE_ARTICLE);
+        new CreateArticle().create(new CreateUser().createUserGetToken(ITFixture.JUNIQ), ITFixture.JUNIQ_ARTICLE);
+
+        RestAssured.given().log().all()
+            .contentType(MediaType.APPLICATION_JSON_VALUE)
+            .header("Authorization", "Token " + token)
+            .when()
+            .post("/api/profiles/" + Fixture.JUNIQ.username() + "/follow")
+            .then()
+            .log().all().extract();
+
+        ExtractableResponse<Response> findResponse = RestAssured.given().log().all()
+            .contentType(MediaType.APPLICATION_JSON_VALUE)
+            .header("Authorization", "Token " + token)
+            .when()
+            .get("/api/articles/feed?offset=1&limit=20")
+            .then()
+            .log().all().extract();
+        assertEquals("Good day", findResponse.jsonPath().getString("articles[0].title"));
     }
 }

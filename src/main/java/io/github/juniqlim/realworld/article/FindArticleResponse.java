@@ -7,6 +7,7 @@ import io.github.juniqlim.realworld.favorite.FavoriteArticleUseCase;
 import io.github.juniqlim.realworld.tag.TagUseCase;
 import io.github.juniqlim.realworld.tag.domain.Tags;
 import io.github.juniqlim.realworld.user.FindProfile;
+import io.github.juniqlim.realworld.user.FollowUser;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -20,12 +21,14 @@ public class FindArticleResponse {
     private final FindProfile findProfile;
     private final TagUseCase tagUseCase;
     private final FavoriteArticleUseCase favoriteArticleUseCase;
+    private final FollowUser followUser;
 
-    public FindArticleResponse(FindArticle findArticle, FindProfile findProfile, TagUseCase tagUseCase, FavoriteArticleUseCase favoriteArticleUseCase) {
+    public FindArticleResponse(FindArticle findArticle, FindProfile findProfile, TagUseCase tagUseCase, FavoriteArticleUseCase favoriteArticleUseCase, FollowUser followUser) {
         this.findArticle = findArticle;
         this.findProfile = findProfile;
         this.tagUseCase = tagUseCase;
         this.favoriteArticleUseCase = favoriteArticleUseCase;
+        this.followUser = followUser;
     }
 
     public ArticleResponse find(String slug) {
@@ -57,6 +60,24 @@ public class FindArticleResponse {
         }
 
         List<Article> articles = findArticle.find(new FindArticle.Request(articleIds, request.authorUserId, request.offset, request.limit));
+        return addTagAndFavorite(request, articles);
+    }
+
+    public List<ArticleResponse> findFeed(Request request) {
+        List<Id> followingUserIds = followUser.followingUserIds(request.loginUserId);
+        if (followingUserIds.isEmpty()) {
+            return new ArrayList<>();
+        }
+        List<Article> articles = findArticle.findFeed(
+            new FindArticle.FeedRequest(
+                followingUserIds,
+                request.offset, request.limit
+            )
+        );
+        return addTagAndFavorite(request, articles);
+    }
+
+    private List<ArticleResponse> addTagAndFavorite(Request request, List<Article> articles) {
         List<Id> favoriteArticleIds = favoriteArticleUseCase.findArticleIdsByFavoriteUserId(request.loginUserId);
         List<Tags> tags = tagUseCase.findByArticleIds(articles.stream().map(Article::id).collect(toList()));
 

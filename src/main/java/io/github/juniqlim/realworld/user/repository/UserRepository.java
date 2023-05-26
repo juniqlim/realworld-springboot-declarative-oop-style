@@ -21,6 +21,7 @@ public interface UserRepository {
     void follow(Id followerUserId, Id followeeUserId);
     void unFollow(Id followerUserId, Id followeeUserId);
     boolean isFollowing(Id followerUserId, Id followeeUserId);
+    List<Id> followingUserIds(Id followerUserId);
 
     @Repository
     class Collection implements UserRepository {
@@ -92,6 +93,11 @@ public interface UserRepository {
         @Override
         public boolean isFollowing(Id followerUserId, Id followeeUserId) {
             return false;
+        }
+
+        @Override
+        public List<Id> followingUserIds(Id followerUserId) {
+            return null;
         }
     }
 }

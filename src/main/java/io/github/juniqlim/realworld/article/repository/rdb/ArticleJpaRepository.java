@@ -12,10 +12,11 @@ interface ArticleJpaRepository extends JpaRepository<ArticleEntity, Long> {
     ArticleEntity findBySlugAndAuthorUserId(String slug, long authorUserId);
     List<ArticleEntity> findByIdInAndAuthorUserIdOrderByCreatedAt(List<Long> ids, long authorUserId, Pageable pageable);
     List<ArticleEntity> findAuthorUserIdOrderByCreatedAt(long authorUserId, Pageable pageable);
-    List<ArticleEntity> findByIdInOrderByCreatedAt(List<Long> ids, Pageable pageable);
-    void deleteBySlugAndAuthorUserId(String slug, long authorUserId);
     List<ArticleEntity> findByAuthorUserIdIn(List<Long> authorUserIds, Pageable pageable);
+    List<ArticleEntity> findByIdInOrderByCreatedAt(List<Long> ids, Pageable pageable);
+    List<ArticleEntity> findByOrderByCreatedAt(PageRequest pageable);
+    void deleteBySlugAndAuthorUserId(String slug, long authorUserId);
     @Query(value = "call next value for article_sequence", nativeQuery = true)
     long sequence();
-    List<ArticleEntity> findByOrderByCreatedAt(PageRequest pageable);
+
 }

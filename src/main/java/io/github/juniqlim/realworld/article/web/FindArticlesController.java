@@ -37,6 +37,18 @@ public class FindArticlesController {
         );
     }
 
+    @GetMapping("/api/articles/feed")
+    public Response feedArticles(@RequestHeader(name = "Authorization") String token, Request request) {
+        Id loginUserId = findUser.findIdByToken(new Jws(publicKey, token));
+        return new Response(
+            findArticleResponse.findFeed(new FindArticleResponse.Request.Builder()
+                .loginUserId(loginUserId)
+                .limit(request.limit)
+                .offset(request.offset)
+                .build())
+        );
+    }
+
     private Id username(String name) {
         if (name == null || name.isEmpty()) {
             return new Id.EmptyId();
