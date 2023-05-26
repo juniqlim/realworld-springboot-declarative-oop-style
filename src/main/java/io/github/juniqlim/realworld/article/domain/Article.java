@@ -20,7 +20,7 @@ public class Article {
         this(id, title, description, body, authorId, 0);
     }
 
-    Article(Id id, String title, String description, String body, Id authorId,
+    private Article(Id id, String title, String description, String body, Id authorId,
                    int favoritesCount) {
         this(id, new Slug(title), title, description, body, LocalDateTime.now(), LocalDateTime.now(),
             favoritesCount, authorId);
