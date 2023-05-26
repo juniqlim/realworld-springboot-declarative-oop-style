@@ -3,16 +3,20 @@ package io.github.juniqlim.realworld.user.repository.rdb;
 import io.github.juniqlim.realworld.Id;
 import io.github.juniqlim.realworld.user.domain.User;
 import io.github.juniqlim.realworld.user.repository.UserRepository;
+import org.springframework.context.annotation.Primary;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
 
+@Primary
 @Repository
 class UserRDBRepository implements UserRepository {
     private final UserJpaRepository userJpaRepository;
+    private final UserFollowJpaRepository userFollowJpaRepository;
 
-    public UserRDBRepository(UserJpaRepository userJpaRepository) {
+    public UserRDBRepository(UserJpaRepository userJpaRepository, UserFollowJpaRepository userFollowJpaRepository) {
         this.userJpaRepository = userJpaRepository;
+        this.userFollowJpaRepository = userFollowJpaRepository;
     }
 
     @Override
@@ -57,5 +61,25 @@ class UserRDBRepository implements UserRepository {
     @Override
     public List<User> findByIds(List<Id> userIds) {
         return userJpaRepository.findByIdIn(userIds);
+    }
+
+    @Override
+    public void follow(Id followerUserId, Id followeeUserId) {
+        userFollowJpaRepository.save(
+            new UserFollowEntity(new UserFollowEntity.Id(followerUserId.value(), followeeUserId.value()))
+        );
+    }
+
+    @Override
+    public void unFollow(Id followerUserId, Id followeeUserId) {
+        userFollowJpaRepository.delete(
+            new UserFollowEntity(new UserFollowEntity.Id(followerUserId.value(), followeeUserId.value()))
+        );
+    }
+
+    @Override
+    public boolean isFollowing(Id followerUserId, Id followeeUserId) {
+        return userFollowJpaRepository.findById(new UserFollowEntity.Id(followerUserId.value(), followeeUserId.value()))
+            .isPresent();
     }
 }

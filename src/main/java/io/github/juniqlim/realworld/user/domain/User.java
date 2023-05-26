@@ -119,6 +119,10 @@ public class User {
         return new Profile(id, username, bio, image, false);
     }
 
+    public Profile profile(boolean isFollowing) {
+        return new Profile(id, username, bio, image, isFollowing);
+    }
+
     public Profile profile(Id selecterId) {
         return new Profile(id, username, bio, image, followers.contains(selecterId));
     }

@@ -6,8 +6,7 @@ import io.github.juniqlim.realworld.article.web.ArticleResponse;
 import io.github.juniqlim.realworld.favorite.FavoriteArticleUseCase;
 import io.github.juniqlim.realworld.tag.TagUseCase;
 import io.github.juniqlim.realworld.tag.domain.Tags;
-import io.github.juniqlim.realworld.user.FindUser;
-import io.github.juniqlim.realworld.user.domain.Profile;
+import io.github.juniqlim.realworld.user.FindProfile;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -18,14 +17,14 @@ import static java.util.stream.Collectors.toList;
 @Service
 public class FindArticleResponse {
     private final FindArticle findArticle;
+    private final FindProfile findProfile;
     private final TagUseCase tagUseCase;
-    private final FindUser findUser;
     private final FavoriteArticleUseCase favoriteArticleUseCase;
 
-    public FindArticleResponse(FindArticle findArticle, TagUseCase tagUseCase, FindUser findUser, FavoriteArticleUseCase favoriteArticleUseCase) {
+    public FindArticleResponse(FindArticle findArticle, FindProfile findProfile, TagUseCase tagUseCase, FavoriteArticleUseCase favoriteArticleUseCase) {
         this.findArticle = findArticle;
+        this.findProfile = findProfile;
         this.tagUseCase = tagUseCase;
-        this.findUser = findUser;
         this.favoriteArticleUseCase = favoriteArticleUseCase;
     }
 
@@ -33,7 +32,7 @@ public class FindArticleResponse {
         Article article = findArticle.find(slug);
         return new ArticleResponse(
             article,
-            findUser.find(article.authorId()).profile()
+            findProfile.find(article.authorId())
         );
     }
 
@@ -42,7 +41,7 @@ public class FindArticleResponse {
         return new ArticleResponse(
             article,
             tagUseCase.findByArticleId(article.id()),
-            findUser.find(article.authorId()).profile(),
+            findProfile.find(article.authorId()),
             favoriteArticleUseCase.isExist(article.id(), loginUserId)
         );
     }
@@ -61,38 +60,18 @@ public class FindArticleResponse {
         List<Id> favoriteArticleIds = favoriteArticleUseCase.findArticleIdsByFavoriteUserId(request.loginUserId);
         List<Tags> tags = tagUseCase.findByArticleIds(articles.stream().map(Article::id).collect(toList()));
 
-        if (!request.loginUserId.isEmpty()) {
-            return articles.stream()
-                .map(article -> new ArticleResponse(
-                    article,
-                    tags.stream()
-                        .filter(tag -> tag.articleId().equals(article.id()))
-                        .findFirst()
-                        .orElse(new Tags(new Id.EmptyId(), new ArrayList<>()))
-                        .tags(),
-                    profile(request, article),
-                    favoriteArticleIds.contains(article.id()))
-                )
-                .collect(toList());
-        }
-
         return articles.stream()
-            .map(article -> new ArticleResponse(article, new ArrayList<>(), profile(request, article)))
+            .map(article -> new ArticleResponse(
+                article,
+                tags.stream()
+                    .filter(tag -> tag.articleId().equals(article.id()))
+                    .findFirst()
+                    .orElse(new Tags(new Id.EmptyId(), new ArrayList<>()))
+                    .tags(),
+                findProfile.find(article.authorId(), request.loginUserId),
+                favoriteArticleIds.contains(article.id()))
+            )
             .collect(toList());
-    }
-
-    private Profile profile(Request request, Article article) {
-        try {
-            if (request.loginUserId.isEmpty()) {
-                return findUser.find(article.authorId()).profile();
-            }
-            return findUser.find(article.authorId()).profile(request.loginUserId);
-        } catch (IllegalArgumentException e) {
-            if (e.getMessage().equals("User not found")) {
-                return null;
-            }
-        }
-        return null;
     }
 
     public static class Request {

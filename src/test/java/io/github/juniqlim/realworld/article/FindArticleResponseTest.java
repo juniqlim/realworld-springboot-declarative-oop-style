@@ -7,7 +7,9 @@ import io.github.juniqlim.realworld.article.web.ArticleResponse;
 import io.github.juniqlim.realworld.favorite.FavoriteArticleUseCase;
 import io.github.juniqlim.realworld.tag.TagUseCase;
 import io.github.juniqlim.realworld.tag.repository.TagRepository;
+import io.github.juniqlim.realworld.user.FindProfile;
 import io.github.juniqlim.realworld.user.FindUser;
+import io.github.juniqlim.realworld.user.FollowUser;
 import io.github.juniqlim.realworld.user.repository.UserRepository;
 import org.junit.jupiter.api.Test;
 
@@ -27,7 +29,7 @@ class FindArticleResponseTest {
         userRepository.save(Fixture.JAKE);
 
         FindArticleResponse findArticleResponse = new FindArticleResponse(
-            new FindArticle(articleRepository), tagUseCase, new FindUser(userRepository), new FavoriteArticleUseCase.Fake()
+            new FindArticle(articleRepository), new FindProfile(new FindUser(userRepository), new FollowUser(userRepository)), tagUseCase, new FavoriteArticleUseCase.Fake()
         );
 
         List<ArticleResponse> articleResponses = findArticleResponse.find(

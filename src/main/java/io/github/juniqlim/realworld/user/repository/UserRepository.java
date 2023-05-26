@@ -2,11 +2,12 @@ package io.github.juniqlim.realworld.user.repository;
 
 import io.github.juniqlim.realworld.Id;
 import io.github.juniqlim.realworld.user.domain.User;
+import org.springframework.stereotype.Repository;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.atomic.AtomicLong;
 import java.util.stream.Collectors;
-import org.springframework.stereotype.Repository;
 
 public interface UserRepository {
     void save(User user);
@@ -17,7 +18,9 @@ public interface UserRepository {
     void update(User user);
     long findSequence();
     List<User> findByIds(List<Id> userIds);
-
+    void follow(Id followerUserId, Id followeeUserId);
+    void unFollow(Id followerUserId, Id followeeUserId);
+    boolean isFollowing(Id followerUserId, Id followeeUserId);
 
     @Repository
     class Collection implements UserRepository {
@@ -76,6 +79,19 @@ public interface UserRepository {
             return users.stream()
                 .filter(user -> userIds.contains(user.id()))
                 .collect(Collectors.toList());
+        }
+
+        @Override
+        public void follow(Id followerUserId, Id followeeUserId) {
+        }
+
+        @Override
+        public void unFollow(Id followerUserId, Id followeeUserId) {
+        }
+
+        @Override
+        public boolean isFollowing(Id followerUserId, Id followeeUserId) {
+            return false;
         }
     }
 }
