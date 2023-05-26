@@ -3,8 +3,6 @@ package io.github.juniqlim.realworld.user.domain;
 import io.github.juniqlim.realworld.Id;
 import io.github.juniqlim.realworld.Id.LongId;
 
-import java.util.ArrayList;
-import java.util.Collection;
 import java.util.Objects;
 
 public class User {
@@ -15,8 +13,6 @@ public class User {
     private final String email;
     private final String bio;
     private final String image;
-    private final Collection<Id> follows;
-    private final Collection<Id> followers;
 
     public User(long id, String token, String password, String username, String email) {
         this(new LongId(id), token, password, username, email, null, null);
@@ -30,8 +26,6 @@ public class User {
         this.email = email;
         this.bio = bio;
         this.image = image;
-        this.follows = new ArrayList<>();
-        this.followers = new ArrayList<>();
     }
 
     public Id id() {
@@ -87,44 +81,12 @@ public class User {
         return new User(id, token, request.password(), request.username(), request.email(), request.bio(), request.image());
     }
 
-    public void follow(Id userId) {
-        follows.add(userId);
-    }
-
-    public boolean isFollow(Id userId) {
-        return follows.contains(userId);
-    }
-
-    public void unfollow(Id userId) {
-        follows.remove(userId);
-    }
-
-    public Collection<Id> follows() {
-        return follows;
-    }
-
-    public void addFollower(Id userId) {
-        followers.add(userId);
-    }
-
-    public void removeFollower(Id userId) {
-        followers.remove(userId);
-    }
-
-    public Collection<Id> followers() {
-        return followers;
-    }
-
     public Profile profile() {
         return new Profile(id, username, bio, image, false);
     }
 
     public Profile profile(boolean isFollowing) {
         return new Profile(id, username, bio, image, isFollowing);
-    }
-
-    public Profile profile(Id selecterId) {
-        return new Profile(id, username, bio, image, followers.contains(selecterId));
     }
 
     public interface UpdateRequest {
