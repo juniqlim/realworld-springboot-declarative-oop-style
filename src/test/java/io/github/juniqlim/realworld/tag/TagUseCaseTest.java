@@ -16,8 +16,8 @@ class TagUseCaseTest {
 
     @BeforeEach
     void setUp() {
-        tagUseCase.merge(new TagUseCase.Request(Fixture.LONG_ID_ONE, Arrays.asList("java")));
-        tagUseCase.merge(new TagUseCase.Request(Fixture.LONG_ID_THREE, Arrays.asList("kotlin")));
+        tagUseCase.merge(new TagUseCase.Request(Fixture.LONG_ID_ONE, Collections.singletonList("java")));
+        tagUseCase.merge(new TagUseCase.Request(Fixture.LONG_ID_THREE, Collections.singletonList("kotlin")));
     }
 
     @Test
@@ -43,8 +43,8 @@ class TagUseCaseTest {
     void findByArticleIds() {
         assertEquals(
             Arrays.asList(
-                new Tags(Fixture.LONG_ID_ONE, Arrays.asList("java")),
-                new Tags(Fixture.LONG_ID_THREE, Arrays.asList("kotlin"))
+                new Tags(Fixture.LONG_ID_ONE, Collections.singletonList("java")),
+                new Tags(Fixture.LONG_ID_THREE, Collections.singletonList("kotlin"))
             ),
             tagUseCase.findByArticleIds(Arrays.asList(Fixture.LONG_ID_ONE, Fixture.LONG_ID_THREE))
         );

@@ -51,10 +51,9 @@ class TagRDBRepository implements TagRepository {
     }
 
     private <T> List<T> distinct(List<T> target, List<T> source) {
-        List<T> collect = target.stream().filter(o -> !source.contains(o))
+        return target.stream().filter(o -> !source.contains(o))
             .distinct()
             .collect(Collectors.toList());
-        return collect;
     }
 
     @Override

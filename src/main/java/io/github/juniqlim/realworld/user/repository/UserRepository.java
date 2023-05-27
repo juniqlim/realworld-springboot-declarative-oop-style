@@ -66,12 +66,6 @@ public interface UserRepository {
             users.add(update);
         }
 
-        public List<User> findByTokens(List<String> userIds) {
-            return users.stream()
-                .filter(user -> userIds.contains(user.token()))
-                .collect(Collectors.toList());
-        }
-
         public long findSequence() {
             return sequence.getAndIncrement();
         }

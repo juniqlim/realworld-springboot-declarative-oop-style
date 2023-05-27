@@ -3,11 +3,9 @@ package io.github.juniqlim.realworld.article.repository.rdb;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
-import javax.persistence.Table;
 import java.time.LocalDateTime;
 
 @Entity
-@Table(name = "articles")
 public class ArticleEntity {
     @Id
     private Long id;
