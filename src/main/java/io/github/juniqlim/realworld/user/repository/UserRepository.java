@@ -27,6 +27,7 @@ public interface UserRepository {
     class Collection implements UserRepository {
         private final List<User> users = new ArrayList<>();
         private final AtomicLong sequence = new AtomicLong(1);
+        private final List<UserFollow> userFollows = new ArrayList<>();
         public void save(User user) {
             users.add(user);
         }
@@ -84,20 +85,43 @@ public interface UserRepository {
 
         @Override
         public void follow(Id followerUserId, Id followeeUserId) {
+            userFollows.add(new UserFollow(followerUserId, followeeUserId));
         }
 
         @Override
         public void unFollow(Id followerUserId, Id followeeUserId) {
+            userFollows.remove(new UserFollow(followerUserId, followeeUserId));
         }
 
         @Override
         public boolean isFollowing(Id followerUserId, Id followeeUserId) {
-            return false;
+            return userFollows.contains(new UserFollow(followerUserId, followeeUserId));
         }
 
         @Override
         public List<Id> followingUserIds(Id followerUserId) {
-            return null;
+            return userFollows.stream()
+                .filter(userFollow -> userFollow.followerUserId().equals(followerUserId))
+                .map(UserFollow::followeeUserId)
+                .collect(Collectors.toList());
+        }
+
+        private static class UserFollow {
+            private final Id followerUserId;
+            private final Id followeeUserId;
+
+            public UserFollow(Id followerUserId, Id followeeUserId) {
+                this.followerUserId = followerUserId;
+                this.followeeUserId = followeeUserId;
+            }
+
+            public Id followerUserId() {
+                return followerUserId;
+            }
+
+            public Id followeeUserId() {
+                return followeeUserId;
+            }
         }
     }
 }
