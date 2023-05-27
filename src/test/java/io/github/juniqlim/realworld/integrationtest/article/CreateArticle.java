@@ -5,8 +5,8 @@ import io.restassured.response.ExtractableResponse;
 import io.restassured.response.Response;
 import org.springframework.http.MediaType;
 
-class CreateArticle {
-    ExtractableResponse<Response> create(String token, String body) {
+public class CreateArticle {
+    public ExtractableResponse<Response> create(String token, String body) {
         return RestAssured.given().log().all()
             .contentType(MediaType.APPLICATION_JSON_VALUE)
             .header("Authorization", "Token " + token)

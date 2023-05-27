@@ -18,5 +18,4 @@ interface ArticleJpaRepository extends JpaRepository<ArticleEntity, Long> {
     void deleteBySlugAndAuthorUserId(String slug, long authorUserId);
     @Query(value = "call next value for article_sequence", nativeQuery = true)
     long sequence();
-
 }

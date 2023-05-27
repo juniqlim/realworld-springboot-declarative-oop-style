@@ -38,4 +38,11 @@ public class ITFixture {
         "    \"tagList\": []\n" +
         "  }\n" +
         "}";
+
+    public static final String JAKE_COMMENT =
+        "{\n" +
+        "  \"comment\": {\n" +
+        "    \"body\": \"It's easy.\"\n" +
+        "  }\n" +
+        "}";
 }

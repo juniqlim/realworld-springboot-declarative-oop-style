@@ -1,18 +1,23 @@
-package io.github.juniqlim.realworld.comment.domain;
+package io.github.juniqlim.realworld.comment.repository.rdb;
 
-import io.github.juniqlim.realworld.Id;
-
+import javax.persistence.Entity;
+import javax.persistence.Id;
 import java.time.LocalDateTime;
 
-public class Comment {
-    private final Id id;
-    private final Id articleId;
-    private final String body;
-    private final Id commenterUserId;
-    private final LocalDateTime createdAt;
-    private final LocalDateTime updatedAt;
+@Entity
+class CommentEntity {
+    @Id
+    private long id;
+    private long articleId;
+    private String body;
+    private long commenterUserId;
+    private LocalDateTime createdAt;
+    private LocalDateTime updatedAt;
 
-    public Comment(Id id, Id articleId, String body, Id commenterUserId) {
+    protected CommentEntity() {
+    }
+
+    public CommentEntity(long id, long articleId, String body, long commenterUserId) {
         this.id = id;
         this.articleId = articleId;
         this.body = body;
@@ -21,11 +26,11 @@ public class Comment {
         this.updatedAt = LocalDateTime.now();
     }
 
-    public Id id() {
+    public long id() {
         return id;
     }
 
-    public Id articleId() {
+    public long articleId() {
         return articleId;
     }
 
@@ -33,7 +38,7 @@ public class Comment {
         return body;
     }
 
-    public Id commenterUserId() {
+    public long commenterUserId() {
         return commenterUserId;
     }
 

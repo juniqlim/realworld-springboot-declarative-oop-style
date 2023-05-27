@@ -31,7 +31,7 @@ public class FindCommentResponse {
 
     private static List<Id> userIds(List<Comment> comments) {
         return comments.stream()
-            .map(Comment::userId)
+            .map(Comment::commenterUserId)
             .collect(Collectors.toList());
     }
 
@@ -44,7 +44,7 @@ public class FindCommentResponse {
 
     private static Profile matchedProfile(List<Profile> profiles, Comment comment) {
         return profiles.stream()
-            .filter(profile -> profile.equalsUserId(comment.userId()))
+            .filter(profile -> profile.equalsUserId(comment.commenterUserId()))
             .findFirst()
             .orElse(new Profile(new LongId(0L), "", "", "", false));
     }

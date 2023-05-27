@@ -52,7 +52,7 @@ public class Fixture {
 
     public static final UserRepository USER_REPOSITORY = new UserRepository.Collection();
     public static final ArticleArrayListRepository ARTICLE_REPOSITORY = new ArticleArrayListRepository();
-    public static final CommentRepository COMMENT_REPOSITORY = new CommentRepository();
+    public static final CommentRepository COMMENT_REPOSITORY = new CommentRepository.ListRepository();
 
     static {
         USER_REPOSITORY.save(Fixture.JAKE);

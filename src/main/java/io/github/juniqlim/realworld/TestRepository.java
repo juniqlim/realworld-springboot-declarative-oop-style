@@ -26,7 +26,7 @@ public class TestRepository {
     public TestRepository() throws InvalidKeySpecException, NoSuchAlgorithmException {
         this.userRepository = new UserRepository.Collection();
         this.articleRepository = new ArticleArrayListRepository();
-        this.commentRepository = new CommentRepository();
+        this.commentRepository = new CommentRepository.ListRepository();
         setData();
     }
 
