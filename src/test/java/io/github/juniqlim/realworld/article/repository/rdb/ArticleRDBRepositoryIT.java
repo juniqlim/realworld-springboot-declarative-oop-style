@@ -12,7 +12,7 @@ import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 @DataJpaTest
 @Import(ArticleRDBRepository.class)
-class ArticleRDBRepositoryITCase {
+class ArticleRDBRepositoryIT {
     @Autowired ArticleRDBRepository articleRDBRepository;
 
     @Test

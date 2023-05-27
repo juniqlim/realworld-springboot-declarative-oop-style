@@ -7,7 +7,7 @@ import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 @DataJpaTest
-class ArticleJpaRepositoryITCase {
+class ArticleJpaRepositoryIT {
     @Autowired ArticleJpaRepository articleJpaRepository;
 
     @Test

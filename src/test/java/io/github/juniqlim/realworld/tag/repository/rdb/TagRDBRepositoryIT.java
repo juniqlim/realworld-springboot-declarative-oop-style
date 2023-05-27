@@ -11,7 +11,7 @@ import java.util.Arrays;
 
 @DataJpaTest
 @Import(TagRDBRepository.class)
-class TagRDBRepositoryITCase {
+class TagRDBRepositoryIT {
     @Autowired TagRDBRepository tagRDBRepository;
 
     @Test
