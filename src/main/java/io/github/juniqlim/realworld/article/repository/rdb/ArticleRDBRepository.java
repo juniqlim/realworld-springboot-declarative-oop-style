@@ -14,7 +14,6 @@ import java.util.stream.Collectors;
 @Repository
 class ArticleRDBRepository implements ArticleRepository {
     private final ArticleJpaRepository articleJpaRepository;
-    private final ArticleEntityToArticle articleEntityToArticle = new ArticleEntityToArticle();
     private final ArticleToArticleEntity articleToArticleEntity = new ArticleToArticleEntity();
 
     ArticleRDBRepository(ArticleJpaRepository articleJpaRepository) {
@@ -28,12 +27,12 @@ class ArticleRDBRepository implements ArticleRepository {
 
     @Override
     public Article findBySlug(String slug) {
-        return articleEntityToArticle.article(articleJpaRepository.findBySlug(slug));
+        return articleToArticleEntity.article(articleJpaRepository.findBySlug(slug));
     }
 
     @Override
     public Article findBySlugAndAuthorUserId(String slug, Id authorUserId) {
-        return articleEntityToArticle.article(
+        return articleToArticleEntity.article(
             articleJpaRepository.findBySlugAndAuthorUserId(slug, authorUserId.value()));
     }
 
@@ -45,7 +44,7 @@ class ArticleRDBRepository implements ArticleRepository {
     @Override
     public List<Article> findByRequest(Conditions c) {
         if (!c.ids().isEmpty() && !c.authorUserId().isEmpty()) {
-            return articleEntityToArticle.articles(
+            return articleToArticleEntity.articles(
                 articleJpaRepository.findByIdInAndAuthorUserIdOrderByCreatedAt(
                     c.ids().stream()
                         .map(id -> ((LongId) id).value())
@@ -57,7 +56,7 @@ class ArticleRDBRepository implements ArticleRepository {
             );
         }
         if (!c.ids().isEmpty() && c.authorUserId().isEmpty()) {
-            return articleEntityToArticle.articles(
+            return articleToArticleEntity.articles(
                 articleJpaRepository.findByIdInOrderByCreatedAt(
                     c.ids().stream()
                         .map(id -> ((LongId) id).value())
@@ -68,7 +67,7 @@ class ArticleRDBRepository implements ArticleRepository {
             );
         }
         if (c.ids().isEmpty() && !c.authorUserId().isEmpty()) {
-            return articleEntityToArticle.articles(
+            return articleToArticleEntity.articles(
                 articleJpaRepository.findAuthorUserIdOrderByCreatedAt(
                     c.authorUserId().value(),
                     new OffsetToPage(c.offset(), c.limit(), Sort.by(Direction.DESC, "createdAt"))
@@ -76,7 +75,7 @@ class ArticleRDBRepository implements ArticleRepository {
                 )
             );
         }
-        return articleEntityToArticle.articles(
+        return articleToArticleEntity.articles(
             articleJpaRepository.findByOrderByCreatedAt(
                 new OffsetToPage(c.offset(), c.limit(), Sort.by(Direction.DESC, "createdAt"))
                     .pageable()
@@ -91,7 +90,7 @@ class ArticleRDBRepository implements ArticleRepository {
 
     @Override
     public List<Article> findByUserIds(List<Id> followUsers, int offset, int limit) {
-        return articleEntityToArticle.articles(
+        return articleToArticleEntity.articles(
             articleJpaRepository.findByAuthorUserIdIn(
                 followUsers.stream()
                     .map(id -> ((LongId)id).value())
