@@ -1,7 +1,9 @@
 package io.github.juniqlim.realworld;
 
-import io.github.juniqlim.realworld.user.domain.User;
-import io.github.juniqlim.realworld.user.repository.UserRepository;
+import org.springframework.boot.SpringApplication;
+import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.context.annotation.Bean;
+
 import java.security.KeyFactory;
 import java.security.NoSuchAlgorithmException;
 import java.security.PrivateKey;
@@ -10,24 +12,6 @@ import java.security.spec.InvalidKeySpecException;
 import java.security.spec.PKCS8EncodedKeySpec;
 import java.security.spec.X509EncodedKeySpec;
 import java.util.Base64;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.CommandLineRunner;
-import org.springframework.boot.SpringApplication;
-import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.context.annotation.Bean;
-import org.springframework.stereotype.Component;
-
-@Component
-class MyCLRunner implements CommandLineRunner {
-	@Autowired TestRepository testRepository;
-
-	@Override
-	public void run(String... args) {
-		UserRepository userRepository = testRepository.userRepository();
-		User juniq = userRepository.findByUsername("juniq");
-		System.out.println("juniq = " + juniq.token());
-	}
-}
 
 @SpringBootApplication
 public class RealworldSpringbootDeclarativeOopStyleApplication {
