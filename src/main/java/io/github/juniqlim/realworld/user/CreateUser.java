@@ -1,10 +1,12 @@
 package io.github.juniqlim.realworld.user;
 
 import io.github.juniqlim.object.jwt.Jwt;
+import io.github.juniqlim.realworld.Id;
 import io.github.juniqlim.realworld.user.domain.User;
 import io.github.juniqlim.realworld.user.repository.UserRepository;
-import java.security.PrivateKey;
 import org.springframework.stereotype.Service;
+
+import java.security.PrivateKey;
 
 @Service
 public class CreateUser {
@@ -34,7 +36,7 @@ public class CreateUser {
         }
 
         public User user(Jwt token, long sequence) {
-            return new User(sequence, token.token(), password, username, email);
+            return new User(new Id.LongId(sequence), token.token(), password, username, email);
         }
     }
 }

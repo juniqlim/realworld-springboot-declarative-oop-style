@@ -9,10 +9,6 @@ public class Profile {
     private final String image;
     private final boolean following;
 
-    public Profile(User user, boolean following) {
-        this(user.id(), user.username(), user.bio(), user.image(), following);
-    }
-
     public Profile(Id userId, String username, String bio, String image, boolean following) {
         this.userId = userId;
         this.username = username;

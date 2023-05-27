@@ -12,14 +12,28 @@ public class UpdateUser {
         this.userRepository = userRepository;
     }
 
-    public User update(Request updateRequest) {
-        User findedUser = userRepository.findByToken(updateRequest.jwsToken());
-        User updateUser = findedUser.update(updateRequest);
-        userRepository.update(updateUser);
-        return updateUser;
+    public User update(Request request) {
+        User user = userRepository.findByToken(request.jwsToken());
+        if (request.password != null) {
+            user = user.updatePassword(request.password);
+        }
+        if (request.email != null) {
+            user = user.updateEmail(request.email);
+        }
+        if (request.username != null) {
+            user = user.updateUsername(request.username);
+        }
+        if (request.bio != null) {
+            user = user.updateBio(request.bio);
+        }
+        if (request.image != null) {
+            user = user.updateImage(request.image);
+        }
+        userRepository.update(user);
+        return user;
     }
 
-    public static class Request implements User.UpdateRequest {
+    public static class Request {
         private final String jwsToken;
         private final String email;
         private final String username;

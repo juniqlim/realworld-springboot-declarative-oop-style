@@ -1,7 +1,6 @@
 package io.github.juniqlim.realworld.user.domain;
 
 import io.github.juniqlim.realworld.Id;
-import io.github.juniqlim.realworld.Id.LongId;
 
 import java.util.Objects;
 
@@ -14,8 +13,8 @@ public class User {
     private final String bio;
     private final String image;
 
-    public User(long id, String token, String password, String username, String email) {
-        this(new LongId(id), token, password, username, email, null, null);
+    public User(Id id, String token, String password, String username, String email) {
+        this(id, token, password, username, email, null, null);
     }
 
     public User(Id id, String token, String password, String username, String email, String bio, String image) {
@@ -26,6 +25,38 @@ public class User {
         this.email = email;
         this.bio = bio;
         this.image = image;
+    }
+
+    public User updatePassword(String password) {
+        return new User(id, token, password, username, email, bio, image);
+    }
+
+    public User updateUsername(String username) {
+        return new User(id, token, password, username, email, bio, image);
+    }
+
+    public User updateEmail(String email) {
+        return new User(id, token, password, username, email, bio, image);
+    }
+
+    public User updateBio(String bio) {
+        return new User(id, token, password, username, email, bio, image);
+    }
+
+    public User updateImage(String image) {
+        return new User(id, token, password, username, email, bio, image);
+    }
+
+    public User updateToken(String token) {
+        return new User(id, token, password, username, email, bio, image);
+    }
+
+    public Profile profile() {
+        return new Profile(id, username, bio, image, false);
+    }
+
+    public Profile profile(boolean isFollowing) {
+        return new Profile(id, username, bio, image, isFollowing);
     }
 
     public Id id() {
@@ -54,75 +85,6 @@ public class User {
 
     public String image() {
         return image;
-    }
-
-    public boolean equalsId(Id id) {
-        return this.id.equals(id);
-    }
-
-    public boolean equalsToken(String token) {
-        return this.token.equals(token);
-    }
-
-    public boolean equalsEmail(String email) {
-        return this.email.equals(email);
-    }
-
-    public boolean equalsPassword(String password) {
-        return this.password.equals(password);
-    }
-
-    public boolean equalsUsername(String username) {
-        return this.username.equals(username);
-    }
-
-    public User update(UpdateRequest updateRequest) {
-        RefinedUpdateRequest request = new RefinedUpdateRequest(updateRequest);
-        return new User(id, token, request.password(), request.username(), request.email(), request.bio(), request.image());
-    }
-
-    public Profile profile() {
-        return new Profile(id, username, bio, image, false);
-    }
-
-    public Profile profile(boolean isFollowing) {
-        return new Profile(id, username, bio, image, isFollowing);
-    }
-
-    public interface UpdateRequest {
-        String email();
-        String password();
-        String username();
-        String bio();
-        String image();
-    }
-
-    private class RefinedUpdateRequest {
-        private final UpdateRequest updateRequest;
-
-        public RefinedUpdateRequest(UpdateRequest updateRequest) {
-            this.updateRequest = updateRequest;
-        }
-
-        public String email() {
-            return updateRequest.email() == null || updateRequest.email().isEmpty() ? email : updateRequest.email();
-        }
-
-        public String password() {
-            return updateRequest.password() == null || updateRequest.password().isEmpty() ? password : updateRequest.password();
-        }
-
-        public String username() {
-            return updateRequest.username() == null || updateRequest.username().isEmpty() ? username : updateRequest.username();
-        }
-
-        public String bio() {
-            return updateRequest.bio() == null || updateRequest.bio().isEmpty() ? bio : updateRequest.bio();
-        }
-
-        public String image() {
-            return updateRequest.image() == null || updateRequest.image().isEmpty() ? image : updateRequest.image();
-        }
     }
 
     @Override

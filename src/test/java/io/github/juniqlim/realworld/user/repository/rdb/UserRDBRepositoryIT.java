@@ -1,7 +1,6 @@
 package io.github.juniqlim.realworld.user.repository.rdb;
 
 import io.github.juniqlim.realworld.Fixture;
-import io.github.juniqlim.realworld.user.UpdateUser;
 import io.github.juniqlim.realworld.user.domain.User;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,7 +19,7 @@ class UserRDBRepositoryIT {
         userRDBRepository.save(Fixture.JAKE);
         assertEquals(Fixture.JAKE.id(), userRDBRepository.findByToken(Fixture.JAKE.token()).id());
 
-        userRDBRepository.update(Fixture.JAKE.update(new UpdateUser.Request.Builder().email("a@a.a").build()));
+        userRDBRepository.update(Fixture.JAKE.updateEmail("a@a.a"));
         User updatedUser = userRDBRepository.findByToken(Fixture.JAKE.token());
         assertEquals("a@a.a", updatedUser.email());
         assertEquals(Fixture.JAKE.username(), updatedUser.username());

@@ -14,7 +14,7 @@ public class LoginUser {
 
     public User login(Request request) {
         User user = userRepository.findByEmail(request.email());
-        if (!user.equalsPassword(request.password())) {
+        if (!user.password().equals(request.password())) {
             throw new IllegalArgumentException("Invalid password");
         }
         return user;

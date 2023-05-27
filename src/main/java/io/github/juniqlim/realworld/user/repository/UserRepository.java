@@ -35,34 +35,34 @@ public interface UserRepository {
         @Override
         public User findById(Id userId) {
             return users.stream()
-                .filter(user -> user.equalsId(userId))
+                .filter(user -> user.id() == userId)
                 .findFirst()
                 .orElseThrow(() -> new IllegalArgumentException("User not found"));
         }
 
         public User findByToken(String token) {
             return users.stream()
-                .filter(user -> user.equalsToken(token))
+                .filter(user -> user.token().equals(token))
                 .findFirst()
                 .orElseThrow(() -> new IllegalArgumentException("User not found"));
         }
 
         public User findByEmail(String email) {
             return users.stream()
-                .filter(user -> user.equalsEmail(email))
+                .filter(user -> user.email().equals(email))
                 .findFirst()
                 .orElseThrow(() -> new IllegalArgumentException("User not found"));
         }
 
         public User findByUsername(String username) {
             return users.stream()
-                .filter(user -> user.equalsUsername(username))
+                .filter(user -> user.username().equals(username))
                 .findFirst()
                 .orElseThrow(() -> new IllegalArgumentException("User not found"));
         }
 
         public void update(User update) {
-            users.removeIf(user -> user.equalsToken(update.token()));
+            users.removeIf(user -> user.token().equals(update.token()));
             users.add(update);
         }
 
