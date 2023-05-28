@@ -15,18 +15,23 @@ public class CreateUserController {
 
     @PostMapping("/api/users")
     public Response user(@RequestBody Request request) {
-        return new Response(createUser.user(request.createUserRequest()));
+        return new Response(
+            createUser.user(
+                new CreateUser.Request(
+                    request.getUser().getUsername(),
+                    request.getUser().getEmail(),
+                    request.getUser().getPassword()
+                )
+            )
+        );
     }
+
 
     private static class Request {
         private User user;
 
         public User getUser() {
             return user;
-        }
-
-        private CreateUser.Request createUserRequest() {
-            return new CreateUser.Request(user.getUsername(), user.getEmail(), user.getPassword());
         }
 
         private static class User {
@@ -52,7 +57,7 @@ public class CreateUserController {
         private final User user;
 
         private Response(io.github.juniqlim.realworld.user.domain.User user) {
-            this(new User(user));
+            this(new User(user.email(), user.token(), user.username(), user.bio(), user.image()));
         }
 
         private Response(User user) {
@@ -70,12 +75,12 @@ public class CreateUserController {
             private final String bio;
             private final String image;
 
-            private User(io.github.juniqlim.realworld.user.domain.User user) {
-                this.email = user.email();
-                this.token = user.token();
-                this.username = user.username();
-                this.bio = user.bio();
-                this.image = user.image();
+            public User(String email, String token, String username, String bio, String image) {
+                this.email = email;
+                this.token = token;
+                this.username = username;
+                this.bio = bio;
+                this.image = image;
             }
 
             public String getEmail() {
