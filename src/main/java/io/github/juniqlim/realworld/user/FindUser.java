@@ -4,8 +4,9 @@ import io.github.juniqlim.realworld.Id;
 import io.github.juniqlim.realworld.user.domain.User;
 import io.github.juniqlim.realworld.user.repository.UserRepository;
 import io.github.juniqlim.realworld.user.web.Token;
-import java.util.List;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
 
 @Service
 public class FindUser {
@@ -33,14 +34,6 @@ public class FindUser {
 
     public List<User> findList(List<Id> ids) {
         return userRepository.findByIds(ids);
-    }
-
-    public Id findIdByToken(Token token) {
-        try {
-            return find(token.value()).id();
-        } catch (IllegalArgumentException e) {
-            return new Id.EmptyId();
-        }
     }
 
     public Id findIdByUsername(String username) {

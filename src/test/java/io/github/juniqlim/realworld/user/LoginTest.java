@@ -5,16 +5,13 @@ import io.github.juniqlim.realworld.user.repository.UserRepository;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import java.security.NoSuchAlgorithmException;
-import java.security.spec.InvalidKeySpecException;
-
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 class LoginTest {
     UserRepository repository;
 
     @BeforeEach
-    void setUp() throws NoSuchAlgorithmException, InvalidKeySpecException {
+    void setUp() {
         repository = new UserRepository.Collection();
         new CreateUser(repository).user(new CreateUser.Request("Jacob", "jake@jake.jake", "jakejake"));
     }
