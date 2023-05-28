@@ -1,6 +1,6 @@
 package io.github.juniqlim.realworld.user;
 
-import io.github.juniqlim.object.jwt.Jwt;
+import io.github.juniqlim.object.jwt.Jws;
 import io.github.juniqlim.realworld.Id;
 import io.github.juniqlim.realworld.user.domain.User;
 import io.github.juniqlim.realworld.user.repository.UserRepository;
@@ -19,7 +19,7 @@ public class CreateUser {
     }
 
     public User user(Request request) {
-        User user = request.user(new Jwt.Jws(privateKey), userRepository.findSequence());
+        User user = request.user(new Jws.RsaJws(privateKey).token(), userRepository.findSequence());
         userRepository.save(user);
         return user;
     }
@@ -35,8 +35,8 @@ public class CreateUser {
             this.password = password;
         }
 
-        public User user(Jwt token, long sequence) {
-            return new User(new Id.LongId(sequence), token.token(), password, username, email);
+        public User user(String token, long sequence) {
+            return new User(new Id.LongId(sequence), token, password, username, email);
         }
     }
 }

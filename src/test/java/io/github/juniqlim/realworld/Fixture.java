@@ -1,6 +1,6 @@
 package io.github.juniqlim.realworld;
 
-import io.github.juniqlim.object.jwt.Jwt.Jws;
+import io.github.juniqlim.object.jwt.Jws;
 import io.github.juniqlim.realworld.Id.LongId;
 import io.github.juniqlim.realworld.article.domain.Article;
 import io.github.juniqlim.realworld.article.domain.Slug;
@@ -34,9 +34,9 @@ public class Fixture {
     public static final Id LONG_ID_THREE = new LongId(3);
     public static final Id LONG_ID_FOUR = new LongId(4);
 
-    public static final User JAKE = new User(LONG_ID_ONE, new Jws(privateKey).token(), "jakejake", "Jacob", "jake@jake.jake");
-    public static final User JUNIQ = new User(LONG_ID_TWO, new Jws(privateKey).token(), "juniqjuniq", "juniq", "juniq@juniq.juniq");
-    public static final User MINK = new User(LONG_ID_THREE, new Jws(privateKey).token(), "minkmink", "mink", "mink@mink.mink");
+    public static final User JAKE = new User(LONG_ID_ONE, new Jws.RsaJws(privateKey).token(), "jakejake", "Jacob", "jake@jake.jake");
+    public static final User JUNIQ = new User(LONG_ID_TWO, new Jws.RsaJws(privateKey).token(), "juniqjuniq", "juniq", "juniq@juniq.juniq");
+    public static final User MINK = new User(LONG_ID_THREE, new Jws.RsaJws(privateKey).token(), "minkmink", "mink", "mink@mink.mink");
 
     public static final Article JAKE_ARTICLE = new Article(LONG_ID_ONE, new Slug("How to train your dragon"), "How to train your dragon", "Ever wonder how?", "You have to believe",
         LocalDateTime.now(), LocalDateTime.now(), 1, JAKE.id());

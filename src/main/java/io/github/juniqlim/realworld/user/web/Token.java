@@ -1,6 +1,7 @@
 package io.github.juniqlim.realworld.user.web;
 
-import io.github.juniqlim.object.jwt.VerifiedJwt;
+import io.github.juniqlim.object.jwt.DecodedJws;
+
 import java.security.PublicKey;
 
 public interface Token {
@@ -20,7 +21,7 @@ public interface Token {
         @Override
         public String value() {
             String jwsToken = value.substring(6);
-            if (!new VerifiedJwt.VerifiedJws(publicKey, jwsToken).verifiable()) {
+            if (!new DecodedJws.DecodedRsaJws(publicKey).verifiable(jwsToken)) {
                 throw new IllegalArgumentException("Invalid jws");
             }
             return jwsToken;
@@ -37,7 +38,7 @@ public interface Token {
                 throw new IllegalArgumentException("Authorization token is not exist");
             }
             String jwsToken = value.substring(6);
-            if (!new VerifiedJwt.VerifiedJws(publicKey, jwsToken).verifiable()) {
+            if (!new DecodedJws.DecodedRsaJws(publicKey).verifiable(jwsToken)) {
                 throw new IllegalArgumentException("Invalid jws");
             }
         }

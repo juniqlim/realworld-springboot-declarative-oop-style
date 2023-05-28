@@ -20,7 +20,7 @@ dependencies {
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'
 	testImplementation 'io.rest-assured:rest-assured:5.3.0'
 	testImplementation 'io.rest-assured:xml-path:5.2.0'
-	implementation 'com.github.juniqlim.objects:jwt:6ffcb1146e'
+	implementation 'com.github.juniqlim.objects:jwt:d1c9d3d783'
 	implementation 'com.google.guava:guava:31.1-jre'
 }
 

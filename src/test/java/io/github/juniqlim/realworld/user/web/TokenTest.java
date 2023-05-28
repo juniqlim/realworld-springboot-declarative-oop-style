@@ -1,9 +1,8 @@
 package io.github.juniqlim.realworld.user.web;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertThrows;
+import io.github.juniqlim.object.jwt.Jws;
+import org.junit.jupiter.api.Test;
 
-import io.github.juniqlim.object.jwt.Jwt.Jws;
 import java.security.KeyFactory;
 import java.security.NoSuchAlgorithmException;
 import java.security.PrivateKey;
@@ -12,12 +11,14 @@ import java.security.spec.InvalidKeySpecException;
 import java.security.spec.PKCS8EncodedKeySpec;
 import java.security.spec.X509EncodedKeySpec;
 import java.util.Base64;
-import org.junit.jupiter.api.Test;
+
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 class TokenTest {
     @Test
     void get() throws NoSuchAlgorithmException, InvalidKeySpecException {
-        Token token = new Token.Jws(publicKey(), "token " +  new Jws(privateKey()).token());
+        Token token = new Token.Jws(publicKey(), "token " +  new Jws.RsaJws(privateKey()).token());
         assertEquals("ey", token.value().substring(0, 2));
     }
 
