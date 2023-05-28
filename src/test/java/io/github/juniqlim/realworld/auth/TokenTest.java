@@ -1,6 +1,7 @@
-package io.github.juniqlim.realworld.user.web;
+package io.github.juniqlim.realworld.auth;
 
 import io.github.juniqlim.object.jwt.Jws;
+import io.github.juniqlim.realworld.user.web.Token;
 import org.junit.jupiter.api.Test;
 
 import java.security.KeyFactory;

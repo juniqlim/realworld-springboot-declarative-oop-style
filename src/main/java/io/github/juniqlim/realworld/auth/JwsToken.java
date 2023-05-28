@@ -1,4 +1,4 @@
-package io.github.juniqlim.realworld.user.web;
+package io.github.juniqlim.realworld.auth;
 
 import io.github.juniqlim.object.jwt.DecodedJws;
 import io.github.juniqlim.object.jwt.Jws;

@@ -1,4 +1,4 @@
-package io.github.juniqlim.realworld.user.web;
+package io.github.juniqlim.realworld.auth;
 
 import com.jayway.jsonpath.JsonPath;
 import io.github.juniqlim.realworld.Id;
