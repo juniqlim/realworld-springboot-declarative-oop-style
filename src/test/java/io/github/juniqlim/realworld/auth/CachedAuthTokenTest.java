@@ -8,8 +8,8 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 class CachedAuthTokenTest {
     @Test
     void create() {
-        String token = CachedAuthToken.authToken().token(10984);
-        String id = CachedAuthToken.authToken().id(token);
+        String token = CachedAuthToken.token(10984);
+        String id = CachedAuthToken.id(token);
         assertEquals("10984", id);
     }
 

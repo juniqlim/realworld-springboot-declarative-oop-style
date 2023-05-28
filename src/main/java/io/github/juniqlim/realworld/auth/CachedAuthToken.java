@@ -18,7 +18,11 @@ public class CachedAuthToken {
         );
     }
 
-    public static AuthToken authToken() {
-        return authToken;
+    public static String token(long userId) {
+        return authToken.token(userId);
+    }
+
+    public static String id(String token) {
+        return authToken.id(token);
     }
 }

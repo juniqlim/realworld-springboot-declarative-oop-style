@@ -9,7 +9,7 @@ public class HeaderAuthStringTo {
         }
         return new Id.LongId(
             Long.parseLong(
-                CachedAuthToken.authToken().id(token(headerAuthString))
+                CachedAuthToken.id(token(headerAuthString))
             )
         );
     }

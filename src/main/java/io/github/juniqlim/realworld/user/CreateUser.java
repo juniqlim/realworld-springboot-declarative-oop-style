@@ -16,7 +16,7 @@ public class CreateUser {
 
     public User user(Request request) {
         long userId = userRepository.findSequence();
-        User user = new User(new Id.LongId(userId), CachedAuthToken.authToken().token(userId),
+        User user = new User(new Id.LongId(userId), CachedAuthToken.token(userId),
             request.password, request.username, request.email);
         userRepository.save(user);
         return user;
