@@ -2,7 +2,6 @@ package io.github.juniqlim.realworld.user;
 
 import io.github.juniqlim.realworld.Id;
 import io.github.juniqlim.realworld.user.domain.Profile;
-import io.github.juniqlim.realworld.user.domain.User;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -22,23 +21,25 @@ public class FindProfile {
         if (loginUserId.isEmpty()) {
             return find(findingUserId);
         }
-        return findUser.find(findingUserId).profile(followUser.isFollowing(loginUserId, findingUserId));
+        return new Profile(findUser.find(findingUserId), followUser.isFollowing(loginUserId, findingUserId));
     }
 
     public Profile find(Id findingUserId) {
-        return findUser.find(findingUserId).profile();
+        return new Profile(findUser.find(findingUserId), false);
     }
 
     public List<Profile> find(List<Id> findingUserIds, Id loginUserId) {
         if (loginUserId.isEmpty()) {
             return findUser.findList(findingUserIds).stream()
-                .map(User::profile)
+                .map(user -> new Profile(user, false))
                 .collect(Collectors.toList());
         }
         return findUser.findList(findingUserIds).stream()
-            .map(user -> user.profile(
-                followUser.followingUserIds(loginUserId)
-                    .contains(user.id())
+            .map(user ->
+                new Profile(
+                    user,
+                    followUser.followingUserIds(loginUserId)
+                        .contains(user.id())
                 )
             )
             .collect(Collectors.toList());

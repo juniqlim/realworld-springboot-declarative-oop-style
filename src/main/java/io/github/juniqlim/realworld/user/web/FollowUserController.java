@@ -4,6 +4,7 @@ import io.github.juniqlim.realworld.Id;
 import io.github.juniqlim.realworld.auth.HeaderAuthStringTo;
 import io.github.juniqlim.realworld.user.FindUser;
 import io.github.juniqlim.realworld.user.FollowUser;
+import io.github.juniqlim.realworld.user.domain.Profile;
 import io.github.juniqlim.realworld.user.domain.User;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -26,7 +27,7 @@ public class FollowUserController {
         Id followerUserId = HeaderAuthStringTo.userId(headerAuthString);
         User followeeUser = findUser.findByUsername(followeeUsername);
         followUser.follow(followerUserId, followeeUser.id());
-        return new Response(followeeUser.profile(true));
+        return new Response(new Profile(followeeUser, true));
     }
 
     @DeleteMapping("/api/profiles/{followeeUsername}/follow")
@@ -34,7 +35,7 @@ public class FollowUserController {
         Id followerUserId = HeaderAuthStringTo.userId(headerAuthString);
         User followeeUser = findUser.findByUsername(followeeUsername);
         followUser.unFollow(followerUserId, followeeUser.id());
-        return new Response(followeeUser.profile(false));
+        return new Response(new Profile(followeeUser, false));
     }
 
     private static class Response {

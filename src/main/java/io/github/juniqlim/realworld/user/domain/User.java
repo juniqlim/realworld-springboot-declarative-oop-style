@@ -51,14 +51,6 @@ public class User {
         return new User(id, token, password, username, email, bio, image);
     }
 
-    public Profile profile() {
-        return new Profile(id, username, bio, image, false);
-    }
-
-    public Profile profile(boolean isFollowing) {
-        return new Profile(id, username, bio, image, isFollowing);
-    }
-
     public Id id() {
         return id;
     }
