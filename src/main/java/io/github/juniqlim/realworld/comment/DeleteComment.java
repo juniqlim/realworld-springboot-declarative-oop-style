@@ -17,21 +17,17 @@ public class DeleteComment {
     }
 
     public void delete(DeleteComment.Request request) {
-        User user = findUser.find(request.jwsToken());
+        User user = findUser.find(request.loginUserId);
         commentRepository.deleteComment(request.commentId, user.id());
     }
 
     public static class Request {
         private final Id commentId;
-        private final String jwsToken;
+        private final Id loginUserId;
 
-        public Request(Id commentId, String jwsToken) {
+        public Request(Id commentId, Id loginUserId) {
             this.commentId = commentId;
-            this.jwsToken = jwsToken;
-        }
-
-        String jwsToken() {
-            return jwsToken;
+            this.loginUserId = loginUserId;
         }
     }
 }

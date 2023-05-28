@@ -5,30 +5,27 @@ import io.github.juniqlim.realworld.article.FindArticleResponse;
 import io.github.juniqlim.realworld.article.UpdateArticle;
 import io.github.juniqlim.realworld.article.UpdateArticle.Request.Builder;
 import io.github.juniqlim.realworld.article.domain.Article;
-import io.github.juniqlim.realworld.user.FindUser;
-import io.github.juniqlim.realworld.user.web.Token;
-import org.springframework.web.bind.annotation.*;
-
-import java.security.PublicKey;
+import io.github.juniqlim.realworld.auth.HeaderAuthStringTo;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestHeader;
+import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 public class UpdateArticleController {
     private final UpdateArticle updateArticle;
-    private final FindUser findUser;
-    private final PublicKey publicKey;
     private final FindArticleResponse findArticleResponse;
 
-    public UpdateArticleController(UpdateArticle updateArticle, FindUser findUser, PublicKey publicKey, FindArticleResponse findArticleResponse) {
+    public UpdateArticleController(UpdateArticle updateArticle, FindArticleResponse findArticleResponse) {
         this.updateArticle = updateArticle;
-        this.findUser = findUser;
-        this.publicKey = publicKey;
         this.findArticleResponse = findArticleResponse;
     }
 
     @PutMapping("/api/articles/{slug}")
-    public Response articles(@RequestHeader("Authorization") String token, @PathVariable("slug") String slug,
+    public Response articles(@RequestHeader("Authorization") String headerAuthString, @PathVariable("slug") String slug,
         @RequestBody Request request) {
-        Id loginUserId = findUser.findIdByToken(new Token.Jws(publicKey, token));
+        Id loginUserId = HeaderAuthStringTo.userId(headerAuthString);
         UpdateArticle.Request updateRequest = new Builder()
             .userId(loginUserId)
             .slug(slug)

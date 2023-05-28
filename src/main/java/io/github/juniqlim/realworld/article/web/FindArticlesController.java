@@ -2,32 +2,29 @@ package io.github.juniqlim.realworld.article.web;
 
 import io.github.juniqlim.realworld.Id;
 import io.github.juniqlim.realworld.article.FindArticleResponse;
+import io.github.juniqlim.realworld.auth.HeaderAuthStringTo;
 import io.github.juniqlim.realworld.user.FindUser;
-import io.github.juniqlim.realworld.user.web.Token.Jws;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RestController;
 
-import java.security.PublicKey;
 import java.util.List;
 
 @RestController
 public class FindArticlesController {
     private final FindArticleResponse findArticleResponse;
     private final FindUser findUser;
-    private final PublicKey publicKey;
 
-    FindArticlesController(FindArticleResponse findArticleResponse, FindUser findUser, PublicKey publicKey) {
+    public FindArticlesController(FindArticleResponse findArticleResponse, FindUser findUser) {
         this.findArticleResponse = findArticleResponse;
         this.findUser = findUser;
-        this.publicKey = publicKey;
     }
 
     @GetMapping("/api/articles")
-    public Response articles(@RequestHeader(name = "Authorization", required = false) String token, Request request) {
+    public Response articles(@RequestHeader(name = "Authorization", required = false) String headerAuthString, Request request) {
         return new Response(findArticleResponse.find(
             new FindArticleResponse.Request.Builder()
-                .loginUserId(loginUserId(token))
+                .loginUserId(HeaderAuthStringTo.userId(headerAuthString))
                 .tag(request.tag)
                 .authorUserId(username(request.author))
                 .favoriteUserId(username(request.favorited))
@@ -38,8 +35,8 @@ public class FindArticlesController {
     }
 
     @GetMapping("/api/articles/feed")
-    public Response feedArticles(@RequestHeader(name = "Authorization") String token, Request request) {
-        Id loginUserId = findUser.findIdByToken(new Jws(publicKey, token));
+    public Response feedArticles(@RequestHeader(name = "Authorization") String headerAuthString, Request request) {
+        Id loginUserId = HeaderAuthStringTo.userId(headerAuthString);
         return new Response(
             findArticleResponse.findFeed(new FindArticleResponse.Request.Builder()
                 .loginUserId(loginUserId)
@@ -54,13 +51,6 @@ public class FindArticlesController {
             return new Id.EmptyId();
         }
         return findUser.findIdByUsername(name);
-    }
-
-    private Id loginUserId(String token) {
-        if (token == null || token.isEmpty()) {
-            return new Id.EmptyId();
-        }
-        return findUser.findIdByToken(new Jws(publicKey, token));
     }
 
     private static class Request {

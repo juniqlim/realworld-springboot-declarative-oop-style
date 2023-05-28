@@ -1,8 +1,7 @@
 package io.github.juniqlim.realworld.user.web;
 
+import io.github.juniqlim.realworld.auth.HeaderAuthStringTo;
 import io.github.juniqlim.realworld.user.UpdateUser;
-import io.github.juniqlim.realworld.user.web.Token.Jws;
-import java.security.PublicKey;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestHeader;
@@ -11,16 +10,25 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 public class UpdateUserController {
     private final UpdateUser updateUser;
-    private final PublicKey publicKey;
 
-    public UpdateUserController(UpdateUser updateUser, PublicKey publicKey) {
+    public UpdateUserController(UpdateUser updateUser) {
         this.updateUser = updateUser;
-        this.publicKey = publicKey;
     }
 
     @PutMapping("/api/user")
-    public Response update(@RequestHeader("Authorization") String token, @RequestBody Request request) {
-        return new Response(updateUser.update(request.updateRequest(new Jws(publicKey, token).value())));
+    public Response update(@RequestHeader("Authorization") String headerAuthString, @RequestBody Request request) {
+        return new Response(
+            updateUser.update(
+                new UpdateUser.Request(
+                    HeaderAuthStringTo.userId(headerAuthString),
+                    request.user.email,
+                    request.user.username,
+                    request.user.password,
+                    request.user.bio,
+                    request.user.image
+                )
+            )
+        );
     }
 
     private static class Request {
@@ -28,17 +36,6 @@ public class UpdateUserController {
 
         public User getUser() {
             return user;
-        }
-
-        UpdateUser.Request updateRequest(String jwsToken) {
-            return new UpdateUser.Request.Builder()
-                    .jwsToken(jwsToken)
-                    .email(user.getEmail())
-                    .username(user.getUsername())
-                    .password(user.getPassword())
-                    .bio(user.getBio())
-                    .image(user.getImage())
-                    .build();
         }
 
         static class User {

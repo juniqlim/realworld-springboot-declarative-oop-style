@@ -1,37 +1,37 @@
 package io.github.juniqlim.realworld.user.web;
 
 import io.github.juniqlim.realworld.Id;
+import io.github.juniqlim.realworld.auth.HeaderAuthStringTo;
 import io.github.juniqlim.realworld.user.FindUser;
 import io.github.juniqlim.realworld.user.FollowUser;
 import io.github.juniqlim.realworld.user.domain.User;
-import io.github.juniqlim.realworld.user.web.Token.Jws;
-import org.springframework.web.bind.annotation.*;
-
-import java.security.PublicKey;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestHeader;
+import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 public class FollowUserController {
     private final FindUser findUser;
     private final FollowUser followUser;
-    private final PublicKey publicKey;
 
-    public FollowUserController(FindUser findUser, FollowUser followUser, PublicKey publicKey) {
+    public FollowUserController(FindUser findUser, FollowUser followUser) {
         this.findUser = findUser;
         this.followUser = followUser;
-        this.publicKey = publicKey;
     }
 
     @PostMapping("/api/profiles/{followeeUsername}/follow")
-    public Response follow(@RequestHeader("Authorization") String token, @PathVariable String followeeUsername) {
-        Id followerUserId = findUser.findIdByToken(new Jws(publicKey, token));
+    public Response follow(@RequestHeader("Authorization") String headerAuthString, @PathVariable String followeeUsername) {
+        Id followerUserId = HeaderAuthStringTo.userId(headerAuthString);
         User followeeUser = findUser.findByUsername(followeeUsername);
         followUser.follow(followerUserId, followeeUser.id());
         return new Response(followeeUser.profile(true));
     }
 
     @DeleteMapping("/api/profiles/{followeeUsername}/follow")
-    Response unfollow(@RequestHeader("Authorization") String token, @PathVariable String followeeUsername) {
-        Id followerUserId = findUser.findIdByToken(new Jws(publicKey, token));
+    Response unfollow(@RequestHeader("Authorization") String headerAuthString, @PathVariable String followeeUsername) {
+        Id followerUserId = HeaderAuthStringTo.userId(headerAuthString);
         User followeeUser = findUser.findByUsername(followeeUsername);
         followUser.unFollow(followerUserId, followeeUser.id());
         return new Response(followeeUser.profile(false));

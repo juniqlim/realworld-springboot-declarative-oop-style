@@ -19,9 +19,9 @@ class DeleteCommentTest {
         FindUser findUser = new FindUser(Fixture.USER_REPOSITORY);
 
         new DeleteComment(commentRepository, findUser)
-            .delete(new Request(new LongId(3), Fixture.JAKE.token()));
+            .delete(new Request(new LongId(3), Fixture.JAKE.id()));
         new DeleteComment(commentRepository, findUser)
-            .delete(new Request(new LongId(4), Fixture.JUNIQ.token()));
+            .delete(new Request(new LongId(4), Fixture.JUNIQ.id()));
 
         List<Comment> comments = new FindComment(commentRepository)
             .comments(Fixture.MINK_ARTICLE.id());

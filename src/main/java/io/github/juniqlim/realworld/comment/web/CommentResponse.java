@@ -5,6 +5,7 @@ import io.github.juniqlim.realworld.Id.LongId;
 import io.github.juniqlim.realworld.article.web.Author;
 import io.github.juniqlim.realworld.comment.domain.Comment;
 import io.github.juniqlim.realworld.user.domain.Profile;
+
 import java.time.LocalDateTime;
 
 public class CommentResponse {

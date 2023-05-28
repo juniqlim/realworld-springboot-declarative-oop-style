@@ -1,5 +1,6 @@
 package io.github.juniqlim.realworld.user;
 
+import io.github.juniqlim.realworld.Id;
 import io.github.juniqlim.realworld.user.domain.User;
 import io.github.juniqlim.realworld.user.repository.UserRepository;
 import org.springframework.stereotype.Service;
@@ -13,7 +14,7 @@ public class UpdateUser {
     }
 
     public User update(Request request) {
-        User user = userRepository.findByToken(request.jwsToken());
+        User user = userRepository.findById(request.loginUserId);
         if (request.password != null) {
             user = user.updatePassword(request.password);
         }
@@ -34,87 +35,20 @@ public class UpdateUser {
     }
 
     public static class Request {
-        private final String jwsToken;
+        private final Id loginUserId;
         private final String email;
         private final String username;
         private final String password;
         private final String bio;
         private final String image;
 
-        private Request(String jwsToken, String email, String username, String password, String bio, String image) {
-            this.jwsToken = jwsToken;
+        public Request(Id loginUserId, String email, String username, String password, String bio, String image) {
+            this.loginUserId = loginUserId;
             this.email = email;
             this.username = username;
             this.password = password;
             this.bio = bio;
             this.image = image;
-        }
-
-        public static class Builder {
-            private String jwsToken;
-            private String email;
-            private String username;
-            private String password;
-            private String bio;
-            private String image;
-
-            public Builder jwsToken(String jwsToken) {
-                this.jwsToken = jwsToken;
-                return this;
-            }
-
-            public Builder email(String email) {
-                this.email = email;
-                return this;
-            }
-
-            public Builder username(String username) {
-                this.username = username;
-                return this;
-            }
-
-            public Builder password(String password) {
-                this.password = password;
-                return this;
-            }
-
-            public Builder bio(String bio) {
-                this.bio = bio;
-                return this;
-            }
-
-            public Builder image(String image) {
-                this.image = image;
-                return this;
-            }
-
-            public Request build() {
-                return new Request(jwsToken, email, username, password, bio, image);
-            }
-        }
-
-        public String jwsToken() {
-            return jwsToken;
-        }
-
-        public String email() {
-            return email;
-        }
-
-        public String username() {
-            return username;
-        }
-
-        public String password() {
-            return password;
-        }
-
-        public String bio() {
-            return bio;
-        }
-
-        public String image() {
-            return image;
         }
     }
 }

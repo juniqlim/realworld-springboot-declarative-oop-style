@@ -1,11 +1,10 @@
 package io.github.juniqlim.realworld.comment.web;
 
 import io.github.juniqlim.realworld.Id.LongId;
+import io.github.juniqlim.realworld.auth.HeaderAuthStringTo;
 import io.github.juniqlim.realworld.comment.AddComment;
 import io.github.juniqlim.realworld.user.FindUser;
 import io.github.juniqlim.realworld.user.domain.User;
-import io.github.juniqlim.realworld.user.web.Token;
-import java.security.PublicKey;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -16,17 +15,15 @@ import org.springframework.web.bind.annotation.RestController;
 class CreateCommentController {
     private final AddComment addComment;
     private final FindUser findUser;
-    private final PublicKey publicKey;
 
-    CreateCommentController(AddComment addComment, FindUser findUser, PublicKey publicKey) {
+    CreateCommentController(AddComment addComment, FindUser findUser) {
         this.addComment = addComment;
         this.findUser = findUser;
-        this.publicKey = publicKey;
     }
 
     @PostMapping("/api/articles/{slug}/comments")
-    public Response articles(@RequestHeader("Authorization") String token, @PathVariable("slug") String slug, @RequestBody Request request) {
-        User loginUser = findUser.find(new Token.Jws(publicKey, token).value());
+    public Response articles(@RequestHeader("Authorization") String headerAuthString, @PathVariable("slug") String slug, @RequestBody Request request) {
+        User loginUser = findUser.find(HeaderAuthStringTo.userId(headerAuthString));
         return new Response(new CommentResponse(
             addComment.add(new AddComment.Request(new LongId(1), request.comment.body, loginUser.id())),
             loginUser.profile()

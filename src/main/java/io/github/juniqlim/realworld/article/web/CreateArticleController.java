@@ -3,33 +3,27 @@ package io.github.juniqlim.realworld.article.web;
 import io.github.juniqlim.realworld.Id;
 import io.github.juniqlim.realworld.article.CreateArticleAndTag;
 import io.github.juniqlim.realworld.article.FindArticleResponse;
-import io.github.juniqlim.realworld.user.FindUser;
-import io.github.juniqlim.realworld.user.web.Token;
+import io.github.juniqlim.realworld.auth.HeaderAuthStringTo;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RestController;
 
-import java.security.PublicKey;
 import java.util.List;
 
 @RestController
 public class CreateArticleController {
     private final CreateArticleAndTag createArticleAndTag;
     private final FindArticleResponse findArticleResponse;
-    private final FindUser findUser;
-    private final PublicKey publicKey;
 
-    public CreateArticleController(CreateArticleAndTag createArticleAndTag, FindArticleResponse findArticleResponse, FindUser findUser, PublicKey publicKey) {
+    public CreateArticleController(CreateArticleAndTag createArticleAndTag, FindArticleResponse findArticleResponse) {
         this.createArticleAndTag = createArticleAndTag;
         this.findArticleResponse = findArticleResponse;
-        this.findUser = findUser;
-        this.publicKey = publicKey;
     }
 
     @PostMapping("/api/articles")
-    public Response articles(@RequestHeader("Authorization") String token, @RequestBody Request request) {
-        Id loginUserId = findUser.findIdByToken(new Token.Jws(publicKey, token));
+    public Response articles(@RequestHeader("Authorization") String headerAuthString, @RequestBody Request request) {
+        Id loginUserId = HeaderAuthStringTo.userId(headerAuthString);
         Request.Article a = request.article;
         CreateArticleAndTag.Response response = createArticleAndTag.create(
             new CreateArticleAndTag.Request(a.title, a.description, a.body, loginUserId, a.tagList)

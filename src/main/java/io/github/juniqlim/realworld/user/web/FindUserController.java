@@ -1,8 +1,7 @@
 package io.github.juniqlim.realworld.user.web;
 
+import io.github.juniqlim.realworld.auth.HeaderAuthStringTo;
 import io.github.juniqlim.realworld.user.FindUser;
-import io.github.juniqlim.realworld.user.web.Token.Jws;
-import java.security.PublicKey;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RestController;
@@ -10,16 +9,14 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 public class FindUserController {
     private final FindUser findUser;
-    private final PublicKey publicKey;
 
-    public FindUserController(FindUser findUser, PublicKey publicKey) {
+    public FindUserController(FindUser findUser) {
         this.findUser = findUser;
-        this.publicKey = publicKey;
     }
 
     @GetMapping("/api/user")
-    public Response user(@RequestHeader("Authorization") String token) {
-        return new Response(findUser.find(new Jws(publicKey, token).value()));
+    public Response user(@RequestHeader("Authorization") String headerAuthString) {
+        return new Response(findUser.find(HeaderAuthStringTo.userId(headerAuthString)));
     }
 
     private static class Response {

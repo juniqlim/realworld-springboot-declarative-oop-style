@@ -1,7 +1,6 @@
 package io.github.juniqlim.realworld.auth;
 
 import com.jayway.jsonpath.JsonPath;
-import io.github.juniqlim.realworld.Id;
 import io.juniqlim.objects.encryption.Encryption;
 
 import java.util.HashMap;
@@ -15,7 +14,7 @@ public class AuthToken {
         this.encryption = encryption;
     }
 
-    public String value(long userId) {
+    public String token(long userId) {
         return jwsToken.token(
             new HashMap<String, Object>() {{
                 put("iat", System.currentTimeMillis() / 1000L);
@@ -25,13 +24,9 @@ public class AuthToken {
         );
     }
 
-    public Id id(String token) {
-        return new Id.LongId(
-            Long.parseLong(
-                encryption.decrypt(
-                    JsonPath.parse(jwsToken.payload(token)).read("$.id", String.class)
-                )
-            )
+    public String id(String token) {
+        return encryption.decrypt(
+            JsonPath.parse(jwsToken.payload(token)).read("$.id", String.class)
         );
     }
 }

@@ -1,11 +1,11 @@
 package io.github.juniqlim.realworld.article.repository.rdb;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-
 import org.junit.jupiter.api.Test;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.domain.Sort.Direction;
+
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 class OffsetToPageTest {
     @Test
