@@ -20,7 +20,7 @@ class FindProfileTest {
 
     @Test
     void test() {
-        Profile profile = new FindUser(repository).find(jake.token()).profile();
+        Profile profile = new FindProfile(new FindUser(repository), new FollowUser(repository)).find(jake.id());
         assertThat(profile.username()).isEqualTo("Jacob");
     }
 }

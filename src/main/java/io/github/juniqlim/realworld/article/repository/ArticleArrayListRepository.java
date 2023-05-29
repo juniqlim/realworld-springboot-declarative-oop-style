@@ -41,7 +41,7 @@ public class ArticleArrayListRepository implements ArticleRepository {
         return articles.stream()
             .sorted((article1, article2) -> article2.compareCreatedAt(article1))
             .filter(conditional::value)
-            .skip((long) conditions.offset() * conditions.limit())
+            .skip(conditions.offset())
             .limit(conditions.limit())
             .collect(Collectors.toList());
     }
