@@ -3,7 +3,7 @@ package io.github.juniqlim.realworld;
 import io.github.juniqlim.object.jwt.Jws;
 import io.github.juniqlim.realworld.Id.LongId;
 import io.github.juniqlim.realworld.article.domain.Article;
-import io.github.juniqlim.realworld.article.domain.Slug;
+import io.github.juniqlim.realworld.article.domain.Slugify;
 import io.github.juniqlim.realworld.article.repository.ArticleArrayListRepository;
 import io.github.juniqlim.realworld.comment.domain.Comment;
 import io.github.juniqlim.realworld.comment.repository.CommentRepository;
@@ -38,7 +38,7 @@ public class Fixture {
     public static final User JUNIQ = new User(LONG_ID_TWO, new Jws.RsaJws(privateKey).token(), "juniqjuniq", "juniq", "juniq@juniq.juniq");
     public static final User MINK = new User(LONG_ID_THREE, new Jws.RsaJws(privateKey).token(), "minkmink", "mink", "mink@mink.mink");
 
-    public static final Article JAKE_ARTICLE = new Article(LONG_ID_ONE, new Slug("How to train your dragon"), "How to train your dragon", "Ever wonder how?", "You have to believe",
+    public static final Article JAKE_ARTICLE = new Article(LONG_ID_ONE, new Slugify().withDash("How to train your dragon"), "How to train your dragon", "Ever wonder how?", "You have to believe",
         LocalDateTime.now(), LocalDateTime.now(), 1, JAKE.id());
     public static final Article JUNIQ_ARTICLE = new Article(LONG_ID_TWO, "Good day", "So toothless", "You have to believe",
         JUNIQ.id());

@@ -7,7 +7,7 @@ import java.util.Objects;
 
 public class Article {
     private final Id id;
-    private final Slug slug;
+    private final String slug;
     private final String title;
     private final String description;
     private final String body;
@@ -22,11 +22,11 @@ public class Article {
 
     private Article(Id id, String title, String description, String body, Id authorId,
                    int favoritesCount) {
-        this(id, new Slug(title), title, description, body, LocalDateTime.now(), LocalDateTime.now(),
+        this(id, new Slugify().withDash(title), title, description, body, LocalDateTime.now(), LocalDateTime.now(),
             favoritesCount, authorId);
     }
 
-    public Article(Id id, Slug slug, String title, String description, String body, LocalDateTime createdAt,
+    public Article(Id id, String slug, String title, String description, String body, LocalDateTime createdAt,
                    LocalDateTime updatedAt, int favoritesCount, Id authorId) {
         this.id = id;
         this.slug = slug;
@@ -44,7 +44,7 @@ public class Article {
     }
 
     public String slug() {
-        return slug.value();
+        return slug;
     }
 
     public String title() {
@@ -68,7 +68,7 @@ public class Article {
     }
 
     public boolean equalsSlug(String slug) {
-        return this.slug.equalsString(slug);
+        return this.slug.equals(slug);
     }
 
     public Article updateTitle(String title) {

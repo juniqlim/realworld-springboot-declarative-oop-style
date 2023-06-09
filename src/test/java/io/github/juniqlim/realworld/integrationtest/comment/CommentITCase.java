@@ -25,7 +25,7 @@ class CommentITCase extends HttpApiConfig {
             .when()
             .post(
                 "/api/articles/{slug}/comments",
-                articleResponse.jsonPath().getString("article.title")
+                articleResponse.jsonPath().getString("article.slug")
             )
             .then()
             .log().all().extract();
