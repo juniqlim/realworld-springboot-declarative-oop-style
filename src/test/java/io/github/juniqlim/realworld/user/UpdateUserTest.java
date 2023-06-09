@@ -13,7 +13,7 @@ class UpdateUserTest {
 
     @BeforeEach
     void setUp() {
-        repository = new UserRepository.Collection();
+        repository = new UserRepository.UserArrayListRepository();
         repository.save(Fixture.JAKE);
     }
 

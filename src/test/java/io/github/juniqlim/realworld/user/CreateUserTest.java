@@ -9,7 +9,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 class CreateUserTest {
     @Test
     void saveAndFind() {
-        UserRepository userRepository = new UserRepository.Collection();
+        UserRepository userRepository = new UserRepository.UserArrayListRepository();
 
         User user = new CreateUser(userRepository).user(new CreateUser.Request("Jacob", "jake@jake.jake", "jakejake"));
         User findedUser = userRepository.findByToken(user.token());

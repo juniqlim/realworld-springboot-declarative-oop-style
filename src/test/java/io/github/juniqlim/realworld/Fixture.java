@@ -50,7 +50,7 @@ public class Fixture {
     public static final Comment MINK_ARTICLE_COMMENT1 = new Comment(LONG_ID_THREE, MINK_ARTICLE.id(), "It's easy", Fixture.JAKE.id());
     public static final Comment MINK_ARTICLE_COMMENT2 = new Comment(LONG_ID_FOUR, MINK_ARTICLE.id(), "It's easy", Fixture.JUNIQ.id());
 
-    public static final UserRepository USER_REPOSITORY = new UserRepository.Collection();
+    public static final UserRepository USER_REPOSITORY = new UserRepository.UserArrayListRepository();
     public static final ArticleArrayListRepository ARTICLE_REPOSITORY = new ArticleArrayListRepository();
     public static final CommentRepository COMMENT_REPOSITORY = new CommentRepository.ListRepository();
 

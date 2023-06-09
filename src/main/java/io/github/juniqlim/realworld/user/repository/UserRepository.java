@@ -24,7 +24,7 @@ public interface UserRepository {
     List<Id> followingUserIds(Id followerUserId);
 
     @Repository
-    class Collection implements UserRepository {
+    class UserArrayListRepository implements UserRepository {
         private final List<User> users = new ArrayList<>();
         private final AtomicLong sequence = new AtomicLong(1);
         private final List<UserFollow> userFollows = new ArrayList<>();

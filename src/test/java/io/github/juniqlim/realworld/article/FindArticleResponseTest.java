@@ -32,7 +32,7 @@ class FindArticleResponseTest {
         TagUseCase tagUseCase = new TagUseCase(new TagRepository.TagArrayListRepository());
         tagUseCase.merge(new TagUseCase.Request(Fixture.JAKE_ARTICLE.id(), Collections.singletonList("java")));
 
-        userRepository = new UserRepository.Collection();
+        userRepository = new UserRepository.UserArrayListRepository();
         userRepository.save(Fixture.JAKE);
         userRepository.save(Fixture.JUNIQ);
         userRepository.save(Fixture.MINK);

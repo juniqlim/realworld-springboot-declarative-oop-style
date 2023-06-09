@@ -14,7 +14,7 @@ class FindProfileTest {
 
     @BeforeEach
     void setUp() {
-        repository = new UserRepository.Collection();
+        repository = new UserRepository.UserArrayListRepository();
         jake = new CreateUser(repository).user(new CreateUser.Request("Jacob", "jake@jake.jake", "jakejake"));
     }
 

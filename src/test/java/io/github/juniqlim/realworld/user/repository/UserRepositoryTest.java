@@ -11,7 +11,7 @@ public class UserRepositoryTest {
     void save() {
         User user = new User(Fixture.LONG_ID_ONE, Fixture.JAKE.token(), "123", "Jacob", "jake@jake.jake");
 
-        UserRepository userRepository = new UserRepository.Collection();
+        UserRepository userRepository = new UserRepository.UserArrayListRepository();
         userRepository.save(user);
 
         User findedUser = userRepository.findByToken(Fixture.JAKE.token());

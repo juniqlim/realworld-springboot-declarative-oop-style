@@ -12,7 +12,7 @@ class LoginTest {
 
     @BeforeEach
     void setUp() {
-        repository = new UserRepository.Collection();
+        repository = new UserRepository.UserArrayListRepository();
         new CreateUser(repository).user(new CreateUser.Request("Jacob", "jake@jake.jake", "jakejake"));
     }
 

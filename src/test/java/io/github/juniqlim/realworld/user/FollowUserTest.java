@@ -12,7 +12,7 @@ public class FollowUserTest {
 
     @BeforeEach
     void setUp() {
-        repository = new UserRepository.Collection();
+        repository = new UserRepository.UserArrayListRepository();
         repository.save(Fixture.JAKE);
         repository.save(Fixture.JUNIQ);
     }
