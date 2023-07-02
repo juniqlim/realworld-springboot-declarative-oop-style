@@ -3,7 +3,6 @@ package io.github.juniqlim.realworld.user;
 import io.github.juniqlim.realworld.Id;
 import io.github.juniqlim.realworld.user.domain.User;
 import io.github.juniqlim.realworld.user.repository.UserRepository;
-import io.github.juniqlim.realworld.user.web.Token;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -18,10 +17,6 @@ public class FindUser {
 
     public User find(String jwsToken) {
         return userRepository.findByToken(jwsToken);
-    }
-
-    public User find(Token token) {
-        return userRepository.findByToken(token.value());
     }
 
     public User findByUsername(String username) {
