@@ -15,7 +15,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 class DeleteCommentTest {
     @Test
     void test() {
-        CommentRepository commentRepository = Fixture.COMMENT_REPOSITORY;
+        CommentRepository commentRepository = new CommentRepository.ListRepository();
         FindUser findUser = new FindUser(Fixture.USER_REPOSITORY);
 
         new DeleteComment(commentRepository, findUser)

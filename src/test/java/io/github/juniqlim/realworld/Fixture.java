@@ -6,7 +6,6 @@ import io.github.juniqlim.realworld.article.domain.Article;
 import io.github.juniqlim.realworld.article.domain.Slugify;
 import io.github.juniqlim.realworld.article.repository.ArticleArrayListRepository;
 import io.github.juniqlim.realworld.comment.domain.Comment;
-import io.github.juniqlim.realworld.comment.repository.CommentRepository;
 import io.github.juniqlim.realworld.user.domain.User;
 import io.github.juniqlim.realworld.user.repository.UserRepository;
 
@@ -52,7 +51,6 @@ public class Fixture {
 
     public static final UserRepository USER_REPOSITORY = new UserRepository.UserArrayListRepository();
     public static final ArticleArrayListRepository ARTICLE_REPOSITORY = new ArticleArrayListRepository();
-    public static final CommentRepository COMMENT_REPOSITORY = new CommentRepository.ListRepository();
 
     static {
         USER_REPOSITORY.save(Fixture.JAKE);
@@ -61,9 +59,5 @@ public class Fixture {
         ARTICLE_REPOSITORY.save(Fixture.JAKE_ARTICLE);
         ARTICLE_REPOSITORY.save(Fixture.JUNIQ_ARTICLE);
         ARTICLE_REPOSITORY.save(Fixture.MINK_ARTICLE);
-        COMMENT_REPOSITORY.save(Fixture.JAKE_ARTICLE_COMMENT);
-        COMMENT_REPOSITORY.save(Fixture.JUNIQ_ARTICLE_COMMENT);
-        COMMENT_REPOSITORY.save(Fixture.MINK_ARTICLE_COMMENT1);
-        COMMENT_REPOSITORY.save(Fixture.MINK_ARTICLE_COMMENT2);
     }
 }
